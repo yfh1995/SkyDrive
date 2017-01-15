@@ -1,0 +1,120 @@
+#OneDivInYunpan{
+    height:50px;
+}
+#caretHoverEvent:hover .dropdown-menu {
+    display: block;
+}
+#informHover:hover {
+    text-decoration:underline;
+}
+.shuxian{
+    width:1px;
+    height:9px;
+    background:#999;
+}
+#mytabone:hover{
+    background-color: #000000;
+}#mytabtwo:hover{
+     background-color: #000000;
+ }
+#mytabthree:hover{
+    background-color: #000000;
+}
+#mytabfour:hover{
+    background-color: #000000;
+}
+#UsernameHover:hover .dropdown-menu{
+    display: block;
+}
+#secondDivOfYun{
+    height:625px;
+    width:20%;
+    background-color: #c1e2b3;
+}
+#firstDivOfYun{
+    height:50px;
+    width:100%;
+    background-color: #000000;
+}
+.oneInTwoDiv{
+    height:605px;
+    background-color: #222222;
+}
+.twoInTwoDiv{
+    height:550px;
+    background-color: snow;
+}
+
+
+.bcOfblack{
+    background-color: inherit;
+}
+#DivOfFileShangChuang{
+    margin:100px 0;
+    height:100px;
+    width:100px;
+    background-color: springgreen;
+    display: none;
+    z-index: 1;
+}
+
+/*左菜单的颜色和文件设置*/
+.colorOfSMove{
+    color:gray;
+}
+.colorOfSClick{
+    color:blue;
+}
+.fontOfWZClick{
+    font-size: large;
+}
+.checkbox{
+    height:20px;
+    width:20px;
+    float:left;
+    margin-top: 5px;
+}
+
+/*设置鼠标移动到列表时候的背景颜色*/
+.bcOfListWhileHover{
+    background-color: springgreen;
+}
+.bcOfListWhileHover2{
+    background-color: #99ee99;
+}
+
+.blackgroudOfLookPicture{
+
+    opacity: 0.3;
+    background-color: #000000;
+    animation:anim 1s;
+    opacity: 7;
+}
+@keyframes anim {
+    0%{opacity: 0.3}
+    25%{opacity: 0.4}
+    50%{opacity: 0.5}
+    75%{opacity: 0.6}
+    100%{opacity: 0.7}
+}
+@-webkit-keyframes anim {
+    0%{opacity: 0.3}
+    25%{opacity: 0.4}
+    50%{opacity: 0.51}
+    75%{opacity: 0.6}
+    100%{opacity: 0.7}
+}
+.treeheadOflist{
+    cursor:pointer;
+    height:30px;
+    border:1px solid #aaaaaa;
+    margin:5px 0px;
+    vertical-align: middle;
+    font-size:large;
+}
+.bcOfmoveFileList{
+    background-color: #00b3ee;
+}
+.bcOfoverFileList{
+    background-color: aqua;
+}

@@ -1,0 +1,7 @@
+.GM_breadcrumb > li + li:before ,.GM_breadcrumb > li{
+     content: ">";
+     color:#777;
+ }
+.GM_Boder{
+    border: 1px solid #ddd;
+}
