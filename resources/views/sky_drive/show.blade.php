@@ -54,7 +54,6 @@
             refresh('','catalog');
             var str=GetFileName();
             SetTileOfEntry(str);
-
             //预览背景隐藏
             $("#LookPicture").hide();
             $("#leftBtn").hide();
