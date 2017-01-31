@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeGroupsTable extends Migration {
+class CreatePermissionGroupsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateTypeGroupsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('type_groups', function(Blueprint $table)
+		Schema::create('permission_group', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('group_name');
+			$table->string('group_name',255);
 			$table->timestamps();
 		});
 	}
@@ -27,7 +27,7 @@ class CreateTypeGroupsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('type_groups');
+		Schema::drop('permission_group');
 	}
 
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePermissionRelationshipsTable extends Migration {
+class CreateShareTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreatePermissionRelationshipsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('permission_relationships', function(Blueprint $table)
+		Schema::create('share', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('group_name',255);
-			$table->string('permission_name',255);
+			$table->integer('owner_id');
+			$table->integer('catalogs_id');
+			$table->string('tag',60);
 			$table->timestamps();
 		});
 	}
@@ -28,7 +29,7 @@ class CreatePermissionRelationshipsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('permission_relationships');
+		Schema::drop('share');
 	}
 
 }

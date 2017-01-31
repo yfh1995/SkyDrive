@@ -7,7 +7,7 @@ class Admin {
 
     public function handle($request, Closure $next){
 
-        if(Auth::user()->admin=='user'){
+        if(Auth::user()->admin!='admin'){
             return redirect('/');
         }
 
