@@ -11,7 +11,7 @@
 	<link href="{{ asset('/bootstrap-3.3.5-dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/paging.css') }}" rel="stylesheet">
 	<link href="{{ asset('/bootstrap-3.3.5-dist/css/fileinput.min.css')}}" media="all" rel="stylesheet" type="text/css" />
-
+	<link rel='icon' href="{{ asset('/favicon.ico') }}"  type='image/x-ico' /> 
 
 	<script src="{{asset('/js/jquery-2.1.1.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('/bootstrap-3.3.5-dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
@@ -42,8 +42,8 @@
 <body>
 
 
-<nav class="navbar navbar-default " style="margin:0px;padding:0px;">
-		<div class="container-fluid" >
+<nav class="navbar navbar-default container-fluid " style="margin:0px;padding:0px;">
+		<div class="" >
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle Navigation</span>
