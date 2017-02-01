@@ -55,7 +55,7 @@ return [
 	*/
 
 //	'from' => ['address' => 'a690828339@163.com', 'name' => 'yfh'],
-	'from' => array('address'=>'690828339@qq.com','name'=>'XXÔÆÅÌ'),
+	'from' => array('address'=>'690828339@qq.com','name'=>'XX Sky Drive'),
 	/*
 	|--------------------------------------------------------------------------
 	| E-Mail Encryption Protocol

@@ -40,12 +40,14 @@ class RegisterController extends Controller{
             return Redirect::to('/register')->withInput()->withErrors('此邮箱已注册，请更换重试！');
         }
         else{
+            //复制用户默认头像
             copy('F:/Chowder/laravel2/public/img/value_head.jpg','F:/Chowder/laravel2/public/website/head_picture/'.$name.'.jpg');
 
             $timer=strtotime('now');
             $timer=$timer+24*60*60;
             $date=date('Y-m-d H:i:s',$timer);
 
+            //创建用户
             $user=new User;
             $user->name=$name;
             $user->email=$email;
@@ -54,6 +56,12 @@ class RegisterController extends Controller{
             $user->delete_at=$date;
             $user->save();
 
+            //发送激活邮件
+            $data=['name'=>$name,'email'=>$email,'activation_code'=>$date];
+            Mail::send('emails.create_user',$data,function($message) use($date)
+            {
+                $message->to($date)->subject('欢迎注册本站！');
+            });
             return $date;
         }
     }
