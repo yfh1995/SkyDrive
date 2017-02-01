@@ -1,0 +1,36 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+body{
+	background:url("../img/loginbg2.jpg") no-repeat fixed;
+	background-size:100% 100%;
+}
+.login-box{
+	width:450px;
+	height:330px;
+	margin:auto;
+	margin-top:50px;
+	background-color: rgba(255, 255, 255, 0.407843);
+	/*background-color: rgba(0, 0, 0, 0.8);*/  
+	border-radius: 10px;
+	color:beige;
+	border: 1px solid white;
+}
+header{
+	text-align: center;
+	border-bottom:1px solid yellowgreen;
+}
+h1{
+	padding-top:10px;
+	padding-bottom:5px;
+	line-height:24px;
+	font:sans-serif;
+	font-size:2em;
+}
+nav{
+	opacity:.5;
+}
+.layui-form-switch{
+	width:50px!important;
+}

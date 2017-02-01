@@ -1,0 +1,174 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    font: 16px/1.5 "Lucida Grande", "Microsoft JhengHei", "Microsoft YaHei";
+    color: #333;
+}
+
+.btn {
+    display: inline-block;
+    padding: .5em 1em;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: .16667rem;
+    -webkit-transition: background-color .3s ease-out, border-color .3s ease-out;
+    -moz-transition: background-color .3s ease-out, border-color .3s ease-out;
+    transition: background-color .3s ease-out, border-color .3s ease-out
+}
+
+.btn-primary {
+    color: #fff;
+    border-color: #0e90d2;
+    background-color: #0e90d2
+}
+
+.btn-primary:hover {
+    border-color: #0c79b1;
+    background-color: #0c79b1
+}
+
+.btn-primary.active, .btn-primary:active {
+    border-color: #0a628f;
+    background-color: #0a628f
+}
+
+.btn-secondary {
+    color: #fff;
+    border-color: #3bb4f2;
+    background-color: #3bb4f2
+}
+
+.btn-secondary:hover {
+    border-color: #19a7f0;
+    background-color: #19a7f0
+}
+
+.btn-secondary.active, .btn-secondary:active {
+    border-color: #0e93d7;
+    background-color: #0e93d7
+}
+
+.btn-success {
+    color: #fff;
+    border-color: #5eb95e;
+    background-color: #5eb95e
+}
+
+.btn-success:hover {
+    border-color: #4aaa4a;
+    background-color: #4aaa4a
+}
+
+.btn-success.active, .btn-success:active {
+    border-color: #3f913f;
+    background-color: #3f913f
+}
+
+.btn-danger {
+    color: #fff;
+    border-color: #dd514c;
+    background-color: #dd514c
+}
+
+.btn-danger:hover {
+    border-color: #d7342e;
+    background-color: #d7342e
+}
+
+.btn-danger.active, .btn-danger:active {
+    border-color: #be2924;
+    background-color: #be2924
+}
+
+.btn-default {
+    border-color: #ccc;
+    background-color: #fff
+}
+
+.btn-default:hover {
+    background-color: #e6e6e6
+}
+
+.btn-default.active, .btn-default:active {
+    border-color: #999;
+    background-color: #d4d4d4;
+    position: relative;
+    top: 2
+}
+
+.btn-sm {
+    padding: .2em .6em
+}
+
+.btn-lg {
+    padding: .8em 1.7em
+}
+
+.btn-block {
+    display: block;
+    width: 100%
+}
+
+.btn-group {
+    display: inline-block
+}
+
+.btn-group > .btn {
+    float: left;
+    border-radius: 0
+}
+
+.btn-group > .btn:not(:first-child) {
+    margin-left: -1px
+}
+
+.btn-group > .btn:first-child {
+    border-top-left-radius: .16667rem;
+    border-bottom-left-radius: .16667rem
+}
+
+.btn-group > .btn.dropdown-toggle, .btn-group > .btn:last-child {
+    border-top-right-radius: .16667rem;
+    border-bottom-right-radius: .16667rem
+}
+
+.btn-group:after {
+    content: "";
+    display: block;
+    clear: both
+}
+
+.btn-group-vertical {
+    display: inline-block
+}
+
+.btn-group-vertical > .btn {
+    display: block;
+    width: 100%;
+    border-radius: 0
+}
+
+.btn-group-vertical > .btn:not(:first-child) {
+    margin-top: -1px
+}
+
+.btn-group-vertical > .btn:first-child {
+    border-top-left-radius: .16667rem;
+    border-top-right-radius: .16667rem
+}
+
+.btn-group-vertical > .btn:last-child {
+    border-bottom-left-radius: .16667rem;
+    border-bottom-right-radius: .16667rem
+}
