@@ -9,7 +9,7 @@ use app\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
-use Auth,Hash,DB;
+use Auth,Hash,DB,Mail;
 
 class RegisterController extends Controller{
 
@@ -40,8 +40,9 @@ class RegisterController extends Controller{
             return Redirect::to('/register')->withInput()->withErrors('此邮箱已注册，请更换重试！');
         }
         else{
-            //复制用户默认头像
-            copy('F:/Chowder/laravel2/public/img/value_head.jpg','F:/Chowder/laravel2/public/website/head_picture/'.$name.'.jpg');
+            //复制用户默认头像E:\SkyDrive\public\website\head_picture
+            $prefix = getcwd();
+            copy($prefix.'/img/value_head.jpg',$prefix.'/website/head_picture/'.$name.'.jpg');
 
             $timer=strtotime('now');
             $timer=$timer+24*60*60;
@@ -58,9 +59,9 @@ class RegisterController extends Controller{
 
             //发送激活邮件
             $data=['name'=>$name,'email'=>$email,'activation_code'=>$date];
-            Mail::send('emails.create_user',$data,function($message) use($date)
+            Mail::send('emails.create_user',$data,function($message) use($data)
             {
-                $message->to($date)->subject('欢迎注册本站！');
+                $message->to($data['email'])->subject('Welcome to XX cloud disk!');
             });
             return $date;
         }
