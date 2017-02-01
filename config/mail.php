@@ -28,8 +28,8 @@ return [
 	|
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-//	'host' => 'smtp.163.com',
+//	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+	'host' => env('MAIL_HOST', 'smtp.qq.com'),
 	/*
 	|--------------------------------------------------------------------------
 	| SMTP Host Port
@@ -41,8 +41,8 @@ return [
 	|
 	*/
 
-	'port' => env('MAIL_PORT', 587),
-//	'port' => 25,
+//	'port' => env('MAIL_PORT', 587),
+	'port' => env('MAIL_PORT', 25),
 	/*
 	|--------------------------------------------------------------------------
 	| Global "From" Address
@@ -55,7 +55,7 @@ return [
 	*/
 
 //	'from' => ['address' => 'a690828339@163.com', 'name' => 'yfh'],
-	'from' => array('address'=>'690828339@qq.com','name'=>'KJ is a sb!!'),
+	'from' => array('address'=>'690828339@qq.com','name'=>'XXÔÆÅÌ'),
 	/*
 	|--------------------------------------------------------------------------
 	| E-Mail Encryption Protocol
@@ -80,7 +80,7 @@ return [
 	|
 	*/
 
-	'username' => env('MAIL_USERNAME'),
+	'username' => env('MAIL_USERNAME','690828339@qq.com'),
 //	'username' => 'a690828339@163.com',
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
 	|
 	*/
 
-	'password' => env('MAIL_PASSWORD'),
+	'password' => env('MAIL_PASSWORD','xhezyvghuguybbbd'),
 //	'password' => '690828339',
 	/*
 	|--------------------------------------------------------------------------

@@ -6,7 +6,7 @@
  * Time: 21:02
  */
 
-use Auth,DB,Hash;
+use Auth,DB,Hash,Mail;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\Redirect;
 class LoginController extends Controller{
 
     use AuthenticatesAndRegistersUsers;
+
+    public function test(){
+        $data=['name'=>'yfh','email'=>'yfh@qq.com','activation_code'=>'123'];
+        Mail::send('emails.create_user',$data,function($message) use($data)
+        {
+            $message->to('690828339@qq.com')->subject('欢迎注册本站！');
+        });
+    }
 
     public function getlogin(){
         return view('auth/login');
@@ -38,7 +46,7 @@ class LoginController extends Controller{
 
                 if(!isset($_SESSION)) session_start();
                 $_SESSION['father_catalog_name']=Auth::user()->name;
-                if(Auth::user()->admin=='user'){
+                if(Auth::user()->admin!='admin'){
                     return Redirect::to('/');
                 }
                 else{
@@ -46,7 +54,7 @@ class LoginController extends Controller{
                 }
             }
             else{
-                return Redirect::to('/login')->with('errors','登陆失败！');
+                return  view('auth/login')->withErrors('密码错误！');
             }
         }
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePermissionGroupsTable extends Migration {
+class CreatePermissionRelationshipsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,11 @@ class CreatePermissionGroupsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('permission_groups', function(Blueprint $table)
+		Schema::create('permission_relationship', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('group_name',255);
+			$table->string('permission_name',255);
 			$table->timestamps();
 		});
 	}
@@ -27,7 +28,7 @@ class CreatePermissionGroupsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('permission_groups');
+		Schema::drop('permission_relationship');
 	}
 
 }
