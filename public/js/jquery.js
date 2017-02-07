@@ -39,16 +39,16 @@
         $("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function(){
             var flag=0;
             if($(this).prop("checked")){
-                $(this).parent().parent().addClass('bcOfListWhileHover');
+                $(this).parent().parent().parent().children().addClass('bcOfListWhileHover');
                 flag=1;
             }
             else{
-                $(this).parent().parent().removeClass('bcOfListWhileHover');
+                $(this).parent().parent().parent().children().removeClass('bcOfListWhileHover');
             }
             if(flag==1){
-                $("#moveFileButton").show();
+                $("#IsChooseFile").show();
             }else{
-                $("#moveFileButton").hide();
+                $("#IsChooseFile").hide();
             }
         });
     });
@@ -91,36 +91,51 @@ $(document).on('click','input[name="checkboxOfFile"]',function(){
     var $subs = $("input[name='checkboxOfFile']");
     $("#FatherOfcheckbox").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
     if($subs.filter(":checked").length>=1){
-        $("#moveFileButton").show();
+        $("#IsChooseFile").show();
     }
     else{
-        $("#moveFileButton").hide();
+        $("#IsChooseFile").hide();
     }
     if($(this).prop("checked")){
-        $(this).parent().parent().addClass('bcOfListWhileHover');
+        $(this).parent().parent().parent().children().addClass('bcOfListWhileHover');
     }
     else{
-        $(this).parent().parent().removeClass('bcOfListWhileHover');
+        $(this).parent().parent().parent().children().removeClass('bcOfListWhileHover');
     }
 })
-//当鼠标移动其他文件夹的时候 也同样添加背景颜色
-$(document).on('mouseout','#FileShowLine',function(){
-    $(this).find("DIV #toggletuBiao").hide();
-    $("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function(){
-        if($(this).prop("checked")){
-            $(this).parent().parent().addClass('bcOfListWhileHover');
-        }
-        else{
-            $(this).parent().parent().removeClass('bcOfListWhileHover');
-            $(this).parent().parent().removeClass('bcOfListWhileHover');
-        }
-    });
-
-})
+//$(document).on('click','input[name="checkboxOfFile"]',function(){
+//	 if($(this).attr("ischecked")=="false"){
+//	 	$(this).attr("ischecked","true")
+//	 }else{
+//	 	$(this).attr("ischecked","false")
+//	 }
+//	alert(11)
+//})
+////当鼠标移动其他文件夹的时候 也同样添加背景颜色
+//$(document).on('mouseout','.FileShowLine',function(){
+//  $(this).find("DIV #toggletuBiao").hide();
+//  var T=$(this);
+//  $("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function(){
+//      if($(this).prop("checked")){
+//          T.children().addClass('bcOfListWhileHover');
+//      }
+//      else{
+//          T.children().removeClass('bcOfListWhileHover');
+//      }
+//  });
+//
+//})
 //给列表绑定悬浮事件
-$(document).on('mouseover','#FileShowLine',function(){
-    $(this).addClass('bcOfListWhileHover');
+$(document).on('mouseover','.FileShowLine',function(){
+    $(this).children().addClass('bcOfListWhileHover');
     $(this).find("DIV #toggletuBiao").show();
+}).on("mouseout",'.FileShowLine',function(){
+    $(this).find("DIV #toggletuBiao").hide();
+    if($(this).find("input").is(":checked")==false){
+    	alert(11)
+    	$(this).children().removeClass('bcOfListWhileHover');
+    }
+
 })
 
 //返回上个目录
@@ -494,7 +509,7 @@ $(document).on('click','#renameFileFlase',function(){
 })
 
 //当点击这一行的时候被选中
-$(document).on('mousevoer','#FileShowLine',function(){
+$(document).on('mousevoer','.FileShowLine',function(){
     $(this).children().children("input").prop("checked");
 })
 
@@ -559,13 +574,14 @@ function show_data(data){
         DownloadFileID[cntInFileID++]=data[i]['id'];
         strOfLogoType=data[i]['address'];
 
-        F+="<div id='FileShowLine' class='row' style='margin:0px;padding:0px; '   >";
+        F+="<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >";
         if(data[i]['address']==null){
             F+="<div id='0' class='col-md-7'>";
         }else{
             F+="<div id='1' class='col-md-7'>";
         }
-        F+="<td><input  style='height:20px;width:20px; margin:8px;float: left;'name='checkboxOfFile' id="+data[i]['id']+" type='checkbox' value="+i+">";
+//      F+="<td><input  style='height:20px;width:20px; margin:8px;float: left;'  type='checkbox' >";
+		F+="<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'><input id="+data[i]['id']+" type='checkbox' name='checkboxOfFile' value="+i+" /><i class='mdui-checkbox-icon'></i></label>"
         //设置文件图标
         if(data[i]['address']==null){
             F+=" <span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>";
@@ -615,15 +631,16 @@ function show_data(data){
         F+="</div>"
         F+="</td> </div>";
         F+="<div class='col-md-3'>";
-        F+="<td><p style='float:left;'>"+data[i]['size']+"</p></td>";
+        F+="<td><p style='float:left;line-height:36px;'>"+data[i]['size']+"</p></td>";
         F+="</div>";
 
         F+="<div class='col-md-2'>";
-        F+="<td><p id='TimeOfCreateFile' style='float:left;'>"+data[i]['created_at']+"</p></td>";
+        F+="<td><p id='TimeOfCreateFile' style='float:left;line-height:36px;'>"+data[i]['created_at']+"</p></td>";
         F+="</div>";
 
         F+="</div>";
-        F+="<hr style='margin:0px;padding: 0px;'> ";
+        F+="<div  class='mdui-divider-inset'></div>"
+
     }
     if(data.length==0){
         F+="<h4>尚无此类文件或文件夹!</h4>";

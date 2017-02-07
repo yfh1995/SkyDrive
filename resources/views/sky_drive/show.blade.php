@@ -4,9 +4,14 @@
     <link href="{{ asset('/css/style.css')}}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/css2/style.css') }}" rel="stylesheet" >
     <link href="{{ asset('/css2/reset.css') }}" rel="stylesheet" >
+   	<link href="{{ asset('/mdui-v0.1.2/css/mdui.min.css') }}" rel="stylesheet" >
+  	<link href="{{ asset('/previewImage/preview.css') }}" rel="stylesheet" >
     <script src="{{asset('/js/jquery.js')}}" type="text/javascript" charset='utf8'></script>
-    <script src="{{asset("/js/jplayer.playlist.min.js")}}"></script>
-    <script src="{{asset("/js/jquery.jplayer.min.js")}}"></script>
+    <script src="{{asset('/js/jplayer.playlist.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.jplayer.min.js')}}"></script>
+    <script src="{{asset('/previewImage/preview.js')}}"></script>
+    <script src="{{asset('/previewImage/iconfont.js')}}"></script>
+    <script src="{{asset('/mdui-v0.1.2/js/mdui.min.js')}}"></script>
     <script>
         var IsCreateFileNow=false;//判断有没有点击新建文件夹
         //给预览图片新建一个数组
@@ -102,10 +107,10 @@
         });
         //显示图片
         function ShowThePicture(){
+        	console.log(listOfPicture);
             $("#LookPicture").addClass("blackgroudOfLookPicture");
             $("#LookPicture").show();
             $("#NowPicture").css("background-color","#ffffff");
-
         }
         $("#ajaxForm").ajaxForm(function () {
 
@@ -299,6 +304,43 @@
             });
         });
     </script>
+    <div id="previewImg">
+			<div id="showImg">
+				<span class="preImg"><</span>
+				<span class="nextImg">></span>
+				<div class="loading"></div>
+			</div>
+			<a class="closePreview"><span></span><span></span></a>
+			<div class='tips'>这是第一张图片</div>
+			<div class="thumbnail">
+				<div class="titleIcon">
+					<svg id="fangda" class="icon" aria-hidden="true">
+						<use xlink:href="#icon-fangda"></use>
+					</svg>
+					<svg id="rotateLeft" class="icon" aria-hidden="true">
+						<use xlink:href="#icon-rotate-left"></use>
+					</svg>
+					<svg id="rotateRight" class="icon" aria-hidden="true">
+						<use xlink:href="#icon-rotateright"></use>
+					</svg>
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-shanchu"></use>
+					</svg>
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-xiazai"></use>
+					</svg>
+					<svg id="showThumbnail">
+						<rect width="100" height="40" fill="#0A0A0A"></rect>
+						<text dx="10px" dy="24px" style="text-anchor:start;fill:white">展开缩略图</text>
+					</svg>
+				</div>
+				<div class="thumbnail-body">
+					<ol class="thumb-list">
+
+					</ol>
+				</div>
+			</div>
+		</div>
     <div  id="LookPicture" style="display:none;" >
         <div class="row">
             <div class="col-md-11" id="LookPictureContent">
@@ -377,21 +419,19 @@
         </div>
     </div>
     <div class="TwoDivInYunpan"  >
-        <div class="row" >
+        <div class="row" style="height:100%;">
             <div class="oneInTwoDiv col-md-2" style="padding:0;" >
-                <ul id="systemSetting" class=" nav nav-pills nav-stacked" style="text-align: justify;" >
-                    <li id="AllFileDiv" onclick="refresh('','catalog');"><a  href="#" ><span style=" padding-left: 30px;" class="glyphicon glyphicon-home " ></span><strong style="color: gray;">全部文件</strong></a></li>
-                    <li id="PictureDiv" onclick="refresh('','picture')" ><a  href="#"><span style=" padding-left: 30px;" class="glyphicon glyphicon-picture" ></span><strong style="color: gray;">图片</strong></a></li>
-                    <li id="FillDiv"   onclick="refresh('','text')"><a  href="#"><span style=" padding-left: 30px;" class="glyphicon glyphicon-folder-close"></span><strong style="color: gray;">文档</strong></a></li>
-                    <li id="VideoDiv"  onclick="refresh('','video')"><a  href="#"><span style=" padding-left: 30px;" class="glyphicon glyphicon-film" ></span><strong style="color: gray;">视频</strong></a></li>
-                    <li id="ZhongziDiv" onclick="refresh('','bt')"><a  href="#"><span style=" padding-left: 30px;" class="glyphicon glyphicon-tree-conifer" ></span><strong style="color: gray;">种子</strong></a></li>
-                    <li id="MiuseDiv"  onclick="refresh('','music')"><a   href="#"><span style=" padding-left: 30px;" class="glyphicon glyphicon-headphones" ></span><strong style="color: gray;">音乐</strong></a></li>
-                    <li id="OtherDiv"  ><a   href="#"><span style=" padding-left: 30px;" class="glyphicon glyphicon-qrcode"></span><strong style="color: gray;">我的分享</strong></a></li>
-                    <li><HR></li>
-                    <li id="RecycleDiv" onclick="refresh('','garbage')"><a  href="#"><span style="padding-left: 30px;" class="glyphicon glyphicon-calendar"></span><strong style="color:gray;font-size:large;">回收站</strong></a></li>
-                    <li><HR></li>
+                <ul id="systemSetting" class=" nav nav-pills nav-stacked"  >
+                    <li id="AllFileDiv" class="mdui-ripple " style="text-align: center;" onclick="refresh('','catalog');"><a  href="#" ><i class="mdui-icon material-icons">&#xe24d;</i><strong style="color: gray;">全部文件</strong></a></li>
+                    <li id="PictureDiv" class="mdui-ripple" onclick="refresh('','picture')" ><a  href="#"><strong style="color: gray;">图片</strong></a></li>
+                    <li id="FillDiv" class="mdui-ripple"  onclick="refresh('','text')"><a  href="#"></span><strong style="color: gray;">文档</strong></a></li>
+                    <li id="VideoDiv" class="mdui-ripple" onclick="refresh('','video')"><a  href="#"><strong style="color: gray;">视频</strong></a></li>
+                    <li id="ZhongziDiv" class="mdui-ripple" onclick="refresh('','bt')"><a  href="#"><strong style="color: gray;">种子</strong></a></li>
+                    <li id="MiuseDiv" class="mdui-ripple" onclick="refresh('','music')"><a   href="#"><strong style="color: gray;">音乐</strong></a></li>
+                    <li id="OtherDiv" class="mdui-ripple"	 ><a   href="#"><strong style="color: gray;"><i class="mdui-icon mdui-icon-left material-icons">&#xe80d;</i>我的分享</strong></a></li>
+                    <li id="RecycleDiv" class="mdui-ripple" onclick="refresh('','garbage')" ><a   href="#"><strong style="color: gray;"><i class="mdui-icon mdui-icon-left material-icons">&#xe872;</i>我的分享</strong></a></li>
                 </ul>
-                <div  class="col-md-offset-2"  style="width:70%;margin-bottom: 0px;padding-bottom:  0px;">
+                <div  class="col-md-offset-2"  style="width:70%;margin-bottom: 0px;padding-bottom:0px;position:absolute;bottom:20px;">
                     <div class="progress progress-striped active" >
                         <div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="60"
                              aria-valuemin="0" aria-valuemax="100" style="width:80%">
@@ -399,34 +439,53 @@
                     </div><strong>8G/10G</strong>
                 </div>
             </div>
-            <div class=" twoInTwoDiv col-md-10" style="margin:0;padding: 0;">
-                <div id="headerIntwoInTwoDiv" style="height:10%;background-color: #cccccc;border: 1px solid #c0c0c0;">
-                    <div style="float:left; margin-left: 10px;margin-top: 10px; ">
+            <div class=" twoInTwoDiv col-md-10" >
+                <div id="headerIntwoInTwoDiv" style="height:10%;">
+                    <div class="tabcaidan" style="float:left; margin-left: 10px;margin-top: 10px; ">
                         <form id="ajaxForm" enctype="multipart/form-data" action="{{url('/sky_drive/upload')}}" method="POST" style="display: none;">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="file" name="file" id="file" class="file" data-language="zh" onchange="sb.click()">
                             <input name="sb" type="submit" id="sb">
                         </form>
-                        <button   onclick="file.click();" type="button" class="btn btn-default"><a><span class="glyphicon glyphicon-cloud-upload"></span></a>
+                        <button   onclick="file.click();" type="button" class="mdui-btn mdui-color-light-blue-accent mdui-ripple">
+                        	<a><span class="glyphicon glyphicon-cloud-upload"></span></a>
                             上传文件
                         </button>
-                        <button id="DownLoadTheFile" type="button" class="btn btn-default"><a><span class="glyphicon glyphicon-cloud-upload"></span></a>
-                            下载
+                         <button id="createNewFile" type="button" class="mdui-btn mdui-color-white-accent  mdui-ripple">
+                            <i class="mdui-icon material-icons">&#xe145;</i>
+                            新建文件夹
                         </button>
-                        <button id="createNewFile" type="button" class="btn btn-default">
-                            <a><span class="glyphicon glyphicon-plus"></span></a>
-                            新建文件
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            <a><span class="glyphicon glyphicon-cloud-download"></span></a>
+                        
+                        <button type="button" class="mdui-btn mdui-color-white-accent  mdui-ripple">
+                            <i class="mdui-icon material-icons">&#xe2c4;</i>
                             离线下载
                         </button>
-                        <button type="button" class="btn btn-default" onclick="delete_and_restore_getdate(0)">
-                            删除
+                        
+                        <div id='IsChooseFile' class="btn-group" style="display:none;" >
+                        <button id="DownLoadTheFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
+                        	<i class="mdui-icon material-icons">&#xe2c0;</i>
+                        	下载 
                         </button>
-                        <button type="button" class="btn btn-default" onclick="delete_and_restore_getdate(1)">
-                            恢复
+                        <button id="shareFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
+                        	<i class="mdui-icon material-icons">&#xe80d;</i>
+                        	分享 
                         </button>
+                        <button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(0)">
+                        	<i class="mdui-icon material-icons " >&#xe872;</i>
+                       			     删除
+                        </button>
+                         
+                        <button id="moveFileButton" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="javascript:MoveTheFile();" >
+                       			     移动到
+                        </button>
+                        <button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
+                       			     复制到
+                        </button>
+                        <button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
+                               	恢复
+                        </button>
+                        </div>
+                        
 
                     </div>
 
@@ -450,12 +509,18 @@
                 <div id="ContentIntwoInTwoDiv" style="margin:10px;height:90%;" >
                     <div  style="background-color: #cccccc; height:30px; border: 1px solid #000000;">
                         <div  class="col-md-7 "style="height:100%;border-right: 1px solid #000000 ; "  >
-                            <input id="FatherOfcheckbox"  type="checkbox" >
-                            <p style="margin-top: 5px;">文件名
+
+                            	<label class="mdui-checkbox">
+  <input id="FatherOfcheckbox" style='height:20px;width:20px; float: left;' class='hello' type="checkbox"  />
+  <i class="mdui-checkbox-icon"></i>
+	文件名
+</label>
+							<!--把移动按钮放到上面-->
+                            <!--<p style="margin-top: 5px;">文件名
                                 <button id="moveFileButton" style='float:right;background-color: red;display: none;'  onclick="javascript:MoveTheFile();">
                                     移动
                                 </button>
-                            </p>
+                            </p>-->
 
                             <div id="OneDivOfContentIntwoInTwoDiv" style="width:100%;">
                                 <div >
@@ -494,5 +559,13 @@
         <input id="IDOFvideo" type="text" name="id" value="">
         <input id="SRCOFvideo" type="text" name="src" value="">
     </form>
-
+	<script>	
+		$(document).ready(function(){
+			/*
+			 * 动态设置初始化div的高度
+			 */
+//				$(".oneInTwoDiv").height($(window).height()-50);
+			
+			})
+	</script>
 @endsection

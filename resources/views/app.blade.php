@@ -26,7 +26,7 @@
 	<script src="{{asset("/bootstrap-3.3.5-dist/js/fileinput_locale_zh.js")}}"></script>
 
 
-
+	
 
 	<!-- Fonts -->
 

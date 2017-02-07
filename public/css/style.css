@@ -1,3 +1,15 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+html,body{
+	height:100%;
+}
+.TwoDivInYunpan{
+	height:calc(100% - 50px);
+	min-height: calc(100% - 50px);
+	position:relative;
+}
 #OneDivInYunpan{
     height:50px;
 }
@@ -36,9 +48,33 @@
     width:100%;
     background-color: #000000;
 }
+/*
+ * å·¦è¾¹èœå•æ æ ·å¼
+ */
+.nav-stacked>li+li{
+	text-align: center;
+}
+/*
+ * èœå•æŒ‰é’®å¯¼èˆªæ æ ·å¼
+ */
+.twoInTwoDiv{
+	    border: 1px solid #d8dfea;
+	    border-radius: 5px;
+	    margin-left: -1px;
+}
+.tabcaidan button {
+	/*border:1px solid #C0D9FE;*/
+	border: 1px solid #c0d9fe;
+	border-radius: 5px;
+	color:#77afff;
+}
+.FileShowLine{
+	background-color: red !important;
+}
 .oneInTwoDiv{
-    height:605px;
-    background-color: #222222;
+    height:100%;
+    min-height: 450px;
+    background-color: #EFF4F8;
 }
 .twoInTwoDiv{
     height:550px;
@@ -58,7 +94,7 @@
     z-index: 1;
 }
 
-/*×ó²Ëµ¥µÄÑÕÉ«ºÍÎÄ¼şÉèÖÃ*/
+/*ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½*/
 .colorOfSMove{
     color:gray;
 }
@@ -75,9 +111,9 @@
     margin-top: 5px;
 }
 
-/*ÉèÖÃÊó±êÒÆ¶¯µ½ÁĞ±íÊ±ºòµÄ±³¾°ÑÕÉ«*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½Ê±ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½É«*/
 .bcOfListWhileHover{
-    background-color: springgreen;
+    background-color: #66FFFF;
 }
 .bcOfListWhileHover2{
     background-color: #99ee99;
