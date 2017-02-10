@@ -85,7 +85,13 @@ function send_email() {
 			alert('error!!');
 		}
 	});
+	
+	
 }</script>
+
+<div id="lay_bg" style="position:absolute;top:0;left:0;bottom:0;right:0;z-index:-1	;overflow: hidden;">
+			<img id="lay_bg_img" style="position:absolute;opacity: .8;" src="./img/loginbg4.jpg" alt="" />
+</div>
 <div class="container-fluid register-box">
 	<div class="row">
 		<div class='show-tips' style=''>
@@ -197,4 +203,38 @@ function send_email() {
 		</form>
 	</div>
 </div>
+<script>
+	window.onresize=function(){
+				changeBGWidthAndHeight();
+			}
+changeBGWidthAndHeight();
+function changeBGWidthAndHeight(){
+				var bg=document.getElementById("lay_bg"),
+				bg_img=document.getElementById("lay_bg_img"),
+				cw=$(window).width(),
+				ch=$(window).height(),
+				iw=bg_img.offsetWidth,
+				ih=bg_img.offsetWidth;
+				console.log(cw+" "+ch+" "+iw+" "+ih);
+				
+			bg.style.width = cw + "px";
+			bg.style.height = ch + "px";
+
+			if(cw / ch > iw / ih){
+				var new_h = cw * ih / iw,
+						imgTop = (ch - new_h) / 2;
+				bg_img.style.width = cw + "px";
+				bg_img.style.height = new_h + "px";
+				bg_img.style.top = imgTop + "px";
+				bg_img.style.left = "";
+			}else{
+				var new_w = ch * iw / ih,
+						imgLeft = (cw - new_w) / 2;
+				bg_img.style.width = new_w + "px";
+				bg_img.style.height = ch + "px";
+				bg_img.style.left = imgLeft + "px";
+				bg_img.style.top = "";
+			}
+			}
+</script>
 @endsection

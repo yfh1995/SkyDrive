@@ -71,7 +71,9 @@
 </div>
 </div>
 </div>-->
-
+<div id="lay_bg" style="position:absolute;top:0;left:0;bottom:0;right:0;z-index:-1	;overflow: hidden;">
+			<img id="lay_bg_img" style="position:absolute;opacity: .8;" src="./img/loginbg4.jpg" alt="" />
+</div>
 <div  class="container"  >
 	<div class="row">
 		<div class="login-box">
@@ -82,28 +84,29 @@
 				<form class="form-horizontal layui-form layui-form-pane1" role="form" method="POST" action="{{ url('/login') }}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="form-group" style="margin-top:50px;">
-						<label class=" col-md-4 control-label">邮箱</label>
-						<div class="col-md-6">
+						<label class="womendouxiao  col-sm-4 col-md-4 col-lg-4 control-label">邮箱</label>
+						<div class=" col-sm-6 col-md-6 col-lg-6">
 							<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-4 control-label">密码</label>
-						<div class="col-md-6">
+						<label class="womendouxiao col-sm-4 col-md-4 col-lg-4 control-label">密码</label>
+						<div class=" col-sm-6 col-md-6 col-lg-6">
 							<input type="password" class="form-control" name="password">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-4	 control-label"></label>
-						<label class="col-md-2 control-label" style="white-space:nowrap;">记住账号?</label>
-						<div class="col-md-4">
+						<label class="womendouxiao  col-sm-4 col-md-4 col-lg-4	 control-label"></label>
+						<label class=" col-sm-2 col-md-2 col-lg-2 control-label" style="white-space:nowrap;">记住账号?</label>
+						<div class=" col-sm-4 col-md-4 col-lg-4">
 							<input type="checkbox" checked name="open" lay-skin="switch" lay-filter="switchTest" title="开关">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<div class="col-md-6 col-md-offset-4">
+						<label class="womendouxiao  col-sm-4 col-md-4 col-lg-4	 control-label"></label>
+						<div class=" col-sm-6 col-md-6 col-lg-6 ">
 							<button type="submit" class="btn btn-primary">
 							登录
 							</button>
@@ -125,5 +128,37 @@ layui.use('form', function() {
 
 });
 
+			window.onresize=function(){
+				changeBGWidthAndHeight();
+			}
+changeBGWidthAndHeight();
+function changeBGWidthAndHeight(){
+				var bg=document.getElementById("lay_bg"),
+				bg_img=document.getElementById("lay_bg_img"),
+				cw=$(window).width(),
+				ch=$(window).height(),
+				iw=bg_img.offsetWidth,
+				ih=bg_img.offsetWidth;
+				console.log(cw+" "+ch+" "+iw+" "+ih);
+				
+			bg.style.width = cw + "px";
+			bg.style.height = ch + "px";
+
+			if(cw / ch > iw / ih){
+				var new_h = cw * ih / iw,
+						imgTop = (ch - new_h) / 2;
+				bg_img.style.width = cw + "px";
+				bg_img.style.height = new_h + "px";
+				bg_img.style.top = imgTop + "px";
+				bg_img.style.left = "";
+			}else{
+				var new_w = ch * iw / ih,
+						imgLeft = (cw - new_w) / 2;
+				bg_img.style.width = new_w + "px";
+				bg_img.style.height = ch + "px";
+				bg_img.style.left = imgLeft + "px";
+				bg_img.style.top = "";
+			}
+			}
 </script>
 @endsection

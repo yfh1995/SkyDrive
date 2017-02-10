@@ -9,8 +9,9 @@
     <script src="{{asset('/js/jquery.js')}}" type="text/javascript" charset='utf8'></script>
     <script src="{{asset('/js/jplayer.playlist.min.js')}}"></script>
     <script src="{{asset('/js/jquery.jplayer.min.js')}}"></script>
-    <script src="{{asset('/previewImage/preview.js')}}"></script>
+   
     <script src="{{asset('/previewImage/iconfont.js')}}"></script>
+     <script src="{{asset('/previewImage/preview.js')}}"></script>
     <script src="{{asset('/mdui-v0.1.2/js/mdui.min.js')}}"></script>
     <script>
         var IsCreateFileNow=false;//判断有没有点击新建文件夹
@@ -340,8 +341,8 @@
 					</ol>
 				</div>
 			</div>
-		</div>
-    <div  id="LookPicture" style="display:none;" >
+	</div>
+    <!--<div  id="LookPicture" style="display:none;" >
         <div class="row">
             <div class="col-md-11" id="LookPictureContent">
                 <div id="DIVaa" class="alert alert-warning" style="margin:100px 500px; ;position: absolute; display: none;z-index:1;">
@@ -365,7 +366,7 @@
             </div>
         </div>
 
-    </div>
+    </div>-->
 
     <div id="KJmusic" style=" position:fixed;margin-left:180px;overflow: hidden;z-index:10;bottom: 0px;display: none;">
 
@@ -478,8 +479,8 @@
                         <button id="moveFileButton" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="javascript:MoveTheFile();" >
                        			     移动到
                         </button>
-                        <button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
-                       			     复制到
+                        <button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
+                       			     预览
                         </button>
                         <button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
                                	恢复
