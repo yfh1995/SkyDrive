@@ -4,14 +4,13 @@
     <link href="{{ asset('/css/style.css')}}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/css2/style.css') }}" rel="stylesheet" >
     <link href="{{ asset('/css2/reset.css') }}" rel="stylesheet" >
+    <link href="{{ asset('/viewper/viewer.css') }}" rel="stylesheet" >
    	<link href="{{ asset('/mdui-v0.1.2/css/mdui.min.css') }}" rel="stylesheet" >
-  	<link href="{{ asset('/previewImage/preview.css') }}" rel="stylesheet" >
     <script src="{{asset('/js/jquery.js')}}" type="text/javascript" charset='utf8'></script>
     <script src="{{asset('/js/jplayer.playlist.min.js')}}"></script>
     <script src="{{asset('/js/jquery.jplayer.min.js')}}"></script>
    
-    <script src="{{asset('/previewImage/iconfont.js')}}"></script>
-     <script src="{{asset('/previewImage/preview.js')}}"></script>
+   <script src="{{asset('/viewper/viewer.js')}}"></script>
     <script src="{{asset('/mdui-v0.1.2/js/mdui.min.js')}}"></script>
     <script>
         var IsCreateFileNow=false;//判断有没有点击新建文件夹
@@ -60,72 +59,17 @@
             refresh('','catalog');
             var str=GetFileName();
             SetTileOfEntry(str);
-            //预览背景隐藏
-            $("#LookPicture").hide();
-            $("#leftBtn").hide();
-            $("#rightBtn").hide();
-
-            $("#LookPictureContent").mouseover(function(){
-                $("#leftBtn").show();
-                $("#rightBtn").show();
-            });
-            $("#LookPictureContent").mouseout(function(){
-                $("#leftBtn").hide();
-                $("#rightBtn").hide();
-            });
-            //下一张图片的预览
-            $("#rightBtn").click(function(){
-                var nn=parseInt(cntNowP)+1;
-
-                if(nn>=cntInPicture){
-                    $("#DIVaa").show();
-                    $("#DIVaa").fadeOut(5000);
-                }else{
-
-                    cntNowP++;
-                    $("#NowPicture").remove();
-                    var F="";
-                    F+="<img id='NowPicture' src='"+listOfPicture[cntNowP]+"'>";
-                    $("#LookPicture i").after(F);
-                }
-
-            });
-            //上一张图片的预览
-            $("#leftBtn").click(function(){
-                if(cntNowP<=0){
-                    $("#DIVbb").show();
-                    $("#DIVbb").fadeOut(5000);
-                }else{
-                    cntNowP--;
-                    $("#NowPicture").remove();
-                    var F="";
-                    F+="<img id='NowPicture' src='"+listOfPicture[cntNowP]+"'>";
-                    $("#LookPicture i").after(F);
-                }
-
-            });
+           
 
         });
-        //显示图片
-        function ShowThePicture(){
-        	console.log(listOfPicture);
-            $("#LookPicture").addClass("blackgroudOfLookPicture");
-            $("#LookPicture").show();
-            $("#NowPicture").css("background-color","#ffffff");
-        }
+      
         $("#ajaxForm").ajaxForm(function () {
 
             refresh('','catalog');
 
         });
 
-        //关闭预览图片
-        function SpanClickClose(){
-            $("#navOFAllDIvHead").show();
-            $(".TwoDivInYunpan").show();
-            $("#LookPicture").hide();
-            $("#NowPicture").remove();
-        }
+     
         //打开移动文件夹模态框
         function MoveTheFile(){
             cnt=0;
@@ -305,68 +249,12 @@
             });
         });
     </script>
-    <div id="previewImg">
-			<div id="showImg">
-				<span class="preImg"><</span>
-				<span class="nextImg">></span>
-				<div class="loading"></div>
-			</div>
-			<a class="closePreview"><span></span><span></span></a>
-			<div class='tips'>这是第一张图片</div>
-			<div class="thumbnail">
-				<div class="titleIcon">
-					<svg id="fangda" class="icon" aria-hidden="true">
-						<use xlink:href="#icon-fangda"></use>
-					</svg>
-					<svg id="rotateLeft" class="icon" aria-hidden="true">
-						<use xlink:href="#icon-rotate-left"></use>
-					</svg>
-					<svg id="rotateRight" class="icon" aria-hidden="true">
-						<use xlink:href="#icon-rotateright"></use>
-					</svg>
-					<svg class="icon" aria-hidden="true">
-						<use xlink:href="#icon-shanchu"></use>
-					</svg>
-					<svg class="icon" aria-hidden="true">
-						<use xlink:href="#icon-xiazai"></use>
-					</svg>
-					<svg id="showThumbnail">
-						<rect width="100" height="40" fill="#0A0A0A"></rect>
-						<text dx="10px" dy="24px" style="text-anchor:start;fill:white">展开缩略图</text>
-					</svg>
-				</div>
-				<div class="thumbnail-body">
-					<ol class="thumb-list">
-
-					</ol>
-				</div>
-			</div>
-	</div>
-    <!--<div  id="LookPicture" style="display:none;" >
-        <div class="row">
-            <div class="col-md-11" id="LookPictureContent">
-                <div id="DIVaa" class="alert alert-warning" style="margin:100px 500px; ;position: absolute; display: none;z-index:1;">
-                    这是最后一张图片了
-                    <span onclick="$('#DIVaa').stop(true,true);"  style="float:right;cursor: pointer;" >&times;</span>
-                </div>
-                <div id="DIVbb" class="alert alert-warning" style="margin:100px 500px; ;position: absolute; display: none;z-index:1;">
-                    这是第一张图片了
-                    <span onclick="$('#DIVbb').stop(true,true);" style="float:right;cursor: pointer;" >&times;</span>
-                </div>
-                <img id="leftBtn" style="float:left; z-index:1;height:50px;width: 20px;margin-top:300px;" src="/img/left.png">
-                <img id="rightBtn" style="float:right;z-index:1;height:50px;width: 20px; margin-top:300px;" src="/img/right.png">
-                <div  style="display: table-cell;height:600px;width:1241px;text-align: center;vertical-align: middle;">
-
-                    <i></i>
-
-                </div>
-            </div>
-            <div  class="col-md-1" style="opacity: 1;background-color: black;">
-                <span style=" float: right;cursor: pointer;text-decoration: none;font-size: xx-large;" onmouseover="$(this).addClass('bcaaaaaa');"onmouseout="$(this).removeClass('bcaaaaaa');" onclick="javascript:SpanClickClose();" > &#10006</span>
-            </div>
-        </div>
-
-    </div>-->
+    
+    <!-- ViewperJs-->
+    <ul id="sucaihuo" style='display: none;'>
+    	
+    </ul>
+   
 
     <div id="KJmusic" style=" position:fixed;margin-left:180px;overflow: hidden;z-index:10;bottom: 0px;display: none;">
 

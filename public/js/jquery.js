@@ -214,33 +214,20 @@ function EntryNextFile(str) {
 
 //点击文件,图片
 function showTheFile(index) {
-	//  cntNowP=index;
-	//  $("#navOFAllDIvHead").hide();
-	//  $(".TwoDivInYunpan").hide();
-	//  var F="";
-	//  F+="<img id='NowPicture' src='"+listOfPicture[index]+"'>";
-	//  //alert(F);
-	//  $("#LookPicture i").after(F);
-	//  ShowThePicture();
-	var imgJson=new Array(),thumbImg=new Array();
+	
 	if(cntInPicture==0){
 		return ;
 	}
+	$('#sucaihuo').remove()
+	$("body").append('<ul id="sucaihuo"></ul>')
 	for(var i=0;i<cntInPicture;i++){
-		imgJson.push({
-			src:listOfPicture[i]
-		})
-		thumbImg.push({
-			src:listOfPicture[i]
-		})
+		var str='<li><img class="pictureForYou" data-original="'+listOfPicture[i]+'" src="'+listOfPicture[i]+'" alt="图片'+i+'"></li>';
+		$("#sucaihuo").append(str);
 	}
-	
-//	previewPictrue.config({
-//		JsonImg: imgJson
-//	}).listen("#previewBtn");
-//	console.log(imgJson)
-//	console.log(thumbImg);
-//	previewPictrue.showImage();
+	$('#sucaihuo').viewer({
+			url: 'data-original',
+	});
+	$(".pictureForYou").eq(index).click();
 }
 //点击音乐
 function showTheFileMusic(index) {
@@ -248,52 +235,7 @@ function showTheFileMusic(index) {
 	cntNowM = index; //表示点击该目录下的第几个音乐
 
 	UploadMusicList();
-	//var F="";
-	//F+="<div id='KJmusic' style='position:fixed;margin-left:180px;overflow: hidden;z-index:10;bottom: 0px;'>";
-	//F+="<div class='music-player'>";
-	//F+="<button id='btn3' style='margin: 0px;padding:0px;rihgt:330px;' >隐藏</button>";
-	//F+="<button id='btn' style='margin: 0px;padding:0px;rihgt:330px;' >缩小</button>";
-	//F+="<button id='btn2' style='margin: 0px;padding:0px;rihgt:330px;' >还原</button>";
-	//F+="<button id='btn4' style='float:right;'>显示</button>";
-	//F+="<button id='btn5' style='float:right;'>关闭</button>";
-	//F+="<div class='info'>";
-	//F+="<div class='left'>";
-	//F+="<a href='javascript:;' class='icon-shuffle'></a>";
-	//F+="<a href='javascript:;' class='icon-heart'></a>";
-	//F+="</div>";
-	//F+="<div class='center'>";
-	//F+="<div class='jp-playlist'>";
-	//F+="<ul>";
-	//F+="<li></li>";
-	//F+="</ul>";
-	//F+="</div>";
-	//F+="</div>";
-	//F+="<div class='right'>";
-	//F+="<a href='javascript:;' class='icon-repeat'></a>";
-	//F+="<a href='javascript:;' class='icon-share'></a>";
-	//F+="</div>";
-	//F+="<div class='progress jp-seek-bar'>";
-	//F+="<span class='jp-play-bar' ></span>";
-	//F+="</div>";
-	//F+="<div class='controls'>";
-	//F+="<div class='current jp-current-time'>00:00</div>";
-	//F+="<div class='play-controls'>";
-	//F+="<a href='javascript:;' class='icon-previous jp-previous' title='previous'></a>";
-	//F+="<a href='javascript:;' class='icon-play jp-play' title='play'></a>";
-	//F+="<a href='javascript:;' class='icon-pause jp-pause' title='pause'></a>";
-	//F+="<a href='javascript:;' class='icon-next jp-next' title='next'></a>";
-	//F+="</div>";
-	//F+="<div class='volume-level jp-volume-bar'>";
-	//F+="<span class='jp-volume-bar-value' style='width: 0%'></span>";
-	//F+="<a href='javascript:;' class='icon-volume-up jp-volume-max' title='max volume'></a>";
-	//F+="<a href='javascript:;' class='icon-volume-down jp-mute' title='mute'></a>";
-	//F+="</div>";
-	//F+="</div>";
-	//F+="<div id='jquery_jplayer' class='jp-jplayer'></div>";
-	//F+="</div>";
-	//F+="</div>";
-	//console.log(F);
-	//$("#xiangangID").prepend(F);
+	
 	$("#KJmusic").show();
 }
 
@@ -537,7 +479,7 @@ function show_data(data) {
 			}
 		}
 	}
-	showTheFile(cntInwhichp);
+//	showTheFile(cntInwhichp);
 	//将音乐的地址整合成一个数组
 	cntInMusic = 0;
 	for(var i = 0; i < data.length - 1; i++) {
