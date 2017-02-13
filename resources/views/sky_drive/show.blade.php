@@ -2,7 +2,7 @@
 
 @section('content')
 <link href="{{ asset('/css/style.css')}}" rel="stylesheet" type="text/css">
-<link href="{{ asset('/css2/style.css') }}" rel="stylesheet" >
+<!--<link href="{{ asset('/css2/style.css') }}" rel="stylesheet" >-->
 <link href="{{ asset('/css2/reset.css') }}" rel="stylesheet" >
 <link href="{{ asset('/viewper/viewer.css') }}" rel="stylesheet" >
 <link href="{{ asset('/mdui-v0.1.2/css/mdui.min.css') }}" rel="stylesheet" >
