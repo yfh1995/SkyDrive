@@ -758,7 +758,7 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		},
 		success: function(data) {
-
+			console.log(data);
 			remove_data('catalog');
 			show_data(data);
 //			if(flag == 0) {
