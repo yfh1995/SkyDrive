@@ -199,7 +199,7 @@ function showTheFile(index) {
 		return;
 	}
 	$('#sucaihuo').remove()
-	$("body").append('<ul id="sucaihuo"></ul>')
+	$("body").append('<ul id="sucaihuo" style="display:none"></ul>')
 	for(var i = 0; i < cntInPicture; i++) {
 		var str = '<li><img class="pictureForYou" data-original="' + listOfPicture[i] + '" src="' + listOfPicture[i] + '" alt="图片' + i + '"></li>';
 		$("#sucaihuo").append(str);
