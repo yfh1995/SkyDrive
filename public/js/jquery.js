@@ -1,4 +1,5 @@
 ﻿$(document).ready(function() {
+	
 	$("#mytab a").click(function(e) {
 		e.preventDefault();
 		$(this).tab("show");
@@ -30,18 +31,7 @@
 	//复选框事件和样式
 	$("#FatherOfcheckbox").addClass("checkbox");
 
-	//$("#FatherOfcheckbox").change(function(){
-	//    //if($("#FatherOfcheckbox").prop("checked")){
-	//    // alert("Y H C I");
-	//    //}
-	//    //else{
-	//    //    alert("我没被选中");
-	//    //}
-	//    $("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function(){
-	//        $("input[id=FatherOfcheckbox]").prop("checked", this.checked);
-	//    });
-	//
-	//});
+	
 	$("#FatherOfcheckbox").click(function() {
 		$("input[name='checkboxOfFile']").prop("checked", this.checked);
 		$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
@@ -59,12 +49,6 @@
 			}
 		});
 	});
-	//
-	//$("input[name='checkboxOfFile']").click(function() {
-	//    alert(2312);
-	//    var $subs = $("input[name='checkboxOfFile']");
-	//    $("#FatherOfcheckbox").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-	//});
 
 	//新建文件夹按钮事件
 
@@ -89,7 +73,24 @@
 		F += "</div>";
 		$("#xiangangID").prepend(F);
 	});
-
+	/*
+	 * 监听滚动条事件，当滚动到底部的时候处理方法
+	 */
+	var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+    var nScrollTop = 0;   //滚动到的当前位置
+    var nDivHight = 0;	  //滚动div的高度
+	$("#xiangangID").on("scroll",function(){
+		nDivHight=$(this).height();
+		nScrollHight = $(this)[0].scrollHeight;
+        nScrollTop = $(this)[0].scrollTop;
+        if(nScrollTop + nDivHight >= nScrollHight){
+        	if(listType=="catalog"){
+        		show_catalog2();
+        	}
+        }
+            
+          
+	})
 });
 //当复选框选中的时候判断纵选中的要不要选中和可以该行添加背景颜色
 $(document).on('click', 'input[name="checkboxOfFile"]', function() {
@@ -106,28 +107,7 @@ $(document).on('click', 'input[name="checkboxOfFile"]', function() {
 			$(this).parent().parent().parent().children().removeClass('bcOfListWhileHover');
 		}
 	})
-	//$(document).on('click','input[name="checkboxOfFile"]',function(){
-	//	 if($(this).attr("ischecked")=="false"){
-	//	 	$(this).attr("ischecked","true")
-	//	 }else{
-	//	 	$(this).attr("ischecked","false")
-	//	 }
-	//	alert(11)
-	//})
-	////当鼠标移动其他文件夹的时候 也同样添加背景颜色
-	//$(document).on('mouseout','.FileShowLine',function(){
-	//  $(this).find("DIV #toggletuBiao").hide();
-	//  var T=$(this);
-	//  $("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function(){
-	//      if($(this).prop("checked")){
-	//          T.children().addClass('bcOfListWhileHover');
-	//      }
-	//      else{
-	//          T.children().removeClass('bcOfListWhileHover');
-	//      }
-	//  });
-	//
-	//})
+	
 	//给列表绑定悬浮事件
 $(document).on('mouseover', '.FileShowLine', function() {
 	$(this).children().addClass('bcOfListWhileHover');
@@ -207,25 +187,25 @@ function EntryNextFile(str) {
 	//alert("我们都爱笑"+str);
 	var catalog = GetFileName();
 	catalog += "/" + str;
-
+	
 	refresh(catalog, 'catalog');
 	SetTileOfEntry(catalog);
 }
 
 //点击文件,图片
 function showTheFile(index) {
-	
-	if(cntInPicture==0){
-		return ;
+
+	if(cntInPicture == 0) {
+		return;
 	}
 	$('#sucaihuo').remove()
 	$("body").append('<ul id="sucaihuo"></ul>')
-	for(var i=0;i<cntInPicture;i++){
-		var str='<li><img class="pictureForYou" data-original="'+listOfPicture[i]+'" src="'+listOfPicture[i]+'" alt="图片'+i+'"></li>';
+	for(var i = 0; i < cntInPicture; i++) {
+		var str = '<li><img class="pictureForYou" data-original="' + listOfPicture[i] + '" src="' + listOfPicture[i] + '" alt="图片' + i + '"></li>';
 		$("#sucaihuo").append(str);
 	}
 	$('#sucaihuo').viewer({
-			url: 'data-original',
+		url: 'data-original',
 	});
 	$(".pictureForYou").eq(index).click();
 }
@@ -233,36 +213,84 @@ function showTheFile(index) {
 function showTheFileMusic(index) {
 
 	cntNowM = index; //表示点击该目录下的第几个音乐
-
 	UploadMusicList();
-	
-	$("#KJmusic").show();
+	var str = "<div class='mp'><div class='mp-box'><img src='../mplayer/img/mplayer_error.png' alt='music cover' class='mp-cover'><div class='mp-info'><p class='mp-name'>未知</p><p class='mp-singer'>未知</p><p><span class='mp-time-current'>00:00</span>/<span class='mp-time-all'>00:00</span></p></div><div class='mp-btn'><button class='mp-prev' title='上一首'></button><button class='mp-pause' title='播放'></button><button class='mp-next' title='下一首'></button><button class='mp-mode' title='播放模式'></button>	<div class='mp-vol'><button class='mp-vol-img' title='静音'></button><div class='mp-vol-range' data-range_min='0' data-range_max='100' data-cur_min='80'><div class='mp-vol-current'></div><div class='mp-vol-circle'></div></div></div></div><div class='mp-pro'><div class='mp-pro-current'></div></div><div class='mp-menu'><button class='mp-list-toggle'></button><button class='mp-lrc-toggle'></button></div></div><button class='mp-toggle'><span class='mp-toggle-img'></span></button><div class='mp-lrc-box'><ul class='mp-lrc'></ul></div><button class='mp-lrc-close'></button><div class='mp-list-box'><ul class='mp-list-title'></ul><table class='mp-list-table'><thead><tr><th>歌名</th><th>歌手</th><th>时长</th></tr></thead><tbody class='mp-list'></tbody></table></div></div>";
+	initMusic();
+	function initMusic() {
+		var modeText = ['顺序播放', '单曲循环', '随机播放', '列表循环'];
+		$('.mp').remove();
+		$("audio").remove()
+		$("body").append(str);
+		var player = new MPlayer({
+			// 容器选择器名称
+			containerSelector: '.mp',
+			// 播放列表
+			songList: mplayer_song,
+			// 专辑图片错误时显示的图片
+			defaultImg: '../mplayer/img/mplayer_error.png',
+			// 自动播放
+			autoPlay: true,
+			// 播放模式(0->顺序播放,1->单曲循环,2->随机播放,3->列表循环(默认))
+			playMode: 0,
+			playList: 0,
+			playSong: index,
+			// 当前歌词距离顶部的距离
+			lrcTopPos: 34,
+			// 列表模板，用${变量名}$插入模板变量
+			listFormat: '<tr><td>${name}$</td><td>${singer}$</td><td>${time}$</td></tr>',
+			// 音量滑块改变事件名称
+			volSlideEventName: 'change',
+			// 初始音量
+			defaultVolume: 80
+		}, function() {
+			// 绑定事件
+			this.on('afterInit', function() {
+				console.log('播放器初始化完成，正在准备播放');
+			}).on('beforePlay', function() {
+				var $this = this;
+				var song = $this.getCurrentSong(true);
+				var songName = song.name + ' - ' + song.singer;
+				console.log('即将播放' + songName + '，return false;可以取消播放');
+			}).on('timeUpdate', function() {
+				var $this = this;
+				console.log('当前歌词：' + $this.getLrc());
+			}).on('end', function() {
+				var $this = this;
+				var song = $this.getCurrentSong(true);
+				var songName = song.name + ' - ' + song.singer;
+				console.log(songName + '播放完毕，return false;可以取消播放下一曲');
+			}).on('mute', function() {
+				var status = this.getIsMuted() ? '已静音' : '未静音';
+				console.log('当前静音状态：' + status);
+			}).on('changeMode', function() {
+				var $this = this;
+				var mode = modeText[$this.getPlayMode()];
+				$this.dom.container.find('.mp-mode').attr('title', mode);
+				console.log('播放模式已切换为：' + mode);
+			});
+		});
+		$(document.body).append(player.audio); // 测试用
+		setEffects(player);
+	}
 }
 
 function UploadMusicList() {
-	//alert(cntInMusic);
-	var playlist = new Array(cntInMusic + 1);
+	mplayer_song[0].splice(0);
+	mplayer_song[0].push({
+		"basic":true,
+		"name":"播放列表1",
+		"singer":"未知",
+		"singer":"未知"
+	})
 	for(var i = 0; i < cntInMusic; i++) {
-		playlist[i] = {
-			title: "KJBU2",
-			artist: "KJ",
-			mp3: listOfMusic[i],
-			poster: "img/1.jpg"
-
-		}
+		mplayer_song[0].push({
+			name:'未知',
+			src:listOfMusic[i],
+			lrc:"无歌词"
+		})
 	}
+	console.log(mplayer_song[0]);
 
-	var cssSelector = {
-		jPlayer: "#jquery_jplayer",
-		cssSelectorAncestor: ".music-player"
-	};
-
-	var options = {
-		swfPath: "Jplayer.swf",
-		supplied: "ogv, m4v, oga, mp3"
-	};
-
-	var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
 }
 
 function SureButtonFunction() {
@@ -338,17 +366,7 @@ function getNowTime() {
 	return curYear + "-" + curMonth + "-" + curDay + "  " + curHour + ":" + curMinute + ":" + curSecond;
 }
 
-function refresh(father_catalog_name, type) {
 
-	remove_data('show_paging');
-	if(type == 'catalog') {
-		show_catalog(father_catalog_name, type, 0, 10, 0);
-	} else if(type == 'garbage') {
-		show_garbage(type, 0, 10, 0);
-	} else {
-		show_type(type, 0, 10, 0);
-	}
-}
 
 //设置每个文件的图标
 function GetTuBiaoLogo(str) {
@@ -465,7 +483,7 @@ $(document).on('mousevoer', '.FileShowLine', function() {
 //上传文件之后显示数据
 function show_data(data) {
 
-	$("#div1").remove();
+//	$("#div1").remove();
 	//将图片的地址整合成一个数组
 	cntInPicture = 0;
 	for(var i = 0; i < data.length - 1; i++) {
@@ -479,7 +497,7 @@ function show_data(data) {
 			}
 		}
 	}
-//	showTheFile(cntInwhichp);
+	//	showTheFile(cntInwhichp);
 	//将音乐的地址整合成一个数组
 	cntInMusic = 0;
 	for(var i = 0; i < data.length - 1; i++) {
@@ -514,6 +532,7 @@ function show_data(data) {
 	cntInFileAddress = 0;
 	cntInFileName = 0;
 	cntInFileID = 0;
+
 	for(var i = 0; i < data.length - 1; i++) {
 		DownloadFileAddress[cntInFileAddress++] = data[i]['address'] + "/" + data[i]['md5'] + data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileName[cntInFileName++] = data[i]['cur_catalog_name'];
@@ -577,7 +596,7 @@ function show_data(data) {
 		F += "</div>";
 
 		F += "<div class='col-md-2'>";
-		F += "<td><p id='TimeOfCreateFile' style='float:left;line-height:36px;'>" + data[i]['created_at'] + "</p></td>";
+		F += "<td><p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>" + data[i]['created_at'] + "</p></td>";
 		F += "</div>";
 
 		F += "</div>";
@@ -589,6 +608,7 @@ function show_data(data) {
 	}
 	F += "</div>";
 	$("#xiangangID").prepend(F);
+
 
 }
 
@@ -618,9 +638,9 @@ function show_type(type, page, size, flag) {
 		success: function(data) {
 			remove_data('catalog');
 			show_data(data);
-			if(flag == 0) {
-				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-			}
+//			if(flag == 0) {
+//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+//			}
 		},
 		error: function() {
 			alert('数据读取发生错误！');
@@ -679,6 +699,7 @@ function delete_and_restore(list, flag) {
 }
 
 function show_garbage(type, page, size, flag) {
+	
 	$.ajax({
 		url: '/sky_drive/get_garbage',
 		type: 'post',
@@ -694,9 +715,9 @@ function show_garbage(type, page, size, flag) {
 		success: function(data) {
 			remove_data('catalog');
 			show_data(data);
-			if(flag == 0) {
-				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-			}
+//			if(flag == 0) {
+//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+//			}
 		},
 		error: function() {
 			alert("数据读取错误！");
@@ -704,7 +725,25 @@ function show_garbage(type, page, size, flag) {
 	});
 }
 
+/*
+ * 刷新页面操作
+ */
+function refresh(father_catalog_name, type) {
+//  移除了换页的按钮 所以下面的代码注释了。
+//	remove_data('show_paging');
+	if(type == 'catalog') {
+		show_catalog(father_catalog_name, type, 0, 20, 0);
+	} else if(type == 'garbage') {
+		show_garbage(type, 0, 20, 0);
+	} else {
+		show_type(type, 0, 20, 0);
+	}
+}
+/*
+ * 根据当前的查看文件的类型、页数、size来获取数据
+ */
 function show_catalog(father_catalog_name, type, page, size, flag) {
+	listMulu=father_catalog_name;listPage=page+1,listType=type;
 	$.ajax({
 		url: '/sky_drive/refresh',
 		type: 'post',
@@ -719,11 +758,12 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		},
 		success: function(data) {
+
 			remove_data('catalog');
 			show_data(data);
-			if(flag == 0) {
-				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-			}
+//			if(flag == 0) {
+//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+//			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest.status);
@@ -733,7 +773,35 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
 		}
 	});
 }
-
+/*
+ * 动态添加的数据
+ */
+function show_catalog2() {
+	var size=20;
+	$.ajax({
+		url: '/sky_drive/refresh',
+		type: 'post',
+		async: false,
+		//dataType : 'json',
+		data: {
+			'father_catalog_name': listMulu,
+			'skip': listPage * size,
+			'size': size
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			show_data(data);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest.status);
+			alert(XMLHttpRequest.readyState);
+			alert(textStatus);
+			alert('数据读取发生错误！');
+		}
+	});
+}
 function show_paging(sum, type, size, flag) {
 
 	var F = "<div id=show_paging></div>";

@@ -45,7 +45,7 @@
 <body>
 
 
-<nav class="navbar navbar-default container-fluid " style="margin:0px;padding:0px;">
+<nav class="navbar navbar-default " style="margin:0px;padding:0px;">
 		<div class="" >
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">

@@ -3,6 +3,9 @@
 
 <link href="{{ asset('/layui/css/layui.css')}}" rel="stylesheet" type="text/css">
 <link href="{{ asset('/css/login.css')}}" rel="stylesheet" type="text/css">
+  <div class="csshub-ribbon-wrapper">
+      <a class="csshub-ribbon" href="https://github.com/yfh1995/SkyDrive" target="_blank">Github</a>
+    </div>
 
 <!--<div class="container-fluid">
 <div class="row">
