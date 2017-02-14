@@ -483,7 +483,7 @@ $(document).on('mousevoer', '.FileShowLine', function() {
 
 //上传文件之后显示数据
 function show_data(data) {
-
+	console.log(data);
 //	$("#div1").remove();
 	//将图片的地址整合成一个数组
 	cntInPicture = 0;
@@ -525,7 +525,7 @@ function show_data(data) {
 			}
 		}
 	}
-	var F = "<div id='catalog' >";
+	
 	var strOfLogoType = "";
 	var cntInwhichp = 0; //记录是第几张图片
 	var cntInwhichm = 0; //记录是第几个音乐
@@ -533,7 +533,7 @@ function show_data(data) {
 	cntInFileAddress = 0;
 	cntInFileName = 0;
 	cntInFileID = 0;
-
+	var F = "<div id='catalog' >";
 	for(var i = 0; i < data.length - 1; i++) {
 		DownloadFileAddress[cntInFileAddress++] = data[i]['address'] + "/" + data[i]['md5'] + data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileName[cntInFileName++] = data[i]['cur_catalog_name'];
@@ -613,6 +613,113 @@ function show_data(data) {
 
 }
 
+function show_data_test(){
+
+	var data=[{
+		address:"/website/storage/music",
+		click:0,
+		created_at:"2015-11-30 11:55:15",
+		cur_catalog_name:"很累 - 五.mp3",
+		download:2,
+		father_catalog_name:"yfh",
+		garbage:"0000-00-00 00:00:00",
+		id:49,
+		md5:"6436b0043144fdee01f0a2baecf76be7",
+		owner_name:"yfh",
+		root_garbage:0,
+		size:1526888,
+		updated_at:"2015-11-30 11:55:15",
+		validate:null
+},{
+		address:"/website/storage/music",
+		click:0,
+		created_at:"2015-11-30 11:55:15",
+		cur_catalog_name:"修改代码-.-.mp3",
+		download:2,
+		father_catalog_name:"yfh",
+		garbage:"0000-00-00 00:00:00",
+		id:49,
+		md5:"6436b0043144fdee01f0a2baecf76be7",
+		owner_name:"yfh",
+		root_garbage:0,
+		size:1526888,
+		updated_at:"2015-11-30 11:55:15",
+		validate:null
+}
+	]
+	var F = "<div id='catalog' >";
+	console.log(data.length);
+	for(var i = 0; i < data.length ; i++) {
+		var strOfLogoType = data[i]['address'];
+		F += "<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >";
+		if(data[i]['address'] == null) {
+			F += "<div id='0' class='firsttablelie col-sm-7'>";
+		} else {
+			F += "<div id='1' class='firsttablelie col-sm-7'>";
+		}
+		F += "<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'><input id=" + data[i]['id'] + " type='checkbox' name='checkboxOfFile' value=" + i + " /><i class='mdui-checkbox-icon'></i></label>"
+			//设置文件图标
+		if(data[i]['address'] == null) {
+			F += " <span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>";
+		} else {
+			var strOfLogoTypeGet = strOfLogoType.split("/"); //获得后缀，判断文件类型
+			F += GetTuBiaoLogo(strOfLogoTypeGet[strOfLogoTypeGet.length - 1]);
+		}
+		//设置文件的点击事件类型
+		if(data[i]['md5'] != null) {
+			var strOfLogoTypeGet = strOfLogoType.split("/"); //获得后缀，判断文件类型
+			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
+				F += "<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+
+			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
+				F += "<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+
+			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
+				F += "<a id='Filename' href='JavaScript:;' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+
+			} else {
+				F += "<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+			}
+		} else {
+			F += "<a id='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile(\"" + data[i]['cur_catalog_name'] + "\");'>" + data[i]['cur_catalog_name'] + "</a></a>";
+		}
+		var NoQianZhuiName = data[i]['cur_catalog_name'];
+		var NoQianZhuiName2 = NoQianZhuiName.substring(0, NoQianZhuiName.lastIndexOf('.'));
+		if(data[i]['md5'] != null) {
+			F += "<a id='Filerename' style='display:none;'><input type='text'  value='" + NoQianZhuiName2 + "'><button  id='renameFileSure'>确定</button><button  id='renameFileFlase'>取消</button></a>";
+
+		} else {
+			F += "<a id='Filerename' style='display:none;'><input type='text'  value='" + NoQianZhuiName + "'><button  id='renameFileSure'>确定</button><button  id='renameFileFlase'>取消</button></a>";
+
+		}
+
+		F += "<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' > ";
+		F += "<a  role='button'data-toggle='dropdown' data-target='#'  ><span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span></a>"
+		F += "<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>";
+		F += "<li id='removeButton' style='text-align: center;cursor: pointer;'><a>移动</a></a></li>";
+		F += "<li role='presentation' class='divider'></li>";
+		F += "<li id='renameButton'  style='text-align: center;cursor: pointer;' ><a>重命名</a></li>";
+		F += "</ul>";
+		F += "</div>"
+		F += "</td> </div>";
+		F += "<div class='secondtablelie  col-sm-3'>";
+		F += "<td><p style='float:left;line-height:36px;'>" + data[i]['size'] + "</p></td>";
+		F += "</div>";
+
+		F += "<div class='thridtablelie col-sm-2'>";
+		F += "<td><p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>" + data[i]['created_at'] + "</p></td>";
+		F += "</div>";
+
+		F += "</div>";
+		F += "<div  class='mdui-divider-inset-light'></div>"
+
+	}
+	if(data.length == 0) {
+		F += "<h4>尚无此类文件或文件夹!</h4>";
+	}
+	F += "</div>";
+	$("#xiangangID").prepend(F);
+}
 function mouseOnDIv() {
 
 }
@@ -622,32 +729,7 @@ function remove_data(id) {
 	$("#" + id).remove();
 }
 
-//侧边菜单分类显示
-function show_type(type, page, size, flag) {
-	$.ajax({
-		url: '/sky_drive/type',
-		type: 'post',
-		async: false,
-		data: {
-			'type': type,
-			'skip': page * size,
-			'size': size
-		},
-		headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-		},
-		success: function(data) {
-			remove_data('catalog');
-			show_data(data);
-//			if(flag == 0) {
-//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-//			}
-		},
-		error: function() {
-			alert('数据读取发生错误！');
-		}
-	});
-}
+
 //获得哪些选中
 function delete_and_restore_getdate(flag) {
 	var cnt = 0;
@@ -699,6 +781,47 @@ function delete_and_restore(list, flag) {
 	});
 }
 
+
+/*
+ * 刷新页面操作
+ */
+function refresh(father_catalog_name, type) {
+//  移除了换页的按钮 所以下面的代码注释了。
+//	remove_data('show_paging');
+	if(type == 'catalog') {
+		show_catalog(father_catalog_name, type, 0, 20, 0);
+	} else if(type == 'garbage') {
+		show_garbage(type, 0, 20, 0);
+	} else {
+		show_type(type, 0, 20, 0);
+	}
+}
+//侧边菜单分类显示
+function show_type(type, page, size, flag) {
+	$.ajax({
+		url: '/sky_drive/type',
+		type: 'post',
+		async: false,
+		data: {
+			'type': type,
+			'skip': page * size,
+			'size': size
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			remove_data('catalog');
+			show_data(data);
+//			if(flag == 0) {
+//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+//			}
+		},
+		error: function() {
+			alert('数据读取发生错误！');
+		}
+	});
+}
 function show_garbage(type, page, size, flag) {
 	
 	$.ajax({
@@ -726,20 +849,7 @@ function show_garbage(type, page, size, flag) {
 	});
 }
 
-/*
- * 刷新页面操作
- */
-function refresh(father_catalog_name, type) {
-//  移除了换页的按钮 所以下面的代码注释了。
-//	remove_data('show_paging');
-	if(type == 'catalog') {
-		show_catalog(father_catalog_name, type, 0, 20, 0);
-	} else if(type == 'garbage') {
-		show_garbage(type, 0, 20, 0);
-	} else {
-		show_type(type, 0, 20, 0);
-	}
-}
+
 /*
  * 根据当前的查看文件的类型、页数、size来获取数据
  */
@@ -803,6 +913,8 @@ function show_catalog2() {
 		}
 	});
 }
+
+
 function show_paging(sum, type, size, flag) {
 
 	var F = "<div id=show_paging></div>";

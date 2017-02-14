@@ -33,7 +33,7 @@ class SD_Home_Controller extends Controller{
             if(isset($params['last_id'])) return [];
             else return view('sky_drive.show');
         }
-
+		
         //如果为全部文件的请求
         if($params['type']==0){
             $where['garbage'] = '0000-00-00 00:00:00';

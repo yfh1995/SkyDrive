@@ -10,6 +10,7 @@
 
 <script src="{{asset('/js/jquery.js')}}" type="text/javascript" charset='utf8'></script>
 <script src="{{asset('/js/jplayer.playlist.min.js')}}"></script>
+<script src="{{asset('/js/jquery.pjax.js')}}"></script>
 <script src="{{asset('/js/jquery.jplayer.min.js')}}"></script>
 <script src="{{asset('/mplayer/js/mplayer.js')}}"></script>
 <script src="{{asset('/mplayer/js/mplayer-list.js')}}"></script>
@@ -65,7 +66,8 @@ var numOfMoveFile = new Array(100);
 var cntOfMoveFile = 0;
 $(document).ready(function() {
 
-	refresh('', 'catalog');
+//	refresh('yfh', 'catalog');
+	show_data_test();
 	var str = GetFileName();
 	SetTileOfEntry(str);
 
@@ -80,13 +82,12 @@ $("#ajaxForm").ajaxForm(function() {
 //打开移动文件夹模态框
 function MoveTheFile() {
 	cnt = 0;
-	//        获取哪些被选中
+	//   获取哪些被选中
 	$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
 		if($(this).prop("checked")) {
 			numOfMoveFile[cntOfMoveFile++] = $(this).attr('id');
 		}
 	});
-
 	var F = "<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>";
 	F += "<div class='modal-dialog'>";
 	F += "<div class='modal-content'>";
