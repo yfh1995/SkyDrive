@@ -33,7 +33,7 @@ class SD_Home_Controller extends Controller{
             if(isset($params['last_id'])) return [];
             else return view('sky_drive.show');
         }
-		
+
         //如果为全部文件的请求
         if($params['type']==0){
             $where['garbage'] = '0000-00-00 00:00:00';
@@ -64,12 +64,13 @@ class SD_Home_Controller extends Controller{
 
         if(isset($params['last_id'])) return $catalogs_info;
         else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
+//    else return view('sky_drive.show')->with('data','123');
     }
 
     public function type(Request $request){
 
         $this->validate($request,['skip'=>'required',
-                                  'size'=>'required']);
+            'size'=>'required']);
 
         $type=$request->get('type');
         $skip=$request->get('skip');
@@ -84,7 +85,7 @@ class SD_Home_Controller extends Controller{
     public function refresh(Request $request){
 
         $this->validate($request,['skip'=>'required',
-                                  'size'=>'required']);
+            'size'=>'required']);
 
         $father_catalog_name=$request->get('father_catalog_name');
         $skip=$request->get('skip');
@@ -140,7 +141,7 @@ class SD_Home_Controller extends Controller{
         $cur_catalog_name=$request->get('cur_catalog_name');
 
         $query_catalog_name=DB::table('catalogs')->where('father_catalog_name',$_SESSION['father_catalog_name'])
-                                                ->where('cur_catalog_name',$cur_catalog_name)->get();
+            ->where('cur_catalog_name',$cur_catalog_name)->get();
 
         if($query_catalog_name==NULL){
             $create_catalog = new catalogs();
@@ -159,7 +160,7 @@ class SD_Home_Controller extends Controller{
 
     public function rename(Request $request){
         $this->validate($request,['id'=>'required',
-                                  'rename'=>'required']);
+            'rename'=>'required']);
 
         $id=$request->get('id');
         $rename=$request->get('rename');
@@ -321,7 +322,7 @@ class SD_Home_Controller extends Controller{
 
     public function move_catalog(Request $request){
         $this->validate($request,['move_id'=>'required',
-                                  'be_moved_id'=>'required']);
+            'be_moved_id'=>'required']);
 
         $move=$request->get('move_id');
         $moved=DB::table('catalogs')->where('id',$request->get('be_moved_id'))->get();
@@ -346,5 +347,61 @@ class SD_Home_Controller extends Controller{
                 $this->set_father_catalog_name($result[$i],$new_name);
             }
         }
+    }
+
+    public function createShare(Request $request){
+        $params = $request->all();
+
+        $ids = $params['ids'];
+        $deadline = $params['deadline'];
+        if(empty($ids)) return ['result'=>'false','message'=>'分享的资源数组不能为空！'];
+        if(empty($deadline)) return ['result'=>'false','message'=>'分享期限不能为空！'];
+
+        $shareCode = $this->createShareCode($ids);
+        $user_id = Auth::user()->id;
+//        $user_id = 30;
+        $data = array();
+        $time = time();
+        foreach($ids as $id){
+            $one = array();
+            $one['share_code'] = $shareCode;
+            $one['catalog_id'] = $id;
+            $one['owner_id'] = $user_id;
+            $one['deadline'] = date('Y-m-d H:i:s',$time + $deadline);
+            $one['created_at'] = date('Y-m-d H:i:s',$time);
+            $one['updated_at'] = date('Y-m-d H:i:s',$time);
+            $data[] = $one;
+        }
+
+        $rs = DB::table('share')->insert($data);
+        if($rs === false) return ['result'=>false,'message'=>'创建失败！'];
+        else return ['result'=>true,'message'=>$shareCode];
+    }
+
+    public function createShareCode($ids){
+        $str = time();
+        foreach($ids as $id){
+            $str .= $id;
+        }
+        return md5($str);
+    }
+
+    public function getShareData(Request $request){
+        $params = $request->all();
+
+        $size = isset($params['size'])?$params['size']:15;
+        $last_id = isset($params['last_id'])?$params['last_id']:2147483647;
+        if(!isset($params['share_code'])) return ['result'=>false,'message'=>'分享码为空！'];
+
+        $data = DB::table('share as s')
+            ->join('catalogs as c','c.id','=','s.catalog_id')
+            ->select(DB::raw('c.*'))
+            ->where('s.share_code',$params['share_code'])
+            ->where('c.id','<',$last_id)
+            ->orderBy('c.address')
+            ->orderBy('c.id','desc')
+            ->take($size)
+            ->get();
+        return ['result'=>true,'data'=>$data];
     }
 }

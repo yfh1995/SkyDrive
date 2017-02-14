@@ -15,9 +15,10 @@ class CreateShareTable extends Migration {
 		Schema::create('share', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('owner_id');
-			$table->integer('catalogs_id');
-			$table->string('tag',60);
+            $table->string('share_code',32);
+            $table->integer('catalog_id');
+            $table->integer('owner_id');
+            $table->timestamp('deadline');
 			$table->timestamps();
 		});
 	}
