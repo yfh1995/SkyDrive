@@ -55,23 +55,24 @@
 	$("#createNewFile").click(function() {
 		if(IsCreateFileNow) return;
 		IsCreateFileNow = true;
-		var F = "<div id='div1' class='row' style='margin: 5px;' style='background-color: #0000C2;' >";
+		var F = "<div id='div1' class='row' style='margin-left: 1px;'  >";
 
 		F += "<div  class='col-md-7'>";
-		F += "<td><input  style='height:20px;width:20px; float: left;' type='checkbox'>";
-		F += "<a > <span class='glyphicon glyphicon-folder-open' style='float:left;margin: 5px;color:gray;'></span>";
+		F += "<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'><input type='checkbox' name='checkboxOfFile' value='新建文件夹'  /><i class='mdui-checkbox-icon'></i></label>";
+		F += "<a > <span class='glyphicon glyphicon-folder-open' style='float:left;margin-top: 10px;color:gray;'></span>";
 		F += "<a id='Filename' style='display: none;' href='#'  >文件名</a></a>";
-		F += "<input type='text' id='text1' value='新建文件夹'><button onclick='SureButtonFunction();' id='createFileSure'>确定</button><button onclick='createFileQuXiao();' id='createFileFlase'>取消</button>";
+		F += "<input type='text' id='text1' value='新建文件夹'><button onclick='SureButtonFunction();' id='createFileSure' class='mdui-btn'>确定</button><button class='mdui-btn ' onclick='createFileQuXiao();' id='createFileFlase'>取消</button>";
 		F += "</td> </div>";
 		F += "<div class='col-md-3'>";
 		F += "<td><p style='float:left;'>-</p></td>"
 		F += "</div>";
 
 		F += "<div class='col-md-2'>";
-		F += "<td><p id='TimeOfCreateFile' style='float:left;'>data</p></td>";
+		F += "<td><p id='TimeOfCreateFile' style='float:left;'>"+getNowTime()+"</p></td>";
 		F += "</div>";
 		F += "</div>";
-		$("#xiangangID").prepend(F);
+		
+		$("#xiangangID").before(F);
 	});
 	/*
 	 * 监听滚动条事件，当滚动到底部的时候处理方法
@@ -194,7 +195,6 @@ function EntryNextFile(str) {
 
 //点击文件,图片
 function showTheFile(index) {
-
 	if(cntInPicture == 0) {
 		return;
 	}
@@ -271,6 +271,7 @@ function showTheFileMusic(index) {
 		});
 		$(document.body).append(player.audio); // 测试用
 		setEffects(player);
+		$(".mp-toggle").click();
 	}
 }
 
@@ -541,9 +542,9 @@ function show_data(data) {
 
 		F += "<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >";
 		if(data[i]['address'] == null) {
-			F += "<div id='0' class='col-md-7'>";
+			F += "<div id='0' class='firsttablelie col-sm-7'>";
 		} else {
-			F += "<div id='1' class='col-md-7'>";
+			F += "<div id='1' class='firsttablelie col-sm-7'>";
 		}
 		//      F+="<td><input  style='height:20px;width:20px; margin:8px;float: left;'  type='checkbox' >";
 		F += "<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'><input id=" + data[i]['id'] + " type='checkbox' name='checkboxOfFile' value=" + i + " /><i class='mdui-checkbox-icon'></i></label>"
@@ -591,16 +592,16 @@ function show_data(data) {
 		F += "</ul>";
 		F += "</div>"
 		F += "</td> </div>";
-		F += "<div class='col-md-3'>";
+		F += "<div class='secondtablelie  col-sm-3'>";
 		F += "<td><p style='float:left;line-height:36px;'>" + data[i]['size'] + "</p></td>";
 		F += "</div>";
 
-		F += "<div class='col-md-2'>";
+		F += "<div class='thridtablelie col-sm-2'>";
 		F += "<td><p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>" + data[i]['created_at'] + "</p></td>";
 		F += "</div>";
 
 		F += "</div>";
-		F += "<div  class='mdui-divider-inset'></div>"
+		F += "<div  class='mdui-divider-inset-light'></div>"
 
 	}
 	if(data.length == 0) {
@@ -758,9 +759,9 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		},
 		success: function(data) {
-			console.log(data);
 			remove_data('catalog');
 			show_data(data);
+
 //			if(flag == 0) {
 //				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
 //			}

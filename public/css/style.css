@@ -64,6 +64,7 @@ html,body{
    	 background-color: snow;
 	box-sizing: border-box;
 	left:-19px;
+	min-height: 450px;
 	   
 }
 .tabcaidan button {
@@ -75,7 +76,7 @@ html,body{
 
 .oneInTwoDiv{
     height:100%;
-    min-height: 450px;
+    min-height: 550px;
     background-color: #EFF4F8;
     overflow: hidden;
     box-sizing: border-box;
@@ -113,7 +114,8 @@ html,body{
 
 /*��������ƶ����б�ʱ��ı�����ɫ*/
 .bcOfListWhileHover{
-    background-color: #66FFFF;
+    background-color: rgba(204,255,255,.4);
+   	
 }
 .bcOfListWhileHover2{
     background-color: #99ee99;
@@ -149,7 +151,7 @@ html,body{
     font-size:large;
 }
 .bcOfmoveFileList{
-    background-color: #00b3ee;
+    background-color: #F6FAFF;
 }
 .bcOfoverFileList{
     background-color: aqua;
@@ -186,4 +188,66 @@ html,body{
 #systemSetting>li{
 	padding:0px;
 	margin:0px;
+}
+
+#fileOperator{
+float: left;
+width:1000px;
+}
+
+.glyphicon-triangle-bottom{
+	cursor: pointer;
+}
+.fistlie:hover,.secondlie:hover,.thridlie:hover{
+	 background-color: rgba(204,255,255,.4);
+	 cursor: pointer;
+}
+
+/*
+ * 响应式css 当屏幕小于768(col-sm)时候的布局
+ */
+@media only screen and (max-width: 768px) {
+	.oneInTwoDiv{
+		display: none;
+	} 
+	.twoInTwoDiv{
+		left:0;
+	}
+	.FileShowLine{
+		display: flex;
+		
+	}
+	.firsttablelie{
+		flex: 3;
+		min-width:200px;
+	}
+	.secondtablelie{
+		flex: 1;
+		min-width:100px;
+	}
+	.thridtablelie{
+		flex: 1;
+		min-width:100px;
+	}
+	#Filename{
+		width:100px;
+		overflow: hidden;
+		white-space: normal;
+		text-overflow: ellipsis;
+	}
+	.hearderlie{
+		display: flex;
+	}
+	.fistlie{
+		flex: 3;
+		min-width:200px;
+	}
+	.secondlie{
+		flex: 1;
+		min-width:100px;
+	}
+	.thridlie{
+		flex: 1;
+		min-width:100px;
+	}
 }
