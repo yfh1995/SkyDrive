@@ -66,8 +66,8 @@ var numOfMoveFile = new Array(100);
 var cntOfMoveFile = 0;
 $(document).ready(function() {
 
-//	refresh('yfh', 'catalog');
-	show_data_test();
+	//	refresh('yfh', 'catalog');
+	//	show_data_test();
 	var str = GetFileName();
 	SetTileOfEntry(str);
 
@@ -309,32 +309,30 @@ $(document).on('click', '#DownLoadTheFile', function() {
 						离线下载
 						</button>
 						<div id='IsChooseFile' class="btn-group" style="display:none;" >
-						<button id="DownLoadTheFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
-						<i class="mdui-icon material-icons">&#xe2c0;</i>
-						下载
-						</button>
-						<button id="shareFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
-						<i class="mdui-icon material-icons">&#xe80d;</i>
-						分享
-						</button>
-						<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(0)">
-						<i class="mdui-icon material-icons " >&#xe872;</i>
-						删除
-						</button>
+							<button id="DownLoadTheFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
+							<i class="mdui-icon material-icons">&#xe2c0;</i>
+							下载
+							</button>
+							<button id="shareFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
+							<i class="mdui-icon material-icons">&#xe80d;</i>
+							分享
+							</button>
+							<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(0)">
+							<i class="mdui-icon material-icons " >&#xe872;</i>
+							删除
+							</button>
 
-						<button id="moveFileButton" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="javascript:MoveTheFile();" >
-						移动到
-						</button>
-						<button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
-						预览
-						</button>
-						<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
-						恢复
-						</button>
+							<button id="moveFileButton" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="javascript:MoveTheFile();" >
+							移动到
+							</button>
+							<button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
+							预览
+							</button>
+							<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
+							恢复
+							</button>
+						</div>
 					</div>
-					</div>
-
-					
 
 				</div>
 
@@ -363,13 +361,13 @@ $(document).on('click', '#DownLoadTheFile', function() {
 						<label class="mdui-checkbox">
 						<input id="FatherOfcheckbox" style='height:20px;width:20px; float: left;' class='hello' type="checkbox"  />
 						<i class="mdui-checkbox-icon" ></i> 文件名 </label>
-						
+
 					</div>
 					<div class="secondlie col-sm-3 col-md-3 " style="height:100%;">
 						<p style="line-height: 30px;">
 							大小
 						</p>
-					
+
 					</div>
 					<div  class="thridlie col-sm-2 col-md-2 ">
 						<p style="line-height: 30px;">
@@ -379,7 +377,60 @@ $(document).on('click', '#DownLoadTheFile', function() {
 					</div>
 				</div>
 				<div id="xiangangID" >
-
+					<div id='catalog' >
+						
+						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >
+							<div id='1' class='firsttablelie col-sm-7'>
+								<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'>
+									<input id=49 type='checkbox' name='checkboxOfFile' value=1 />
+									<i class='mdui-checkbox-icon'></i></label>
+									<img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
+									<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
+										修改代码-.-.mp3
+									</a>
+									<a id='Filerename' style='display:none;'>
+										<input type='text'  value='修改代码-.-'>
+										<button  id='renameFileSure'>
+										确定
+										</button>
+										<button  id='renameFileFlase'>
+										取消
+										</button>
+									</a>
+									<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' >
+										<a  role='button'data-toggle='dropdown' data-target='#'  >
+											<span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span>
+										</a>
+										<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>
+											<li id='removeButton' style='text-align: center;cursor: pointer;'>
+												<a>
+													移动
+												</a></a>
+											</li>
+											<li role='presentation' class='divider'></li>
+											<li id='renameButton'  style='text-align: center;cursor: pointer;' >
+												<a>
+													重命名
+												</a>
+											</li>
+										</ul>
+									</div></td>
+							</div>
+							<div class='secondtablelie  col-sm-3'>
+								<td>
+									<p style='float:left;line-height:36px;'>
+										1526888
+									</p></td>
+							</div>
+							<div class='thridtablelie col-sm-2'>
+								<td>
+									<p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>
+										2015-11-30 11:55:15
+									</p></td>
+							</div>
+						</div>
+						<div  class='mdui-divider-inset-light'></div>
+					</div>
 				</div>
 				<div id="paging">
 
