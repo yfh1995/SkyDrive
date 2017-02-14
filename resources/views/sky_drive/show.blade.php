@@ -376,6 +376,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 					</div>
 				</div>
+                @foreach($data['catalogs_info'] as $v)
 				<div id="xiangangID" >
 					<div id='catalog' >
 						
@@ -386,10 +387,14 @@ $(document).on('click', '#DownLoadTheFile', function() {
 									<i class='mdui-checkbox-icon'></i></label>
 									<img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
 									<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
-										修改代码-.-.mp3
+										{{ $v->cur_catalog_name }}
 									</a>
 									<a id='Filerename' style='display:none;'>
-										<input type='text'  value='修改代码-.-'>
+                                        @if($v->size!=-1)
+										    <input type='text'  value='{{ substr($v->cur_catalog_name,0,strrpos($v->cur_catalog_name,'.')+1) }}'>
+                                        @else
+                                            <input type='text'  value='{{ $v->cur_catalog_name }}'>
+                                        @endif
 										<button  id='renameFileSure'>
 										确定
 										</button>
@@ -419,19 +424,20 @@ $(document).on('click', '#DownLoadTheFile', function() {
 							<div class='secondtablelie  col-sm-3'>
 								<td>
 									<p style='float:left;line-height:36px;'>
-										1526888
+										{{ $v->size }}
 									</p></td>
 							</div>
 							<div class='thridtablelie col-sm-2'>
 								<td>
 									<p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>
-										2015-11-30 11:55:15
+										{{ $v->created_at }}
 									</p></td>
 							</div>
 						</div>
 						<div  class='mdui-divider-inset-light'></div>
 					</div>
 				</div>
+                @endforeach
 				<div id="paging">
 
 				</div>
