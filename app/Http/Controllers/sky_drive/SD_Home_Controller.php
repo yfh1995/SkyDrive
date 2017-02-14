@@ -15,9 +15,55 @@ use Illuminate\Http\Request;
 
 class SD_Home_Controller extends Controller{
 
-    public function index(){
+    /**
+     * 网盘首页，包含全部文件、分类文件、垃圾文件的首次、翻页访问
+     * @param Request $request
+     * @return $this
+     */
+    public function index(Request $request){
+        $params = $request->all();
 
-        return view('sky_drive.show');
+        $user_name = Auth::user()->name;
+        $size = 15;
+        if(isset($params['size'])) $size = (int)$params['size'];
+        $where['owner_name'] = $user_name;
+
+        //如果未指明请求类型，或未知的请求类型，则ajax请求返回空，正常请求返回主页面
+        if(!isset($params['type']) || $params['type']<0 || $params['type']>2){
+            if(isset($params['last_id'])) return [];
+            else return view('sky_drive.show');
+        }
+
+        //如果为全部文件的请求
+        if($params['type']==0){
+            $where['garbage'] = '0000-00-00 00:00:00';
+            $where['father_catalog_name'] = isset($params['father_catalog_name'])?$params['father_catalog_name']:$user_name;
+        }
+        //如果为分类的请求
+        else if($params['type']==1){
+            if(!isset($params['file_type'])) return [];
+            $where['garbage'] = '0000-00-00 00:00:00';
+            $where['address'] = '/website/storage/' . $params['file_type'];
+        }
+        //如果为回收站的请求
+        else{
+            //如果有父目录信息
+            if(isset($params['father_catalog_name'])){
+                $where['father_catalog_name'] = $params['father_catalog_name'];
+            }else{
+                $where['root_garbage'] = 1;
+            }
+        }
+
+        $table = DB::table('catalogs');
+        $table = $table->where($where);
+        if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
+        $catalogs_info = $table->orderBy('address')->orderBy('id','desc')->take($size)->get();
+
+        $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
+
+        if(isset($params['last_id'])) return $catalogs_info;
+        else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
     }
 
     public function type(Request $request){
@@ -52,6 +98,24 @@ class SD_Home_Controller extends Controller{
         $list[count($list)]=count(DB::table('catalogs')->where('father_catalog_name',$father_catalog_name)->where('garbage','0000-00-00 00:00:00')->get());
         //print_r($list);
         //substr($list, 3);
+
+//        $params = $request->all();
+//
+//        $user_name = Auth::user()->name;
+//        $size = 10;
+//        if(isset($params['size'])) $size = (int)$params['size'];
+//        $where['owner_name'] = $user_name;
+//        $where['garbage'] = '0000-00-00 00:00:00';
+//        $where['father_catalog_name'] = $user_name;
+//        if(isset($params['father_catalog_name'])) $where['father_catalog_name'] = $params['father_catalog_name'];
+//        if(isset($params['type'])) $where['address'] = '/website/storage/'.$params['type'];
+//
+//        $data = DB::table('catalogs')
+//            ->where($where)
+//            ->orderBy('address')
+//            ->get();
+//        ->paginate($size);
+
         return $list;
     }
 
