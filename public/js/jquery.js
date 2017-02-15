@@ -1,5 +1,5 @@
 ﻿$(document).ready(function() {
-	
+
 	$("#mytab a").click(function(e) {
 		e.preventDefault();
 		$(this).tab("show");
@@ -31,7 +31,6 @@
 	//复选框事件和样式
 	$("#FatherOfcheckbox").addClass("checkbox");
 
-	
 	$("#FatherOfcheckbox").click(function() {
 		$("input[name='checkboxOfFile']").prop("checked", this.checked);
 		$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
@@ -68,48 +67,68 @@
 		F += "</div>";
 
 		F += "<div class='col-md-2'>";
-		F += "<td><p id='TimeOfCreateFile' style='float:left;'>"+getNowTime()+"</p></td>";
+		F += "<td><p id='TimeOfCreateFile' style='float:left;'>" + getNowTime() + "</p></td>";
 		F += "</div>";
 		F += "</div>";
-		
+
 		$("#xiangangID").before(F);
 	});
 	/*
 	 * 监听滚动条事件，当滚动到底部的时候处理方法
 	 */
 	var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
-    var nScrollTop = 0;   //滚动到的当前位置
-    var nDivHight = 0;	  //滚动div的高度
-	$("#xiangangID").on("scroll",function(){
-		nDivHight=$(this).height();
+	var nScrollTop = 0; //滚动到的当前位置
+	var nDivHight = 0; //滚动div的高度
+	$("#xiangangID").on("scroll", function() {
+		nDivHight = $(this).height();
 		nScrollHight = $(this)[0].scrollHeight;
-        nScrollTop = $(this)[0].scrollTop;
-        if(nScrollTop + nDivHight >= nScrollHight){
-        	if(listType=="catalog"){
-//      		show_catalog2();
-        	}
-        }
-            
-          
+		nScrollTop = $(this)[0].scrollTop;
+		if(nScrollTop + nDivHight >= nScrollHight) {
+			if(listType == "catalog") {
+				//      		show_catalog2();
+			}
+		}
+
 	})
+	mplayer_song[0].splice(0);
+	mplayer_song[0].push({
+		"basic": true,
+		"name": "播放列表1",
+		"singer": "未知",
+		"singer": "未知"
+	})
+	$(".Filename").each(function() {
+		var tt = $(this).attr("data-type"),
+			tturl = $(this).attr("data-url");
+		if(tt=="music"){
+			mplayer_song[0].push({
+				name: '未知',
+				src: tturl,
+				lrc: "无歌词"
+			})
+		}else if(tt=="picture"){
+			console.log(111);
+		}
+	})
+//	console.log(mplayer_song[0]);
 });
 //当复选框选中的时候判断纵选中的要不要选中和可以该行添加背景颜色
 $(document).on('click', 'input[name="checkboxOfFile"]', function() {
-		var $subs = $("input[name='checkboxOfFile']");
-		$("#FatherOfcheckbox").prop("checked", $subs.length == $subs.filter(":checked").length ? true : false);
-		if($subs.filter(":checked").length >= 1) {
-			$("#IsChooseFile").show();
-		} else {
-			$("#IsChooseFile").hide();
-		}
-		if($(this).prop("checked")) {
-			$(this).parent().parent().parent().children().addClass('bcOfListWhileHover');
-		} else {
-			$(this).parent().parent().parent().children().removeClass('bcOfListWhileHover');
-		}
-	})
-	
-	//给列表绑定悬浮事件
+	var $subs = $("input[name='checkboxOfFile']");
+	$("#FatherOfcheckbox").prop("checked", $subs.length == $subs.filter(":checked").length ? true : false);
+	if($subs.filter(":checked").length >= 1) {
+		$("#IsChooseFile").show();
+	} else {
+		$("#IsChooseFile").hide();
+	}
+	if($(this).prop("checked")) {
+		$(this).parent().parent().parent().children().addClass('bcOfListWhileHover');
+	} else {
+		$(this).parent().parent().parent().children().removeClass('bcOfListWhileHover');
+	}
+})
+
+//给列表绑定悬浮事件
 $(document).on('mouseover', '.FileShowLine', function() {
 	$(this).children().addClass('bcOfListWhileHover');
 	$(this).find("DIV #toggletuBiao").show();
@@ -175,7 +194,7 @@ function GetFileName() {
 		},
 		success: function(data) {
 			catalog = data;
-			
+
 		},
 		error: function() {
 			alert('11数据读取发生错误！');
@@ -188,7 +207,7 @@ function GetFileName() {
 function EntryNextFile(str) {
 	var catalog = GetFileName();
 	catalog += "/" + str;
-	
+
 	refresh(catalog, 'catalog');
 	SetTileOfEntry(catalog);
 }
@@ -214,9 +233,9 @@ function showTheFile(index) {
 function showTheFileMusic(index) {
 
 	cntNowM = index; //表示点击该目录下的第几个音乐
-	UploadMusicList();
 	var str = "<div class='mp'><div class='mp-box'><img src='../mplayer/img/mplayer_error.png' alt='music cover' class='mp-cover'><div class='mp-info'><p class='mp-name'>未知</p><p class='mp-singer'>未知</p><p><span class='mp-time-current'>00:00</span>/<span class='mp-time-all'>00:00</span></p></div><div class='mp-btn'><button class='mp-prev' title='上一首'></button><button class='mp-pause' title='播放'></button><button class='mp-next' title='下一首'></button><button class='mp-mode' title='播放模式'></button>	<div class='mp-vol'><button class='mp-vol-img' title='静音'></button><div class='mp-vol-range' data-range_min='0' data-range_max='100' data-cur_min='80'><div class='mp-vol-current'></div><div class='mp-vol-circle'></div></div></div></div><div class='mp-pro'><div class='mp-pro-current'></div></div><div class='mp-menu'><button class='mp-list-toggle'></button><button class='mp-lrc-toggle'></button></div></div><button class='mp-toggle'><span class='mp-toggle-img'></span></button><div class='mp-lrc-box'><ul class='mp-lrc'></ul></div><button class='mp-lrc-close'></button><div class='mp-list-box'><ul class='mp-list-title'></ul><table class='mp-list-table'><thead><tr><th>歌名</th><th>歌手</th><th>时长</th></tr></thead><tbody class='mp-list'></tbody></table></div></div>";
 	initMusic();
+
 	function initMusic() {
 		var modeText = ['顺序播放', '单曲循环', '随机播放', '列表循环'];
 		$('.mp').remove();
@@ -276,25 +295,6 @@ function showTheFileMusic(index) {
 	}
 }
 
-function UploadMusicList() {
-	mplayer_song[0].splice(0);
-	mplayer_song[0].push({
-		"basic":true,
-		"name":"播放列表1",
-		"singer":"未知",
-		"singer":"未知"
-	})
-	for(var i = 0; i < cntInMusic; i++) {
-		mplayer_song[0].push({
-			name:'未知',
-			src:listOfMusic[i],
-			lrc:"无歌词"
-		})
-	}
-	console.log(mplayer_song[0]);
-
-}
-
 function SureButtonFunction() {
 	//alert($("#text1").attr("value"));
 	var cur_catalog_name = document.getElementById("text1").value;
@@ -316,8 +316,8 @@ function SureButtonFunction() {
 				if(data == 'ok') {
 					IsCreateFileNow = false;
 					alert('创建成功！');
-					$("#Filename").text(cur_catalog_name);
-					$("#Filename").show();
+					$(".Filename").text(cur_catalog_name);
+					$(".Filename").show();
 					$("#text1").hide();
 					$("#createFileSure").hide();
 					$("#createFileFlase").hide();
@@ -368,8 +368,6 @@ function getNowTime() {
 	return curYear + "-" + curMonth + "-" + curDay + "  " + curHour + ":" + curMinute + ":" + curSecond;
 }
 
-
-
 //设置每个文件的图标
 function GetTuBiaoLogo(str) {
 	switch(str) {
@@ -405,8 +403,8 @@ $(document).on('click', '#removeButton', function() {
 	//点击重命名按钮
 $(document).on('click', '#renameButton', function() {
 
-		$(this).parent().parent().siblings("#Filename").hide();
-		var ss = $(this).parent().parent().siblings("#Filename").text();
+		$(this).parent().parent().siblings(".Filename").hide();
+		var ss = $(this).parent().parent().siblings(".Filename").text();
 		var ss2 = ss.substring(ss.lastIndexOf('.'), ss.length);
 		$(this).parent().parent().siblings("#Filerename").show();
 		$(this).parent().parent().siblings("#Filerename").children("input").select();
@@ -417,7 +415,7 @@ $(document).on('click', '#renameFileSure', function() {
 		var choose = $(this).parent().parent().attr('id');
 		var GetId = $(this).parent().siblings("input").attr('id');
 		//原先的名字
-		var NameFirst = $(this).parent().siblings("#Filename").text();
+		var NameFirst = $(this).parent().siblings(".Filename").text();
 		//原先名字的前缀
 		var NameFirstMEIHOUZHUI = NameFirst.substring(0, NameFirst.lastIndexOf('.'));
 
@@ -434,8 +432,8 @@ $(document).on('click', '#renameFileSure', function() {
 		}
 		if(NameFirst == NameNow) {
 			$(this).parent().hide();
-			$(this).parent().siblings("#Filename").text(NameNow);
-			$(this).parent().siblings("#Filename").show();
+			$(this).parent().siblings(".Filename").text(NameNow);
+			$(this).parent().siblings(".Filename").show();
 		} else {
 			var resultOfrename = "";
 			alert(NameNow);
@@ -460,8 +458,8 @@ $(document).on('click', '#renameFileSure', function() {
 			alert(resultOfrename);
 			if(resultOfrename == "ok") {
 				$(this).parent().hide();
-				$(this).parent().siblings("#Filename").text(NameNow);
-				$(this).parent().siblings("#Filename").show();
+				$(this).parent().siblings(".Filename").text(NameNow);
+				$(this).parent().siblings(".Filename").show();
 			} else {
 				alert("当前目录下已经有相同的目录请重新命名");
 			}
@@ -470,9 +468,9 @@ $(document).on('click', '#renameFileSure', function() {
 	})
 	//对文件重命名取消renameFileFlase
 $(document).on('click', '#renameFileFlase', function() {
-	$(this).parent().siblings("#Filename").show();
+	$(this).parent().siblings(".Filename").show();
 	$(this).parent().hide();
-	var NameFirst = $(this).parent().siblings("#Filename").text();
+	var NameFirst = $(this).parent().siblings(".Filename").text();
 	var HouZhuiFileName = NameFirst.substring(0, NameFirst.lastIndexOf('.'));
 	$(this).siblings("input").val(HouZhuiFileName);
 })
@@ -485,7 +483,7 @@ $(document).on('mousevoer', '.FileShowLine', function() {
 //上传文件之后显示数据
 function show_data(data) {
 	console.log(data);
-//	$("#div1").remove();
+	//	$("#div1").remove();
 	//将图片的地址整合成一个数组
 	cntInPicture = 0;
 	for(var i = 0; i < data.length - 1; i++) {
@@ -526,7 +524,7 @@ function show_data(data) {
 			}
 		}
 	}
-	
+
 	var strOfLogoType = "";
 	var cntInwhichp = 0; //记录是第几张图片
 	var cntInwhichm = 0; //记录是第几个音乐
@@ -611,46 +609,44 @@ function show_data(data) {
 	F += "</div>";
 	$("#xiangangID").prepend(F);
 
-
 }
 
-function show_data_test(){
+function show_data_test() {
 
-	var data=[{
-		address:"/website/storage/music",
-		click:0,
-		created_at:"2015-11-30 11:55:15",
-		cur_catalog_name:"很累 - 五.mp3",
-		download:2,
-		father_catalog_name:"yfh",
-		garbage:"0000-00-00 00:00:00",
-		id:49,
-		md5:"6436b0043144fdee01f0a2baecf76be7",
-		owner_name:"yfh",
-		root_garbage:0,
-		size:1526888,
-		updated_at:"2015-11-30 11:55:15",
-		validate:null
-},{
-		address:"/website/storage/music",
-		click:0,
-		created_at:"2015-11-30 11:55:15",
-		cur_catalog_name:"修改代码-.-.mp3",
-		download:2,
-		father_catalog_name:"yfh",
-		garbage:"0000-00-00 00:00:00",
-		id:49,
-		md5:"6436b0043144fdee01f0a2baecf76be7",
-		owner_name:"yfh",
-		root_garbage:0,
-		size:1526888,
-		updated_at:"2015-11-30 11:55:15",
-		validate:null
-}
-	]
+	var data = [{
+		address: "/website/storage/music",
+		click: 0,
+		created_at: "2015-11-30 11:55:15",
+		cur_catalog_name: "很累 - 五.mp3",
+		download: 2,
+		father_catalog_name: "yfh",
+		garbage: "0000-00-00 00:00:00",
+		id: 49,
+		md5: "6436b0043144fdee01f0a2baecf76be7",
+		owner_name: "yfh",
+		root_garbage: 0,
+		size: 1526888,
+		updated_at: "2015-11-30 11:55:15",
+		validate: null
+	}, {
+		address: "/website/storage/music",
+		click: 0,
+		created_at: "2015-11-30 11:55:15",
+		cur_catalog_name: "修改代码-.-.mp3",
+		download: 2,
+		father_catalog_name: "yfh",
+		garbage: "0000-00-00 00:00:00",
+		id: 49,
+		md5: "6436b0043144fdee01f0a2baecf76be7",
+		owner_name: "yfh",
+		root_garbage: 0,
+		size: 1526888,
+		updated_at: "2015-11-30 11:55:15",
+		validate: null
+	}]
 	var F = "<div id='catalog' >";
 	console.log(data.length);
-	for(var i = 0; i < data.length ; i++) {
+	for(var i = 0; i < data.length; i++) {
 		var strOfLogoType = data[i]['address'];
 		F += "<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >";
 		if(data[i]['address'] == null) {
@@ -721,6 +717,7 @@ function show_data_test(){
 	F += "</div>";
 	$("#xiangangID").prepend(F);
 }
+
 function mouseOnDIv() {
 
 }
@@ -729,7 +726,6 @@ function mouseOnDIv() {
 function remove_data(id) {
 	$("#" + id).remove();
 }
-
 
 //获得哪些选中
 function delete_and_restore_getdate(flag) {
@@ -782,13 +778,12 @@ function delete_and_restore(list, flag) {
 	});
 }
 
-
 /*
  * 刷新页面操作
  */
 function refresh(father_catalog_name, type) {
-//  移除了换页的按钮 所以下面的代码注释了。
-//	remove_data('show_paging');
+	//  移除了换页的按钮 所以下面的代码注释了。
+	//	remove_data('show_paging');
 	if(type == 'catalog') {
 		show_catalog(father_catalog_name, type, 0, 20, 0);
 	} else if(type == 'garbage') {
@@ -814,17 +809,18 @@ function show_type(type, page, size, flag) {
 		success: function(data) {
 			remove_data('catalog');
 			show_data(data);
-//			if(flag == 0) {
-//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-//			}
+			//			if(flag == 0) {
+			//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+			//			}
 		},
 		error: function() {
 			alert('数据读取发生错误！');
 		}
 	});
 }
+
 function show_garbage(type, page, size, flag) {
-	
+
 	$.ajax({
 		url: '/sky_drive/get_garbage',
 		type: 'post',
@@ -840,9 +836,9 @@ function show_garbage(type, page, size, flag) {
 		success: function(data) {
 			remove_data('catalog');
 			show_data(data);
-//			if(flag == 0) {
-//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-//			}
+			//			if(flag == 0) {
+			//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+			//			}
 		},
 		error: function() {
 			alert("数据读取错误！");
@@ -850,12 +846,12 @@ function show_garbage(type, page, size, flag) {
 	});
 }
 
-
 /*
  * 根据当前的查看文件的类型、页数、size来获取数据
  */
 function show_catalog(father_catalog_name, type, page, size, flag) {
-	listMulu=father_catalog_name;listPage=page+1,listType=type;
+	listMulu = father_catalog_name;
+	listPage = page + 1, listType = type;
 	$.ajax({
 		url: '/sky_drive/refresh',
 		type: 'post',
@@ -873,9 +869,9 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
 			remove_data('catalog');
 			show_data(data);
 
-//			if(flag == 0) {
-//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
-//			}
+			//			if(flag == 0) {
+			//				show_paging(Math.ceil(data[data.length - 1] / size), type, size, 1);
+			//			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest.status);
@@ -889,7 +885,7 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
  * 动态添加的数据
  */
 function show_catalog2() {
-	var size=20;
+	var size = 20;
 	$.ajax({
 		url: '/sky_drive/refresh',
 		type: 'post',
@@ -914,7 +910,6 @@ function show_catalog2() {
 		}
 	});
 }
-
 
 function show_paging(sum, type, size, flag) {
 

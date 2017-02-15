@@ -393,19 +393,19 @@ $(document).on('click', '#DownLoadTheFile', function() {
 										@if($v->md5==null)
 
 										<span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>
-										<a id='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile("{{ $v->cur_catalog_name}}");'>
+										<a class='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile("{{ $v->cur_catalog_name}}");'>
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='picture')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/pictureLogo.jpg'>
-										<a id='Filename' href='JavaScript:;' onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
+										<a class='Filename' href='JavaScript:;'data-type="music" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}'  onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='music')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
-										<a id='Filename' href='JavaScript:;' onclick='showTheFileMusic({{ $cntInwhichm++ }});'  style='padding-bottom: 5px;'>
+										<a class='Filename' href='JavaScript:;'data-type="music" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}' onclick='showTheFileMusic({{ $cntInwhichm++ }});'  style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='video')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/videoLogo.jpg'>
-										<a id='Filename' href='JavaScript:;' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
+										<a class='Filename' href='JavaScript:;' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @else
 										@if($type=='text')
@@ -417,7 +417,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 										@else
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/otherLogo.jpg'>
 										@endif
-										<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
+										<a class='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @endif
 										<a id='Filerename' style='display:none;'>
