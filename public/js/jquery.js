@@ -86,7 +86,7 @@
         nScrollTop = $(this)[0].scrollTop;
         if(nScrollTop + nDivHight >= nScrollHight){
         	if(listType=="catalog"){
-        		show_catalog2();
+//      		show_catalog2();
         	}
         }
             
@@ -175,6 +175,7 @@ function GetFileName() {
 		},
 		success: function(data) {
 			catalog = data;
+			
 		},
 		error: function() {
 			alert('11数据读取发生错误！');
@@ -185,7 +186,6 @@ function GetFileName() {
 
 //点击文件夹
 function EntryNextFile(str) {
-	//alert("我们都爱笑"+str);
 	var catalog = GetFileName();
 	catalog += "/" + str;
 	
@@ -198,12 +198,13 @@ function showTheFile(index) {
 	if(cntInPicture == 0) {
 		return;
 	}
-	$('#sucaihuo').remove()
+	$('#sucaihuo').remove();
 	$("body").append('<ul id="sucaihuo" style="display:none"></ul>')
 	for(var i = 0; i < cntInPicture; i++) {
 		var str = '<li><img class="pictureForYou" data-original="' + listOfPicture[i] + '" src="' + listOfPicture[i] + '" alt="图片' + i + '"></li>';
 		$("#sucaihuo").append(str);
 	}
+	console.log(listOfPicture);
 	$('#sucaihuo').viewer({
 		url: 'data-original',
 	});

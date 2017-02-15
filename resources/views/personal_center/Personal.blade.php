@@ -5,7 +5,11 @@
     <link href="{{asset('/css/style_picture.css')}}" rel="stylesheet"  type="text/css">
 
     <link href="{{asset('/css/Personal.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/particle/style.css')}}" rel="stylesheet" type="text/css">
+    <script src="{{asset('/js/d3.js')}}" charset="GBK" type="text/javascript"></script>
+     <script src="{{asset('/particle/particleground.all.js')}}" charset="GBK" type="text/javascript"></script>
     <script src="{{asset('/js/Personal.js')}}" charset="GBK" type="text/javascript"></script>
+
     <meta charset="utf-8">
     <style type="text/css">
 
@@ -13,11 +17,12 @@
     <script>
 
     </script>
+    <div id="demo"></div>
     <div id="KJKJKJ" style="display: none;"></div>
     <div class="container" >
         <div class="top">
             <ul id="mytab1" class="list-group">
-                <li class="list-group-item"><a><h2>&nbsp;&nbsp;&nbsp;&nbsp;<b>个人中心</b> </h2></a></li>
+                <li class="list-group-item textColor"><a><h1>个人中心 </h1></a></li>
             </ul>
         </div>
         <div class="left-top " >
@@ -31,12 +36,19 @@
                 </div>
                 <br>
                 <li  class="list-group-item"><a><b>个人资料</b></a></li>
+				
                 <li id="List_1" onclick="akak();" class="list-group-item "><a style="text-decoration: none;" href="#basic">基本资料</a></li>
-
+                <li id="List_3" onclick="D3show();" class="list-group-item ">
+					<a style="text-decoration: none;" href="#basic">
+					个人中心
+					</a>
+				</li>
                 <li  class="list-group-item"><a><b>密码管理</b></a></li>
                 <li id="List_2" onclick="bkbk();" class="list-group-item"><a style="text-decoration: none" href="#changes">修改密码</a></li>
             </ul>
-
+			<div id="d3Divshow" class='col-md-10'>
+			
+			</div>
         </div>
 
         <div id="aaaa"></div>

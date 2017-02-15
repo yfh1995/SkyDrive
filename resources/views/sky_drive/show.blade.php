@@ -376,119 +376,117 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 					</div>
 				</div>
-                <?php $cntInwhichp = $cntInwhichm = $cntInwhichv = 0; ?>
-                @foreach($data['catalogs_info'] as $v)
+				<?php $cntInwhichp = $cntInwhichm = $cntInwhichv = 0; ?>
+				
 				<div id="xiangangID" >
 					<div id='catalog' >
-						
+						@foreach($data['catalogs_info'] as $v)
 						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >
-                            @if($v->address==null)
-                                <div id='0' class='firsttablelie col-sm-7'>
-                            @else
-                                <div id='1' class='firsttablelie col-sm-7'>
-                            @endif
-								<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'>
-									<input id=49 type='checkbox' name='checkboxOfFile' value=1 />
-									<i class='mdui-checkbox-icon'></i></label>
-                                    <?php $type = substr($v->address,strrpos($v->address,'/')+1); ?>
-                                    @if($v->md5==null)
-                                        <span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>
-                                        <a id='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile({{ $v->cur_catalog_name}});'>
-                                            {{ $v->cur_catalog_name }}
-                                        </a>
-                                    @elseif($type=='picture')
-                                        <img style='height:20px;width:20px;margin:8px 5px;' src='/img/pictureLogo.jpg'>
-                                        <a id='Filename' href='JavaScript:;' onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
-                                            {{ $v->cur_catalog_name }}
-                                        </a>
-                                    @elseif($type=='music')
-                                        <img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
-                                        <a id='Filename' href='JavaScript:;' onclick='showTheFileMusic({{ $cntInwhichm++ }});'  style='padding-bottom: 5px;'>
-                                            {{ $v->cur_catalog_name }}
-                                        </a>
-                                    @elseif($type=='video')
-                                        <img style='height:20px;width:20px;margin:8px 5px;' src='/img/videoLogo.jpg'>
-                                        <a id='Filename' href='JavaScript:;' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
-                                            {{ $v->cur_catalog_name }}
-                                        </a>
-                                    @else
-                                        @if($type=='text') <img style='height:20px;width:20px;margin:8px 5px;' src='/img/txtlogo.jpg'>
-                                        @elseif($type=='bt') <img style='height:20px;width:20px;margin:8px 5px;' src='/img/btLogo.jpg'>
-                                        @elseif($type=='archive') <img style='height:20px;width:20px;margin:8px 5px;' src='/img/archiveLogo.jpg'>
-                                        @else <img style='height:20px;width:20px;margin:8px 5px;' src='/img/otherLogo.jpg'>
-                                        @endif
-                                        <a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
-                                            {{ $v->cur_catalog_name }}
-                                        </a>
-                                    @endif
+							@if($v->address==null)
+							<div id='0' class='firsttablelie col-sm-7'>
+								@else
+								<div id='1' class='firsttablelie col-sm-7'>
+									@endif
+									<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'>
+										<input id=49 type='checkbox' name='checkboxOfFile' value=1 />
+										<i class='mdui-checkbox-icon'></i></label><?php $type = substr($v -> address, strrpos($v -> address, '/') + 1); ?>
+										@if($v->md5==null)
 
-									    <a id='Filerename' style='display:none;'>
-                                            @if($v->size!=-1)
-                                                <input type='text'  value='{{ substr($v->cur_catalog_name,0,strrpos($v->cur_catalog_name,'.')+1) }}'>
-                                            @else
-                                                <input type='text'  value='{{ $v->cur_catalog_name }}'>
-                                            @endif
-                                            <button  id='renameFileSure'>
-                                            确定
-                                            </button>
-                                            <button  id='renameFileFlase'>
-                                            取消
-                                            </button>
-									    </a>
-									<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' >
-										<a  role='button'data-toggle='dropdown' data-target='#'  >
-											<span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span>
+										<span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>
+										<a id='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile("{{ $v->cur_catalog_name}}");'>
+											{{ $v->cur_catalog_name }}
+										</a> @elseif($type=='picture')
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/pictureLogo.jpg'>
+										<a id='Filename' href='JavaScript:;' onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
+											{{ $v->cur_catalog_name }}
+										</a> @elseif($type=='music')
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
+										<a id='Filename' href='JavaScript:;' onclick='showTheFileMusic({{ $cntInwhichm++ }});'  style='padding-bottom: 5px;'>
+											{{ $v->cur_catalog_name }}
+										</a> @elseif($type=='video')
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/videoLogo.jpg'>
+										<a id='Filename' href='JavaScript:;' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
+											{{ $v->cur_catalog_name }}
+										</a> @else
+										@if($type=='text')
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/txtlogo.jpg'>
+										@elseif($type=='bt')
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/btLogo.jpg'>
+										@elseif($type=='archive')
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/archiveLogo.jpg'>
+										@else
+										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/otherLogo.jpg'>
+										@endif
+										<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
+											{{ $v->cur_catalog_name }}
+										</a> @endif
+										<a id='Filerename' style='display:none;'>
+											@if($v->size!=-1)
+											<input type='text'  value='{{ substr($v->cur_catalog_name,0,strrpos($v->cur_catalog_name,'.')+1) }}'>
+											@else
+											<input type='text'  value='{{ $v->cur_catalog_name }}'>
+											@endif
+											<button  id='renameFileSure'>
+											确定
+											</button>
+											<button  id='renameFileFlase'>
+											取消
+											</button>
 										</a>
-										<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>
-											<li id='removeButton' style='text-align: center;cursor: pointer;'>
-												<a>
-													移动
-												</a></a>
-											</li>
-											<li role='presentation' class='divider'></li>
-											<li id='renameButton'  style='text-align: center;cursor: pointer;' >
-												<a>
-													重命名
-												</a>
-											</li>
-										</ul>
-									</div></td>
+										<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' >
+											<a  role='button'data-toggle='dropdown' data-target='#'  >
+												<span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span>
+											</a>
+											<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>
+												<li id='removeButton' style='text-align: center;cursor: pointer;'>
+													<a>
+														移动
+													</a></a>
+												</li>
+												<li role='presentation' class='divider'></li>
+												<li id='renameButton'  style='text-align: center;cursor: pointer;' >
+													<a>
+														重命名
+													</a>
+												</li>
+											</ul>
+										</div></td>
+								</div>
+								<div class='secondtablelie  col-sm-3'>
+									<td>
+										<p style='float:left;line-height:36px;'>
+											{{ $v->size }}
+										</p></td>
+								</div>
+								<div class='thridtablelie col-sm-2'>
+									<td>
+										<p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>
+											{{ $v->created_at }}
+										</p></td>
+								</div>
 							</div>
-							<div class='secondtablelie  col-sm-3'>
-								<td>
-									<p style='float:left;line-height:36px;'>
-										{{ $v->size }}
-									</p></td>
-							</div>
-							<div class='thridtablelie col-sm-2'>
-								<td>
-									<p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>
-										{{ $v->created_at }}
-									</p></td>
-							</div>
+							<div  class='mdui-divider-inset-light'></div>
+							@endforeach
 						</div>
-						<div  class='mdui-divider-inset-light'></div>
 					</div>
-				</div>
-                @endforeach
-				<div id="paging">
+					<div id="paging">
 
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<form id="FromOfVideo"  action="{{url('/sky_drive/preview')}}" method="POST" style="display: none;"target="_blank">
-	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	<input id="IDOFvideo" type="text" name="id" value="">
-	<input id="SRCOFvideo" type="text" name="src" value="">
-</form>
-<script>$(document).ready(function() {
+	<form id="FromOfVideo"  action="{{url('/sky_drive/preview')}}" method="POST" style="display: none;"target="_blank">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+		<input id="IDOFvideo" type="text" name="id" value="">
+		<input id="SRCOFvideo" type="text" name="src" value="">
+	</form>
+	<script>$(document).ready(function() {
 	/*
 	 * 动态设置初始化div的高度
 	 */
 	//				$(".oneInTwoDiv").height($(window).height()-50);
 
 })</script>
-@endsection
+	@endsection
