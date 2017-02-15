@@ -90,6 +90,12 @@
 		}
 
 	})
+	updateData()
+});
+/*
+ * 更新数据
+ */
+function updateData(){
 	mplayer_song[0].splice(0);
 	mplayer_song[0].push({
 		"basic": true,
@@ -107,11 +113,10 @@
 				lrc: "无歌词"
 			})
 		}else if(tt=="picture"){
-			console.log(111);
+			listOfPicture[cntInPicture++]=tturl;
 		}
-	})
-//	console.log(mplayer_song[0]);
-});
+	});
+}
 //当复选框选中的时候判断纵选中的要不要选中和可以该行添加背景颜色
 $(document).on('click', 'input[name="checkboxOfFile"]', function() {
 	var $subs = $("input[name='checkboxOfFile']");
@@ -210,6 +215,8 @@ function EntryNextFile(str) {
 
 	refresh(catalog, 'catalog');
 	SetTileOfEntry(catalog);
+
+	
 }
 
 //点击文件,图片

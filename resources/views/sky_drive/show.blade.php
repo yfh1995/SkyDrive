@@ -236,33 +236,35 @@ $(document).on('click', '#DownLoadTheFile', function() {
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >
 			<ul id="systemSetting" class=" nav nav-pills nav-stacked"  >
-				<li id="AllFileDiv" class="mdui-ripple " style="text-align: center;" onclick="refresh('','catalog');">
-					<a  href="#" >
+				<li id="AllFileDiv" class="mdui-ripple " style="text-align: center;" >
+					<a  href="{{ url('/sky_drive/home?type=0') }}">
 						<i class="mdui-icon material-icons">&#xe24d;</i><strong style="color: gray;">全部文件</strong>
 					</a>
 				</li>
-				<li id="PictureDiv" class="mdui-ripple" onclick="refresh('','picture')" >
-					<a  href="#">
+				<!--//onclick="refresh('','picture')"-->
+				<li id="PictureDiv" class="mdui-ripple"  >
+
+					<a  href="{{ url('/sky_drive/home?type=1&file_type=picture') }}">
 						<strong style="color: gray;">图片</strong>
 					</a>
 				</li>
-				<li id="FillDiv" class="mdui-ripple"  onclick="refresh('','text')">
-					<a  href="#">
+				<li id="FillDiv" class="mdui-ripple" >
+					<a  href="{{ url('/sky_drive/home?type=1&file_type=text') }}">
 						</span><strong style="color: gray;">文档</strong>
 					</a>
 				</li>
-				<li id="VideoDiv" class="mdui-ripple" onclick="refresh('','video')">
-					<a  href="#">
+				<li id="VideoDiv" class="mdui-ripple" >
+					<a  href="{{ url('/sky_drive/home?type=1&file_type=video') }}">
 						<strong style="color: gray;">视频</strong>
 					</a>
 				</li>
-				<li id="ZhongziDiv" class="mdui-ripple" onclick="refresh('','bt')">
-					<a  href="#">
+				<li id="ZhongziDiv" class="mdui-ripple" >
+					<a  href="{{ url('/sky_drive/home?type=1&file_type=bt') }}">
 						<strong style="color: gray;">种子</strong>
 					</a>
 				</li>
-				<li id="MiuseDiv" class="mdui-ripple" onclick="refresh('','music')">
-					<a   href="#">
+				<li id="MiuseDiv" class="mdui-ripple" >
+					<a  href="{{ url('/sky_drive/home?type=1&file_type=music') }}">
 						<strong style="color: gray;">音乐</strong>
 					</a>
 				</li>
@@ -271,8 +273,8 @@ $(document).on('click', '#DownLoadTheFile', function() {
 						<strong style="color: gray;"><i class="mdui-icon mdui-icon-left material-icons">&#xe80d;</i>我的分享</strong>
 					</a>
 				</li>
-				<li id="RecycleDiv" class="mdui-ripple" onclick="refresh('','garbage')" >
-					<a   href="#">
+				<li id="RecycleDiv" class="mdui-ripple"  >
+					<a  href="{{ url('/sky_drive/home?type=1&file_type=garbage') }}">
 						<strong style="color: gray;"><i class="mdui-icon mdui-icon-left material-icons">&#xe872;</i>回收站</strong>
 					</a>
 				</li>
@@ -377,7 +379,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 					</div>
 				</div>
 				<?php $cntInwhichp = $cntInwhichm = $cntInwhichv = 0; ?>
-				
+
 				<div id="xiangangID" >
 					<div id='catalog' >
 						@foreach($data['catalogs_info'] as $v)
@@ -397,7 +399,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='picture')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/pictureLogo.jpg'>
-										<a class='Filename' href='JavaScript:;'data-type="music" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}'  onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
+										<a class='Filename' href='JavaScript:;'data-type="picture" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}'  onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='music')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
@@ -405,7 +407,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='video')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/videoLogo.jpg'>
-										<a class='Filename' href='JavaScript:;' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
+										<a class='Filename' href='JavaScript:;'data-type="video" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @else
 										@if($type=='text')
