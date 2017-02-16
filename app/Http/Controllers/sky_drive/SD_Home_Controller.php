@@ -55,10 +55,38 @@ class SD_Home_Controller extends Controller{
             }
         }
 
+        //如果为翻页或为分类文件，则判断last_id是否为文件，若为文件则只取文件
+        if(isset($params['last_id']) || $params['type']==1){
+            $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
+            if($last_info['address']){
+                return DB::table('catalogs')
+                    ->where($where)
+                    ->where('size','<>','-1')
+                    ->where('id','<',$params['last_id'])
+                    ->orderBy('id','desc')
+                    ->take($size)
+                    ->get();
+            }
+        }
+
+        //取文件夹数据
         $table = DB::table('catalogs');
-        $table = $table->where($where);
+        $table = $table->where($where)->where('size','-1');
         if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
-        $catalogs_info = $table->orderBy('address')->orderBy('id','desc')->take($size)->get();
+        $catalogs_info = $table->orderBy('id','desc')->take($size)->get();
+
+        //如果文件夹数据不足一页数据量，则取文件
+        if($size-count($catalogs_info)){
+            $file_info = DB::table('catalogs')
+                ->where($where)
+                ->where('size','<>','-1')
+                ->orderBy('id','desc')
+                ->take($size-count($catalogs_info))
+                ->get();
+            foreach($file_info as $v){
+                $catalogs_info[] = $v;
+            }
+        }
 
         $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
 		
@@ -389,18 +417,48 @@ class SD_Home_Controller extends Controller{
         $params = $request->all();
 
         $size = isset($params['size'])?$params['size']:15;
-        $last_id = isset($params['last_id'])?$params['last_id']:2147483647;
         if(!isset($params['share_code'])) return ['result'=>false,'message'=>'分享码为空！'];
 
-        $data = DB::table('share as s')
+        //如果为翻页，则判断last_id是否为文件，若为文件则只取文件
+        if(isset($params['last_id'])){
+            $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
+            if($last_info['address']){
+                return DB::table('share as s')
+                    ->join('catalogs as c','c.id','=','s.catalog_id')
+                    ->select(DB::raw('c.*'))
+                    ->where('s.share_code',$params['share_code'])
+                    ->where('c.size','<>','-1')
+                    ->where('c.id','<',$params['last_id'])
+                    ->orderBy('c.id','desc')
+                    ->take($size)
+                    ->get();
+            }
+        }
+
+        //取文件夹数据
+        $table = DB::table('share as s');
+        $table = $table
             ->join('catalogs as c','c.id','=','s.catalog_id')
             ->select(DB::raw('c.*'))
             ->where('s.share_code',$params['share_code'])
-            ->where('c.id','<',$last_id)
-            ->orderBy('c.address')
-            ->orderBy('c.id','desc')
-            ->take($size)
-            ->get();
-        return ['result'=>true,'data'=>$data];
+            ->where('c.size','-1');
+        if(isset($params['last_id'])) $table->where('c.id','<',$params['last_id']);
+        $catalogs_info = $table->orderBy('c.id','desc')->take($size)->get();
+
+        //如果文件夹数据不足一页数据量，则取文件
+        if($size-count($catalogs_info)){
+            $file_info = DB::table('share as s')
+                ->join('catalogs as c','c.id','=','s.catalog_id')
+                ->select(DB::raw('c.*'))
+                ->where('s.share_code',$params['share_code'])
+                ->where('c.size','<>','-1')
+                ->orderBy('c.id','desc')
+                ->take($size-count($catalogs_info))
+                ->get();
+            foreach($file_info as $v){
+                $catalogs_info[] = $v;
+            }
+        }
+        return ['result'=>true,'data'=>$catalogs_info];
     }
 }
