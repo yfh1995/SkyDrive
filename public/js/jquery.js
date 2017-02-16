@@ -114,6 +114,7 @@
 			} else {
 				dataset.file_type=file_typeNow;
 			}
+			console.log(dataset);
 			$.ajax({
 				url: '/sky_drive/home',
 				type: 'get',
