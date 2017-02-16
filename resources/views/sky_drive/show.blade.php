@@ -79,15 +79,13 @@ $(document).ready(function() {
 
 	//	refresh('yfh', 'catalog');
 	//	show_data_test();
-	var str = GetFileName();
-	SetTileOfEntry(str);
+//	var str = GetFileName();
+//	SetTileOfEntry(str);
 
 });
 
 $("#ajaxForm").ajaxForm(function() {
-
 	refresh('', 'catalog');
-
 });
 
 //打开移动文件夹模态框

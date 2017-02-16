@@ -1,4 +1,4 @@
-function throttle(fn, time) {
+﻿function throttle(fn, time) {
 	time = time || 200;
 	var runId = null;
 	return function() {
@@ -13,9 +13,8 @@ function throttle(fn, time) {
 /*
  * 获取url后的name对应的值
  */
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
+function GetQueryString(key){
+        var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+        var result = window.location.search.substr(1).match(reg);
+        return result?decodeURIComponent(result[2]):null;
 }

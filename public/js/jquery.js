@@ -1,5 +1,6 @@
 ﻿$(document).ready(function() {
 //	console.log(GetQueryString('aaaa'))
+	
 	inst = new mdui.Dialog(".mdui-dialog", {
 		"overlay":true,
 		"history":true
@@ -10,9 +11,11 @@
 	$(".checkboxInput").each(function(){
 		last_idNow=last_idNow>$(this).attr("id")?$(this).attr("id"):last_idNow;
 	})
-	console.log(last_idNow);
 	father_catalog_nameNow = $(".FileShowLine").attr("data-father");
-
+	if(father_catalog_nameNow==null){
+		father_catalog_nameNow=decodeURI(GetQueryString("father_catalog_name"));
+	}
+	SetTileOfEntry(father_catalog_nameNow);
 	$("#mytab a").click(function(e) {
 		e.preventDefault();
 		$(this).tab("show");
@@ -191,18 +194,21 @@ $(document).on('mouseover', '.FileShowLine', function() {
 
 //返回上个目录
 function BackTheBeforeFile(str) {
-
-	refresh(str, 'catalog');
-	$("#TitleDiv").remove();
-	SetTileOfEntry(str);
+	console.log(str);
+//	refresh(str, 'catalog');
+//	$("#TitleDiv").remove();
+//	SetTileOfEntry(str);
+	var hrefText="/sky_drive/home?type="+typeNow+"&father_catalog_name="+str;
+	window.location.href=hrefText;
 }
 
 //设置进入的标题目录
 function SetTileOfEntry(str) {
+
 	var addr = str.split("/");
 	var strCopy = addr[0];
 	var strCopy2 = addr[0];
-	for(var i = 1; i < addr.length - 1; i++) {
+	for(var i = 1; i < addr.length-1 ; i++) {
 		strCopy2 += "/";
 		strCopy2 += addr[i];
 	}
@@ -254,11 +260,8 @@ function GetFileName() {
 
 //点击文件夹
 function EntryNextFile(str) {
-	var catalog = GetFileName();
-	catalog += "/" + str;
-
-	refresh(catalog, 'catalog');
-	SetTileOfEntry(catalog);
+	var hrefText="/sky_drive/home?type="+typeNow+"&father_catalog_name="+father_catalog_nameNow+"/"+str;
+	window.location.href=hrefText;
 
 }
 
