@@ -61,7 +61,7 @@ class SD_Home_Controller extends Controller{
         $catalogs_info = $table->orderBy('address')->orderBy('id','desc')->take($size)->get();
 
         $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
-
+		
         if(isset($params['last_id'])) return $catalogs_info;
         else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
 //    else return view('sky_drive.show')->with('data','123');
