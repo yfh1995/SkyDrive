@@ -202,7 +202,10 @@ width:1000px;
 	 background-color: rgba(204,255,255,.4);
 	 cursor: pointer;
 }
+.mp-list{
+	overflow: auto;
 
+}
 /*
  * 响应式css 当屏幕小于768(col-sm)时候的布局
  */

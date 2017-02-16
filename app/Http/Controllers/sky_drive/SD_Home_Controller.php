@@ -356,7 +356,6 @@ class SD_Home_Controller extends Controller{
         $deadline = $params['deadline'];
         if(empty($ids)) return ['result'=>'false','message'=>'分享的资源数组不能为空！'];
         if(empty($deadline)) return ['result'=>'false','message'=>'分享期限不能为空！'];
-
         $shareCode = $this->createShareCode($ids);
         $user_id = Auth::user()->id;
 //        $user_id = 30;

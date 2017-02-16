@@ -10,3 +10,12 @@ function throttle(fn, time) {
 		}, time);
 	}
 }
+/*
+ * 获取url后的name对应的值
+ */
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}

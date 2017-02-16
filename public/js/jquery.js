@@ -1,4 +1,17 @@
 ﻿$(document).ready(function() {
+//	console.log(GetQueryString('aaaa'))
+	inst = new mdui.Dialog(".mdui-dialog", {
+		"overlay":true,
+		"history":true
+	});
+	typeNow = GetQueryString("type");
+	file_typeNow = GetQueryString('file_type');
+	last_idNow = 100000;
+	$(".checkboxInput").each(function(){
+		last_idNow=last_idNow>$(this).attr("id")?$(this).attr("id"):last_idNow;
+	})
+	console.log(last_idNow);
+	father_catalog_nameNow = $(".FileShowLine").attr("data-father");
 
 	$("#mytab a").click(function(e) {
 		e.preventDefault();
@@ -8,6 +21,9 @@
 		e.preventDefault();
 		$(this).tab("show");
 	});
+	$("#closeShareCode").on("click",function(){
+		inst.close();
+	})
 	$("#LeftPicture").click(function() {
 		$("#LeftPicture").css({
 			"background-color": "gray"
@@ -83,37 +99,65 @@
 		nDivHight = $(this).height();
 		nScrollHight = $(this)[0].scrollHeight;
 		nScrollTop = $(this)[0].scrollTop;
+
 		if(nScrollTop + nDivHight >= nScrollHight) {
-			if(listType == "catalog") {
-				//      		show_catalog2();
+			var dataset = {
+				"size": sizeNow,
+				"type": typeNow,
+				"last_id": last_idNow
 			}
+			if(typeNow == 0 || typeNow == 2) {
+				dataset.father_catalog_name=father_catalog_nameNow;
+			} else {
+				dataset.file_type=file_typeNow;
+			}
+			$.ajax({
+				url: '/sky_drive/home',
+				type: 'get',
+				data: dataset,
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+				},
+				success: function(data) {
+					show_data(data);
+					updateData();
+				},
+				error: function() {
+					alert('调用失败');
+				}
+			});
+
 		}
 
 	})
-	updateData()
+	updateData();
 });
 /*
  * 更新数据
  */
-function updateData(){
+function updateData() {
 	mplayer_song[0].splice(0);
 	mplayer_song[0].push({
 		"basic": true,
 		"name": "播放列表1",
 		"singer": "未知",
 		"singer": "未知"
-	})
+	});
+
+	cntInPicture = 0;
+	cntInwhichm=0;
 	$(".Filename").each(function() {
 		var tt = $(this).attr("data-type"),
 			tturl = $(this).attr("data-url");
-		if(tt=="music"){
+		if(tt == "music") {
 			mplayer_song[0].push({
 				name: '未知',
 				src: tturl,
 				lrc: "无歌词"
-			})
-		}else if(tt=="picture"){
-			listOfPicture[cntInPicture++]=tturl;
+			});
+			cntInwhichm++;
+		} else if(tt == "picture") {
+			listOfPicture[cntInPicture++] = tturl;
 		}
 	});
 }
@@ -216,7 +260,6 @@ function EntryNextFile(str) {
 	refresh(catalog, 'catalog');
 	SetTileOfEntry(catalog);
 
-	
 }
 
 //点击文件,图片
@@ -350,17 +393,17 @@ function createFileQuXiao() {
 	IsCreateFileNow = false;
 	$("#div1").remove();
 }
-
 //点击视频
 function showTheFileVideo(str) {
-	//alert(str);
 	//for(var i=0;i<cntInVideo;i++){
 	//    alert(listOfVideo[i]);
 	//}
 	var strnum = str.split(".");
 
-	$("#SRCOFvideo").val(listOfVideo[strnum[1]]);
-	$("#IDOFvideo").val(strnum[0]);
+		$("#SRCOFvideo").val(listOfVideo[strnum[1]]);
+		$("#IDOFvideo").val(strnum[0]);
+//	$("#IDOFvideo").val(45);
+//	$("#SRCOFvideo").val("/website/storage/video/610c5dce66c50a43aa147c009ed47ac1.mp4");
 	$("#FromOfVideo").submit();
 }
 
@@ -492,55 +535,55 @@ function show_data(data) {
 	console.log(data);
 	//	$("#div1").remove();
 	//将图片的地址整合成一个数组
-	cntInPicture = 0;
-	for(var i = 0; i < data.length - 1; i++) {
-		if(data[i]['md5'] != null) {
-			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
-			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
-				listOfPicture[cntInPicture] = data[i]['address'];
-				listOfPicture[cntInPicture] += "/";
-				listOfPicture[cntInPicture] += data[i]['md5'];
-				listOfPicture[cntInPicture++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
-			}
-		}
-	}
-	//	showTheFile(cntInwhichp);
-	//将音乐的地址整合成一个数组
-	cntInMusic = 0;
-	for(var i = 0; i < data.length - 1; i++) {
-		if(data[i]['md5'] != null) {
-			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
-			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
-				listOfMusic[cntInMusic] = data[i]['address'];
-				listOfMusic[cntInMusic] += "/";
-				listOfMusic[cntInMusic] += data[i]['md5'];
-				listOfMusic[cntInMusic++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
-			}
-		}
-	}
-	//将视频的地址整合成一个数组
-	cntInVideo = 0;
-	for(var i = 0; i < data.length - 1; i++) {
-		if(data[i]['md5'] != null) {
-			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
-			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
-				listOfVideo[cntInVideo] = data[i]['address'];
-				listOfVideo[cntInVideo] += "/";
-				listOfVideo[cntInVideo] += data[i]['md5'];
-				listOfVideo[cntInVideo++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
-			}
-		}
-	}
-
+//	cntInPicture = 0;
+//	for(var i = 0; i < data.length - 1; i++) {
+//		if(data[i]['md5'] != null) {
+//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
+//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
+//				listOfPicture[cntInPicture] = data[i]['address'];
+//				listOfPicture[cntInPicture] += "/";
+//				listOfPicture[cntInPicture] += data[i]['md5'];
+//				listOfPicture[cntInPicture++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
+//			}
+//		}
+//	}
+//	//	showTheFile(cntInwhichp);
+//	//将音乐的地址整合成一个数组
+//	cntInMusic = 0;
+//	for(var i = 0; i < data.length - 1; i++) {
+//		if(data[i]['md5'] != null) {
+//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
+//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
+//				listOfMusic[cntInMusic] = data[i]['address'];
+//				listOfMusic[cntInMusic] += "/";
+//				listOfMusic[cntInMusic] += data[i]['md5'];
+//				listOfMusic[cntInMusic++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
+//			}
+//		}
+//	}
+//	//将视频的地址整合成一个数组
+//	cntInVideo = 0;
+//	for(var i = 0; i < data.length - 1; i++) {
+//		if(data[i]['md5'] != null) {
+//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
+//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
+//				listOfVideo[cntInVideo] = ;
+//				listOfVideo[cntInVideo] += "/";
+//				listOfVideo[cntInVideo] += ;
+//				listOfVideo[cntInVideo++] += ;
+//			}
+//		}
+//	}
+//
 	var strOfLogoType = "";
-	var cntInwhichp = 0; //记录是第几张图片
-	var cntInwhichm = 0; //记录是第几个音乐
-	var cntInwhichv = 0; //记录是第几个视频
+	
 	cntInFileAddress = 0;
 	cntInFileName = 0;
 	cntInFileID = 0;
-	var F = "<div id='catalog' >";
+
+	var F = "";
 	for(var i = 0; i < data.length - 1; i++) {
+		var urlNow=data[i]['address']+"/"+data[i]['md5']+data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileAddress[cntInFileAddress++] = data[i]['address'] + "/" + data[i]['md5'] + data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileName[cntInFileName++] = data[i]['cur_catalog_name'];
 		DownloadFileID[cntInFileID++] = data[i]['id'];
@@ -565,19 +608,20 @@ function show_data(data) {
 		if(data[i]['md5'] != null) {
 			var strOfLogoTypeGet = strOfLogoType.split("/"); //获得后缀，判断文件类型
 			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
-				F += "<a id='Filename' href='JavaScript:;' onclick='showTheFile(\"" + cntInwhichp + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
-				cntInwhichp++;
+//				data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length)
+				F += "<a class='Filename' href='JavaScript:;' data-type='picture' data-url="+urlNow+" onclick='showTheFile(\"" + cntInPicture + "\")+' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				cntInPicture++;
 			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
-				F += "<a id='Filename' href='JavaScript:;' onclick='showTheFileMusic(\"" + cntInwhichm + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				F += "<a class='Filename' href='JavaScript:;'data-type='music' data-url="+urlNow+" onclick='showTheFileMusic(\"" + cntInwhichm + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 				cntInwhichm++;
 			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
-				F += "<a id='Filename' href='JavaScript:;' onclick='showTheFileVideo(\"" + data[i]['id'] + "." + cntInwhichv + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				F += "<a class='Filename' href='JavaScript:;' data-type='video' data-url="+urlNow+" onclick='showTheFileVideo(\"" + data[i]['id'] + "." + urlNow + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 				cntInwhichv++;
 			} else {
-				F += "<a id='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				F += "<a class='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 			}
 		} else {
-			F += "<a id='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile(\"" + data[i]['cur_catalog_name'] + "\");'>" + data[i]['cur_catalog_name'] + "</a></a>";
+			F += "<a class='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile(\"" + data[i]['cur_catalog_name'] + "\");'>" + data[i]['cur_catalog_name'] + "</a></a>";
 		}
 		var NoQianZhuiName = data[i]['cur_catalog_name'];
 		var NoQianZhuiName2 = NoQianZhuiName.substring(0, NoQianZhuiName.lastIndexOf('.'));
@@ -610,11 +654,11 @@ function show_data(data) {
 		F += "<div  class='mdui-divider-inset-light'></div>"
 
 	}
-	if(data.length == 0) {
-		F += "<h4>尚无此类文件或文件夹!</h4>";
-	}
-	F += "</div>";
-	$("#xiangangID").prepend(F);
+//	if(data.length == 0) {
+//		F += "<h4>尚无此类文件或文件夹!</h4>";
+//	}
+//	F += "</div>";
+	$("#xiangangID").append(F);
 
 }
 
@@ -735,7 +779,7 @@ function remove_data(id) {
 }
 
 //获得哪些选中
-function delete_and_restore_getdate(flag) {
+function getAllcheckbox(){
 	var cnt = 0;
 	$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
 		if($(this).prop("checked")) {
@@ -748,10 +792,42 @@ function delete_and_restore_getdate(flag) {
 	$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
 		if($(this).prop("checked")) {
 			var str = $(this).attr("id");
-			list[cnt++] = str;
+			list[cnt++] = parseInt(str);
 		}
 	});
-
+	return list;
+}
+/*
+ * 分享文件
+ */
+function shareFile(){
+	var list=getAllcheckbox();
+	console.log(list)
+	$.ajax({
+		url: '/sky_drive/createShare',
+		type: 'post',
+		data: {
+			'ids': list,
+			'deadline': 3600
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			$("#shareCode").text(data.message);
+			inst.open();
+		},
+		error: function() {
+			alert("分享失败");
+		}
+	});
+}
+/*
+ * 删除与文件
+ */
+function delete_and_restore_getdate(flag) {
+	
+	var list=getAllcheckbox();
 	delete_and_restore(list, flag);
 }
 

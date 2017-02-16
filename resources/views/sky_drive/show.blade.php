@@ -49,6 +49,17 @@ var catalogOfSonFcnt = 0;
 //移动文件夹的每个文件添加一个标记值
 var cntOfEveryCatalog = 1;
 var EverycatalogFlag = new Array(1000002);
+/*
+ * 记录当前的请求翻页所需要的参数
+ */
+var father_catalog_nameNow="",sizeNow=15,typeNow=0,last_idNow=0,file_typeNow="";
+
+var cntInwhichm = 0; //记录是第几个音乐
+var cntInwhichv = 0; //记录是第几个视频
+/*
+ * 分享配置
+ */
+var inst;
 //当前滚动文件所在的页数，type类型
 var listPage = 0,
 	listType = "catalog",
@@ -231,7 +242,14 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 	}
 })</script>
-
+<div class="mdui-dialog">
+  <div class="mdui-dialog-title">分享码</div>
+  <div id="shareCode" class="mdui-dialog-content "></div>
+  <div class="mdui-dialog-actions">
+    <!--<button id="copyShareCode" class="mdui-btn mdui-ripple">点击复制</button>-->
+    <button id="closeShareCode" class="mdui-btn mdui-ripple">关闭</button>
+  </div>
+</div>
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >
@@ -274,7 +292,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 					</a>
 				</li>
 				<li id="RecycleDiv" class="mdui-ripple"  >
-					<a  href="{{ url('/sky_drive/home?type=1&file_type=garbage') }}">
+					<a  href="{{ url('/sky_drive/home?type=2&file_type=garbage') }}">
 						<strong style="color: gray;"><i class="mdui-icon mdui-icon-left material-icons">&#xe872;</i>回收站</strong>
 					</a>
 				</li>
@@ -315,7 +333,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 							<i class="mdui-icon material-icons">&#xe2c0;</i>
 							下载
 							</button>
-							<button id="shareFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
+							<button id="shareFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple " onclick="shareFile()">
 							<i class="mdui-icon material-icons">&#xe80d;</i>
 							分享
 							</button>
@@ -383,17 +401,16 @@ $(document).on('click', '#DownLoadTheFile', function() {
 				<div id="xiangangID" >
 					<div id='catalog' >
 						@foreach($data['catalogs_info'] as $v)
-						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '   >
+						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '  data-father={{ $v->father_catalog_name }} >
 							@if($v->address==null)
 							<div id='0' class='firsttablelie col-sm-7'>
 								@else
 								<div id='1' class='firsttablelie col-sm-7'>
 									@endif
 									<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'>
-										<input id=49 type='checkbox' name='checkboxOfFile' value=1 />
+										<input id={{ $v->id }} class='checkboxInput' type='checkbox' name='checkboxOfFile' value=1 />
 										<i class='mdui-checkbox-icon'></i></label><?php $type = substr($v -> address, strrpos($v -> address, '/') + 1); ?>
 										@if($v->md5==null)
-
 										<span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>
 										<a class='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile("{{ $v->cur_catalog_name}}");'>
 											{{ $v->cur_catalog_name }}
