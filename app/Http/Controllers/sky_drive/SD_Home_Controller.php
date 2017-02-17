@@ -58,7 +58,7 @@ class SD_Home_Controller extends Controller{
         //如果为翻页或为分类文件，则判断last_id是否为文件，若为文件则只取文件
         if(isset($params['last_id']) || $params['type']==1){
             $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
-            if($last_info['address']){
+            if($last_info->address){
                 return DB::table('catalogs')
                     ->where($where)
                     ->where('size','<>','-1')
@@ -422,7 +422,7 @@ class SD_Home_Controller extends Controller{
         //如果为翻页，则判断last_id是否为文件，若为文件则只取文件
         if(isset($params['last_id'])){
             $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
-            if($last_info['address']){
+            if($last_info->address){
                 return DB::table('share as s')
                     ->join('catalogs as c','c.id','=','s.catalog_id')
                     ->select(DB::raw('c.*'))

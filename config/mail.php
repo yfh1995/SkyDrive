@@ -90,10 +90,10 @@ return [
 	| Here you may set the password required by your SMTP server to send out
 	| messages from your application. This will be given to the server on
 	| connection so that the application will be able to send messages.
-	|
+	|business@ieyuan.com  Qpwoei2010  smtp.mxhichina.com
 	*/
 
-	'password' => env('MAIL_PASSWORD','xhezyvghuguybbbd'),
+	'password' => env('MAIL_PASSWORD','xirtjaqbdqbebfbe'),
 //	'password' => '690828339',
 	/*
 	|--------------------------------------------------------------------------
