@@ -269,6 +269,7 @@ function EntryNextFile(str) {
 
 //点击文件,图片
 function showTheFile(index) {
+	
 	if(cntInPicture == 0) {
 		return;
 	}
