@@ -55,8 +55,13 @@ class SD_Home_Controller extends Controller{
                 $table = DB::table('catalogs')->where($where)->where('size','<>','-1');
 
                 if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
-                
-                return $table->orderBy('id','desc')->take($size)->get();
+
+                $catalogs_info = $table->orderBy('id','desc')->take($size)->get();
+
+                $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
+
+                if(isset($params['last_id'])) return $catalogs_info;
+                else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
             }
         }
         //取文件夹数据
