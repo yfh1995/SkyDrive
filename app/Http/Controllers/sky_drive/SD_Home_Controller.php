@@ -57,15 +57,13 @@ class SD_Home_Controller extends Controller{
 
         //如果为翻页或为分类文件，则判断last_id是否为文件，若为文件则只取文件
         if(isset($params['last_id']) || $params['type']==1){
-            $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
-            if($last_info->address){
-                return DB::table('catalogs')
-                    ->where($where)
-                    ->where('size','<>','-1')
-                    ->where('id','<',$params['last_id'])
-                    ->orderBy('id','desc')
-                    ->take($size)
-                    ->get();
+            if(isset($params['last_id'])) $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
+            if($params['type']==1 || $last_info->address){
+                $table = DB::table('catalogs')->where($where)->where('size','<>','-1');
+
+                if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
+                
+                return $table->orderBy('id','desc')->take($size)->get();
             }
         }
 
