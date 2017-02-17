@@ -17,8 +17,9 @@ class EmailController extends Controller{
         $this->validate($request,['name'=>'required',
                                   'email'=>'required',
                                   'activation_code'=>'required']);
+        $params = $request->all();
 
-        $data=['name'=>$request->get('name'),'email'=>$request->get('email'),'activation_code'=>$request->get('activation_code')];
+        $data=['name'=>$params['name'],'email'=>$params['email'],'activation_code'=>$params['activation_code']];
         Mail::send('emails.create_user',$data,function($message) use($data)
         {
             $message->to($data['email'])->subject('欢迎注册本站！');
