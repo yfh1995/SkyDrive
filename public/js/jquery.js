@@ -164,6 +164,7 @@ function updateData() {
 			listOfPicture[cntInPicture++] = tturl;
 		}
 	});
+	console.log(listOfPicture);
 }
 //当复选框选中的时候判断纵选中的要不要选中和可以该行添加背景颜色
 $(document).on('click', 'input[name="checkboxOfFile"]', function() {
@@ -586,7 +587,8 @@ function show_data(data) {
 	cntInFileID = 0;
 
 	var F = "";
-	for(var i = 0; i < data.length - 1; i++) {
+	for(var i = 0; i < data.length ; i++) {
+		last_idNow=last_idNow>data[i]['id']?data[i]['id']:last_idNow;
 		var urlNow=data[i]['address']+"/"+data[i]['md5']+data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileAddress[cntInFileAddress++] = data[i]['address'] + "/" + data[i]['md5'] + data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileName[cntInFileName++] = data[i]['cur_catalog_name'];
@@ -613,7 +615,7 @@ function show_data(data) {
 			var strOfLogoTypeGet = strOfLogoType.split("/"); //获得后缀，判断文件类型
 			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
 //				data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length)
-				F += "<a class='Filename' href='JavaScript:;' data-type='picture' data-url="+urlNow+" onclick='showTheFile(\"" + cntInPicture + "\")+' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				F += "<a class='Filename' href='JavaScript:;'data-type='picture' data-url="+urlNow+" onclick='showTheFile(\"" + cntInPicture + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 				cntInPicture++;
 			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
 				F += "<a class='Filename' href='JavaScript:;'data-type='music' data-url="+urlNow+" onclick='showTheFileMusic(\"" + cntInwhichm + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
