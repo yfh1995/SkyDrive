@@ -1,4 +1,26 @@
 ﻿$(document).ready(function() {
+	$("#upload").on('click',function(){
+		$("#fatherName").val(father_catalog_nameNow);
+	})
+	
+	/*
+	 * 点击按钮复制分享码
+	 */
+	 var clipboard = new Clipboard('#copyShareCode');
+
+    clipboard.on('success', function(e) {
+    });
+
+    clipboard.on('error', function(e) {
+		
+    });
+    var instTips = new mdui.Tooltip("#shareCode", {
+    	"position":"bottom",
+		"content":"复制完成"
+    }); 
+    $("#shareCode").on('click',function(){
+    	
+    })
 	//	console.log(GetQueryString('aaaa'))
 	//	$.ajaxSetup({
 	// 	   headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -535,6 +557,7 @@ $(document).on('click', '#renameFileSure', function() {
 				},
 				success: function(data) {
 					resultOfrename = data;
+					console.log(data);
 				},
 				error: function() {
 					alert('命名失败！');
@@ -855,6 +878,29 @@ function shareFile() {
 		},
 		error: function() {
 			alert("分享失败");
+		}
+	});
+}
+/*
+ * 下载文件
+ */
+function downloadFile(){
+	var list = getAllcheckbox();
+	$.ajax({
+		url: '/sky_drive/download_files',
+		type: 'post',
+		data: {
+			'ids': list,
+			"father_catalog_name":father_catalog_nameNow
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			console.log(data);
+		},
+		error: function() {
+			alert("下载失败");
 		}
 	});
 }

@@ -18,6 +18,7 @@
 <script src="{{asset('/mplayer/js/jquery.nstSlider.min.js')}}"></script>
 <script src="{{asset('/viewper/viewer.js')}}"></script>
 <script src="{{asset('/mdui-v0.1.2/js/mdui.min.js')}}"></script>
+<script src="{{asset('/js/clipboard.min.js')}}"></script>
 <script>var IsCreateFileNow = false; //判断有没有点击新建文件夹
 //给预览图片新建一个数组
 var listOfPicture = new Array(10000);
@@ -89,7 +90,8 @@ $(document).ready(function() {
 });
 
 $("#ajaxForm").ajaxForm(function() {
-	refresh('', 'catalog');
+//	window.location.reload();
+//	refresh('', 'catalog');
 });
 
 //打开移动文件夹模态框
@@ -134,9 +136,9 @@ $(document).on('mouseover', '.treeheadOflist', function() {
 	$(this).children('div').addClass('bcOfoverFileList');
 })
 $(document).on('mouseout', '.treeheadOflist', function() {
-		$(this).children('div').removeClass('bcOfoverFileList');
-	})
-	//刚进来移动文件夹的时候 显示全部文件下面的所有的子菜单
+	$(this).children('div').removeClass('bcOfoverFileList');
+})
+//刚进来移动文件夹的时候 显示全部文件下面的所有的子菜单
 function showAllFilelist() {
 	EverycatalogFlag[0] = 1;
 	GetFatherUnder_catalog(0);
@@ -189,11 +191,11 @@ $(document).on('click', '.treeheadOflist', function() {
 });
 //当关闭移动文件夹框的时候
 $(document).on('hide.bs.modal', "#myModal", function() {
-		SureMoveId = 0; //标记ID值
-		ChuShiHuaFlagOfmove(); //将数组重置，表示没有li标签被打开过
-		$("#myModal").remove(); //移走模态框
-	})
-	//当确定移动文件夹的时候
+	SureMoveId = 0; //标记ID值
+	ChuShiHuaFlagOfmove(); //将数组重置，表示没有li标签被打开过
+	$("#myModal").remove(); //移走模态框
+})
+//当确定移动文件夹的时候
 $(document).on('click', '#QueDingOfMoveFile', function() {
 	MoveFileOfYidongwenjianjia();
 	SureMoveId = 0; //标记ID值
@@ -245,21 +247,25 @@ $(document).on('click', '#DownLoadTheFile', function() {
 })</script>
 <div id="searchInput">
 	<div id="shareCode "  class="input-group">
-	<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
-	<span class="input-group-btn">
-	<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
-	Go!
-	</button> </span>
-</div><!-- /input-group -->
+		<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
+		<span class="input-group-btn">
+		<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
+		Go!
+		</button> </span>
+	</div><!-- /input-group -->
 </div>
 
 <div class="mdui-dialog">
-	<div class="mdui-dialog-title">
+	<div  class="mdui-dialog-title">
 		分享码
 	</div>
-	<div id="shareCode" class="mdui-dialog-content "></div>
+	<div id="shareCodeDiv"  class="mdui-dialog-content ">
+		<span id="shareCode" style="cursor: pointer;"></span>
+	</div>
 	<div class="mdui-dialog-actions">
-		<!--<button id="copyShareCode" class="mdui-btn mdui-ripple">点击复制</button>-->
+		<button id="copyShareCode" class="mdui-btn mdui-ripple" data-clipboard-action="copy" data-clipboard-target="#shareCode">
+		点击复制
+		</button>
 		<button id="closeShareCode" class="mdui-btn mdui-ripple">
 		关闭
 		</button>
@@ -324,11 +330,12 @@ $(document).on('click', '#DownLoadTheFile', function() {
 				<div class="tabcaidan" style="float:left; margin-left: 10px;margin-top: 10px; ">
 					<form id="ajaxForm" enctype="multipart/form-data" action="{{url('/sky_drive/upload')}}" method="POST" style="display: none;">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input id='fatherName' type="hidden" name="father_catalog_name" value="yfh"  />
 						<input type="file" name="file" id="file" class="file" data-language="zh" onchange="sb.click()">
 						<input name="sb" type="submit" id="sb">
 					</form>
 					<div id="fileOperator">
-						<button   onclick="file.click();" type="button" class="mdui-btn mdui-color-light-blue-accent mdui-ripple">
+						<button  id="upload"  onclick="file.click();" type="button" class="mdui-btn mdui-color-light-blue-accent mdui-ripple">
 						<a>
 							<span class="glyphicon glyphicon-cloud-upload"></span>
 						</a>
@@ -344,7 +351,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 						离线下载
 						</button>
 						<div id='IsChooseFile' class="btn-group" style="display:none;" >
-							<button id="DownLoadTheFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple ">
+							<button id="DownLoadTheFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple " onclick="downloadFile()">
 							<i class="mdui-icon material-icons">&#xe2c0;</i>
 							下载
 							</button>
