@@ -216,7 +216,7 @@ class SD_Home_Controller extends Controller{
         $father_catalog_name = isset($params['father_catalog_name'])?$params['father_catalog_name']:Auth::user()->name;
         $md5 = md5_file($file);
         if ($md5) {
-            $gid=DB::table('type')->where('type_name','<>',$file->getClientOriginalExtension())->first();
+            $gid=DB::table('type')->where('type_name',$file->getClientOriginalExtension())->first();
             if($gid==NULL) $type='other';
             else $type=$gid->group_name;
 
@@ -235,7 +235,8 @@ class SD_Home_Controller extends Controller{
                     $create_file->type = $file->getClientOriginalExtension();
                     $create_file->save();
 
-                    Storage::disk($type)->put($md5.'.'.$file->getClientOriginalExtension(), fopen($file, "r+"));
+                    $request->file('file')->move( 'website/storage/'.$type,$md5.'.'.$file->getClientOriginalExtension());
+//                    Storage::disk($type)->put($md5.'.'.$file->getClientOriginalExtension(), fopen($file, "r+"));
                 }
                 else{
                     $ls_file=files::find($query_same_md5->id);
@@ -492,7 +493,7 @@ class SD_Home_Controller extends Controller{
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
         header('Content-disposition: attachment; filename='.basename($zipFileName)); //文件名
-        header("Content-Type: application/zip"); //zip格式的
+        header("Content-Type: application/octet-stream"); //zip格式的
         header("Content-Transfer-Encoding: binary"); //告诉浏览器，这是二进制文件
         header('Content-Length: '. filesize($zipFileName)); //告诉浏览器，文件大小
         @readfile($zipFileName);
