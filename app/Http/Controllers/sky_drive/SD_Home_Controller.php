@@ -209,21 +209,18 @@ class SD_Home_Controller extends Controller{
 
     public function upload(Request $request)
     {
-        if(!isset($_SESSION)) session_start();
         $this->validate($request,['file' => 'required']);
+        $params = $request->all();
 
         $file=$request->file('file');
+        $father_catalog_name = isset($params['father_catalog_name'])?$params['father_catalog_name']:Auth::user()->name;
         $md5 = md5_file($file);
         if ($md5) {
             $gid=DB::table('type')->where('type_name','<>',$file->getClientOriginalExtension())->first();
-            if($gid==NULL){
-                $type='other';
-            }
-            else{
-                $type=DB::table('type_group')->where('id','=',$gid->gid)->first();
-                $type=$type->group_name;
-            }
-            $cur_catalog_same_file = DB::table('catalogs')->where('father_catalog_name',$_SESSION['father_catalog_name'])->where('md5', $md5)->first();
+            if($gid==NULL) $type='other';
+            else $type=$gid->group_name;
+
+            $cur_catalog_same_file = DB::table('catalogs')->where('father_catalog_name', $father_catalog_name)->where('md5', $md5)->first();
             if($cur_catalog_same_file==NULL){
                 $size=filesize($file);
 
@@ -250,7 +247,7 @@ class SD_Home_Controller extends Controller{
                 $create_catalog->owner_name = Auth::user()->name;
                 $create_catalog->md5 = $md5;
                 $create_catalog->cur_catalog_name = $file->getClientOriginalName();
-                $create_catalog->father_catalog_name = $_SESSION['father_catalog_name'];
+                $create_catalog->father_catalog_name = $father_catalog_name;
                 $create_catalog->validate = NULL;
                 $create_catalog->address='/website/storage/'.$type;
                 $create_catalog->size=$size;
