@@ -474,7 +474,7 @@ class SD_Home_Controller extends Controller{
 
         $data = DB::table('catalogs')->whereIn('id',$params['ids'])->get();
 
-        $zipFileName = '/website/storage/other/'.$father_catalog_name.'.zip';
+        $zipFileName = 'website/storage/other/'.$father_catalog_name.'.zip';
 //        $zipFileName = $father_catalog_name.'.zip';
 
         $zip = new \ZipArchive();
