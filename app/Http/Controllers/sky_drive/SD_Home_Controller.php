@@ -468,4 +468,56 @@ class SD_Home_Controller extends Controller{
         if(isset($params['last_id'])) return $catalogs_info;
         else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
     }
+
+    public function download_files(Request $request){
+        $params = $request->all();
+
+        if(!isset($params['ids']) || !$params['ids']) return;
+        $father_catalog_name = isset($params['father_catalog_name'])?$params['father_catalog_name']:Auth::user()->name;
+
+        $data = DB::table('catalogs')->whereIn('id',$params['ids'])->get();
+
+        $zipFileName = '/website/storage/other/'.$father_catalog_name.'.zip';
+//        $zipFileName = $father_catalog_name.'.zip';
+
+        $zip = new \ZipArchive();
+        if($zip->open($zipFileName, \ZipArchive::CREATE)=== TRUE){
+            $this->addFileToZip($data, $zip, ''); //调用方法，对要打包的根目录进行操作，并将ZipArchive的对象传递给方法
+            $zip->close(); //关闭处理的zip文件
+        }
+
+        if(!file_exists($zipFileName))
+        {
+            echo '文件压缩失败！或者未生成压缩包！！';
+            exit;
+        }
+
+        header("Cache-Control: public");
+        header("Content-Description: File Transfer");
+        header('Content-disposition: attachment; filename='.basename($zipFileName)); //文件名
+        header("Content-Type: application/zip"); //zip格式的
+        header("Content-Transfer-Encoding: binary"); //告诉浏览器，这是二进制文件
+        header('Content-Length: '. filesize($zipFileName)); //告诉浏览器，文件大小
+        @readfile($zipFileName);
+        unlink($zipFileName);
+    }
+
+    function addFileToZip($data,$zip,$path){
+
+        foreach($data as $v){
+            if($v->size == '-1'){
+                $catalog_data = DB::table('catalogs')->where('father_catalog_name',$v->father_catalog_name.'/'.$v->cur_catalog_name)->get();
+                $this->addFileToZip($catalog_data,$zip,$path.$v->cur_catalog_name.'/');
+            }else{
+                $file_data = DB::table('catalogs as c')
+                    ->join('files as f','f.md5','=','c.md5')
+                    ->select(DB::raw('f.md5,f.address,f.type,c.father_catalog_name,c.cur_catalog_name'))
+                    ->where('c.id',$v->id)
+                    ->first();
+                $address = $file_data->address.'/'.$file_data->md5.'.'.$file_data->type;
+                $zip->addFile(substr($address,1),$path.$file_data->cur_catalog_name);
+            }
+        }
+    }
+
 }
