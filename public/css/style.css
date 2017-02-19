@@ -5,6 +5,16 @@
 html,body{
 	height:100%;
 }
+#searchInput{
+	position: absolute;
+	z-index: 100;
+	left:70%;
+	top:10px;
+}
+.input-group{
+	width:200px;
+}
+
 .TwoDivInYunpan{
 	height:calc(100% - 50px);
 	min-height: calc(100% - 50px);
@@ -205,6 +215,9 @@ width:1000px;
 .mp-list{
 	overflow: auto;
 
+}
+.navbar{
+	background-color: #EFF4F8;
 }
 /*
  * 响应式css 当屏幕小于768(col-sm)时候的布局

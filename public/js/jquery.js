@@ -1,19 +1,21 @@
 ﻿$(document).ready(function() {
-//	console.log(GetQueryString('aaaa'))
-	
+	//	console.log(GetQueryString('aaaa'))
+	//	$.ajaxSetup({
+	// 	   headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+	//	});
 	inst = new mdui.Dialog(".mdui-dialog", {
-		"overlay":true,
-		"history":true
+		"overlay": true,
+		"history": true
 	});
 	typeNow = GetQueryString("type");
 	file_typeNow = GetQueryString('file_type');
 	last_idNow = 100000;
-	$(".checkboxInput").each(function(){
-		last_idNow=last_idNow>$(this).attr("id")?$(this).attr("id"):last_idNow;
+	$(".checkboxInput").each(function() {
+		last_idNow = last_idNow > $(this).attr("id") ? $(this).attr("id") : last_idNow;
 	})
 	father_catalog_nameNow = $(".FileShowLine").attr("data-father");
-	if(father_catalog_nameNow==null){
-		father_catalog_nameNow=decodeURI(GetQueryString("father_catalog_name"));
+	if(father_catalog_nameNow == null) {
+		father_catalog_nameNow = decodeURI(GetQueryString("father_catalog_name"));
 	}
 	SetTileOfEntry(father_catalog_nameNow);
 	$("#mytab a").click(function(e) {
@@ -24,7 +26,7 @@
 		e.preventDefault();
 		$(this).tab("show");
 	});
-	$("#closeShareCode").on("click",function(){
+	$("#closeShareCode").on("click", function() {
 		inst.close();
 	})
 	$("#LeftPicture").click(function() {
@@ -46,8 +48,36 @@
 	$("#FileButtongShangChuang").click(function() {
 
 	});
+	$("#SearchSareCodeBtn").on('click', function() {
+		var code = $("#shareCodeInput").val();
+		$.ajax({
+			url: '/sky_drive/getShareData',
+			type: 'post',
+			data: {
+				"share_code": code
+			},
+			headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+			success: function(data) {
+				
+				if(data.result==false){
+					alert("该分享码错误，没有数据！");
+					return ;
+				}
+//				$("#xiangangID").append("<div id='catalog'></div>");
+				$("#catalog").empty();
+				show_data(data.data);
+			},
+			error: function() {
+				alert('11数据读取发生错误！');
+			}
+		});
+	})
+	$("#shareCodeInput").on("change", function() {
 
-	//复选框事件和样式
+		})
+		//复选框事件和样式
 	$("#FatherOfcheckbox").addClass("checkbox");
 
 	$("#FatherOfcheckbox").click(function() {
@@ -110,11 +140,11 @@
 				"last_id": last_idNow
 			}
 			if(typeNow == 0 || typeNow == 2) {
-				dataset.father_catalog_name=father_catalog_nameNow;
+				dataset.father_catalog_name = father_catalog_nameNow;
 			} else {
-				dataset.file_type=file_typeNow;
+				dataset.file_type = file_typeNow;
 			}
-			console.log(dataset);
+			//			console.log(dataset);
 			$.ajax({
 				url: '/sky_drive/home',
 				type: 'get',
@@ -124,7 +154,7 @@
 				},
 				success: function(data) {
 					show_data(data);
-					updateData();
+					
 				},
 				error: function() {
 					alert('调用失败');
@@ -149,7 +179,7 @@ function updateData() {
 	});
 
 	cntInPicture = 0;
-	cntInwhichm=0;
+	cntInwhichm = 0;
 	$(".Filename").each(function() {
 		var tt = $(this).attr("data-type"),
 			tturl = $(this).attr("data-url");
@@ -164,7 +194,7 @@ function updateData() {
 			listOfPicture[cntInPicture++] = tturl;
 		}
 	});
-	console.log(listOfPicture);
+	//	console.log(listOfPicture);
 }
 //当复选框选中的时候判断纵选中的要不要选中和可以该行添加背景颜色
 $(document).on('click', 'input[name="checkboxOfFile"]', function() {
@@ -196,12 +226,12 @@ $(document).on('mouseover', '.FileShowLine', function() {
 
 //返回上个目录
 function BackTheBeforeFile(str) {
-	console.log(str);
-//	refresh(str, 'catalog');
-//	$("#TitleDiv").remove();
-//	SetTileOfEntry(str);
-	var hrefText="/sky_drive/home?type="+typeNow+"&father_catalog_name="+str;
-	window.location.href=hrefText;
+	//	console.log(str);
+	//	refresh(str, 'catalog');
+	//	$("#TitleDiv").remove();
+	//	SetTileOfEntry(str);
+	var hrefText = "/sky_drive/home?type=" + typeNow + "&father_catalog_name=" + str;
+	window.location.href = hrefText;
 }
 
 //设置进入的标题目录
@@ -210,7 +240,7 @@ function SetTileOfEntry(str) {
 	var addr = str.split("/");
 	var strCopy = addr[0];
 	var strCopy2 = addr[0];
-	for(var i = 1; i < addr.length-1 ; i++) {
+	for(var i = 1; i < addr.length - 1; i++) {
 		strCopy2 += "/";
 		strCopy2 += addr[i];
 	}
@@ -262,14 +292,14 @@ function GetFileName() {
 
 //点击文件夹
 function EntryNextFile(str) {
-	var hrefText="/sky_drive/home?type="+typeNow+"&father_catalog_name="+father_catalog_nameNow+"/"+str;
-	window.location.href=hrefText;
+	var hrefText = "/sky_drive/home?type=" + typeNow + "&father_catalog_name=" + father_catalog_nameNow + "/" + str;
+	window.location.href = hrefText;
 
 }
 
 //点击文件,图片
 function showTheFile(index) {
-	
+
 	if(cntInPicture == 0) {
 		return;
 	}
@@ -279,7 +309,6 @@ function showTheFile(index) {
 		var str = '<li><img class="pictureForYou" data-original="' + listOfPicture[i] + '" src="' + listOfPicture[i] + '" alt="图片' + i + '"></li>';
 		$("#sucaihuo").append(str);
 	}
-	console.log(listOfPicture);
 	$('#sucaihuo').viewer({
 		url: 'data-original',
 	});
@@ -321,28 +350,28 @@ function showTheFileMusic(index) {
 		}, function() {
 			// 绑定事件
 			this.on('afterInit', function() {
-				console.log('播放器初始化完成，正在准备播放');
+				//				console.log('播放器初始化完成，正在准备播放');
 			}).on('beforePlay', function() {
 				var $this = this;
 				var song = $this.getCurrentSong(true);
 				var songName = song.name + ' - ' + song.singer;
-				console.log('即将播放' + songName + '，return false;可以取消播放');
+				//				console.log('即将播放' + songName + '，return false;可以取消播放');
 			}).on('timeUpdate', function() {
 				var $this = this;
-				console.log('当前歌词：' + $this.getLrc());
+				//				console.log('当前歌词：' + $this.getLrc());
 			}).on('end', function() {
 				var $this = this;
 				var song = $this.getCurrentSong(true);
 				var songName = song.name + ' - ' + song.singer;
-				console.log(songName + '播放完毕，return false;可以取消播放下一曲');
+				//				console.log(songName + '播放完毕，return false;可以取消播放下一曲');
 			}).on('mute', function() {
 				var status = this.getIsMuted() ? '已静音' : '未静音';
-				console.log('当前静音状态：' + status);
+				//				console.log('当前静音状态：' + status);
 			}).on('changeMode', function() {
 				var $this = this;
 				var mode = modeText[$this.getPlayMode()];
 				$this.dom.container.find('.mp-mode').attr('title', mode);
-				console.log('播放模式已切换为：' + mode);
+				//				console.log('播放模式已切换为：' + mode);
 			});
 		});
 		$(document.body).append(player.audio); // 测试用
@@ -406,10 +435,10 @@ function showTheFileVideo(str) {
 	//}
 	var strnum = str.split(".");
 
-		$("#SRCOFvideo").val(listOfVideo[strnum[1]]);
-		$("#IDOFvideo").val(strnum[0]);
-//	$("#IDOFvideo").val(45);
-//	$("#SRCOFvideo").val("/website/storage/video/610c5dce66c50a43aa147c009ed47ac1.mp4");
+	$("#SRCOFvideo").val(listOfVideo[strnum[1]]);
+	$("#IDOFvideo").val(strnum[0]);
+	//	$("#IDOFvideo").val(45);
+	//	$("#SRCOFvideo").val("/website/storage/video/610c5dce66c50a43aa147c009ed47ac1.mp4");
 	$("#FromOfVideo").submit();
 }
 
@@ -538,59 +567,59 @@ $(document).on('mousevoer', '.FileShowLine', function() {
 
 //上传文件之后显示数据
 function show_data(data) {
-	console.log(data);
+	//	console.log(data);
 	//	$("#div1").remove();
 	//将图片的地址整合成一个数组
-//	cntInPicture = 0;
-//	for(var i = 0; i < data.length - 1; i++) {
-//		if(data[i]['md5'] != null) {
-//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
-//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
-//				listOfPicture[cntInPicture] = data[i]['address'];
-//				listOfPicture[cntInPicture] += "/";
-//				listOfPicture[cntInPicture] += data[i]['md5'];
-//				listOfPicture[cntInPicture++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
-//			}
-//		}
-//	}
-//	//	showTheFile(cntInwhichp);
-//	//将音乐的地址整合成一个数组
-//	cntInMusic = 0;
-//	for(var i = 0; i < data.length - 1; i++) {
-//		if(data[i]['md5'] != null) {
-//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
-//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
-//				listOfMusic[cntInMusic] = data[i]['address'];
-//				listOfMusic[cntInMusic] += "/";
-//				listOfMusic[cntInMusic] += data[i]['md5'];
-//				listOfMusic[cntInMusic++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
-//			}
-//		}
-//	}
-//	//将视频的地址整合成一个数组
-//	cntInVideo = 0;
-//	for(var i = 0; i < data.length - 1; i++) {
-//		if(data[i]['md5'] != null) {
-//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
-//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
-//				listOfVideo[cntInVideo] = ;
-//				listOfVideo[cntInVideo] += "/";
-//				listOfVideo[cntInVideo] += ;
-//				listOfVideo[cntInVideo++] += ;
-//			}
-//		}
-//	}
-//
+	//	cntInPicture = 0;
+	//	for(var i = 0; i < data.length - 1; i++) {
+	//		if(data[i]['md5'] != null) {
+	//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
+	//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
+	//				listOfPicture[cntInPicture] = data[i]['address'];
+	//				listOfPicture[cntInPicture] += "/";
+	//				listOfPicture[cntInPicture] += data[i]['md5'];
+	//				listOfPicture[cntInPicture++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
+	//			}
+	//		}
+	//	}
+	//	//	showTheFile(cntInwhichp);
+	//	//将音乐的地址整合成一个数组
+	//	cntInMusic = 0;
+	//	for(var i = 0; i < data.length - 1; i++) {
+	//		if(data[i]['md5'] != null) {
+	//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
+	//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
+	//				listOfMusic[cntInMusic] = data[i]['address'];
+	//				listOfMusic[cntInMusic] += "/";
+	//				listOfMusic[cntInMusic] += data[i]['md5'];
+	//				listOfMusic[cntInMusic++] += data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
+	//			}
+	//		}
+	//	}
+	//	//将视频的地址整合成一个数组
+	//	cntInVideo = 0;
+	//	for(var i = 0; i < data.length - 1; i++) {
+	//		if(data[i]['md5'] != null) {
+	//			var strOfLogoTypeGet = data[i]['address'].split("/"); //获得后缀，判断文件类型
+	//			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
+	//				listOfVideo[cntInVideo] = ;
+	//				listOfVideo[cntInVideo] += "/";
+	//				listOfVideo[cntInVideo] += ;
+	//				listOfVideo[cntInVideo++] += ;
+	//			}
+	//		}
+	//	}
+	//
 	var strOfLogoType = "";
-	
+
 	cntInFileAddress = 0;
 	cntInFileName = 0;
 	cntInFileID = 0;
 
 	var F = "";
-	for(var i = 0; i < data.length ; i++) {
-		last_idNow=last_idNow>data[i]['id']?data[i]['id']:last_idNow;
-		var urlNow=data[i]['address']+"/"+data[i]['md5']+data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
+	for(var i = 0; i < data.length; i++) {
+		last_idNow = last_idNow > data[i]['id'] ? data[i]['id'] : last_idNow;
+		var urlNow = data[i]['address'] + "/" + data[i]['md5'] + data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileAddress[cntInFileAddress++] = data[i]['address'] + "/" + data[i]['md5'] + data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length);
 		DownloadFileName[cntInFileName++] = data[i]['cur_catalog_name'];
 		DownloadFileID[cntInFileID++] = data[i]['id'];
@@ -615,14 +644,14 @@ function show_data(data) {
 		if(data[i]['md5'] != null) {
 			var strOfLogoTypeGet = strOfLogoType.split("/"); //获得后缀，判断文件类型
 			if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "picture") {
-//				data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length)
-				F += "<a class='Filename' href='JavaScript:;'data-type='picture' data-url="+urlNow+" onclick='showTheFile(\"" + cntInPicture + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				//				data[i]['cur_catalog_name'].substring(data[i]['cur_catalog_name'].lastIndexOf('.'), data[i]['cur_catalog_name'].length)
+				F += "<a class='Filename' href='JavaScript:;'data-type='picture' data-url=" + urlNow + " onclick='showTheFile(\"" + cntInPicture + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 				cntInPicture++;
 			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "music") {
-				F += "<a class='Filename' href='JavaScript:;'data-type='music' data-url="+urlNow+" onclick='showTheFileMusic(\"" + cntInwhichm + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				F += "<a class='Filename' href='JavaScript:;'data-type='music' data-url=" + urlNow + " onclick='showTheFileMusic(\"" + cntInwhichm + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 				cntInwhichm++;
 			} else if(strOfLogoTypeGet[strOfLogoTypeGet.length - 1] == "video") {
-				F += "<a class='Filename' href='JavaScript:;' data-type='video' data-url="+urlNow+" onclick='showTheFileVideo(\"" + data[i]['id'] + "." + urlNow + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
+				F += "<a class='Filename' href='JavaScript:;' data-type='video' data-url=" + urlNow + " onclick='showTheFileVideo(\"" + data[i]['id'] + "." + urlNow + "\");' style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
 				cntInwhichv++;
 			} else {
 				F += "<a class='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>" + data[i]['cur_catalog_name'] + "</a>";
@@ -661,12 +690,12 @@ function show_data(data) {
 		F += "<div  class='mdui-divider-inset-light'></div>"
 
 	}
-//	if(data.length == 0) {
-//		F += "<h4>尚无此类文件或文件夹!</h4>";
-//	}
-//	F += "</div>";
-	$("#xiangangID").append(F);
-
+	//	if(data.length == 0) {
+	//		F += "<h4>尚无此类文件或文件夹!</h4>";
+	//	}
+	//	F += "</div>";
+	$("#catalog").append(F);
+	updateData();
 }
 
 function show_data_test() {
@@ -786,7 +815,7 @@ function remove_data(id) {
 }
 
 //获得哪些选中
-function getAllcheckbox(){
+function getAllcheckbox() {
 	var cnt = 0;
 	$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
 		if($(this).prop("checked")) {
@@ -807,9 +836,9 @@ function getAllcheckbox(){
 /*
  * 分享文件
  */
-function shareFile(){
-	var list=getAllcheckbox();
-	console.log(list)
+function shareFile() {
+	var list = getAllcheckbox();
+	//	console.log(list)
 	$.ajax({
 		url: '/sky_drive/createShare',
 		type: 'post',
@@ -833,8 +862,8 @@ function shareFile(){
  * 删除与文件
  */
 function delete_and_restore_getdate(flag) {
-	
-	var list=getAllcheckbox();
+
+	var list = getAllcheckbox();
 	delete_and_restore(list, flag);
 }
 
@@ -857,9 +886,14 @@ function delete_and_restore(list, flag) {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		},
 		success: function(data) {
-			if(flag == 0) alert("删除成功！");
-			else alert("还原成功！");
-			refresh('', 'catalog');
+			if(flag == 0) {
+				alert("删除成功！你可以在回收站还原已删除文件！");
+			}
+			else {
+				alert("还原成功！");
+			}
+			window.location.reload();
+//			refresh('', 'catalog');
 		},
 		error: function() {
 			if(flag == 0) alert("删除失败！");

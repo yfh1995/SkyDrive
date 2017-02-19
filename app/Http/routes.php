@@ -80,6 +80,7 @@ Route::group(['middleware'=>'auth'],function()
     Route::post('/sky_drive/get_appoint_catalog','sky_drive\SD_Home_Controller@get_appoint_catalog');                   //取得指定目录的文件和文件夹
     Route::post('/sky_drive/get_move_catalog','sky_drive\SD_Home_Controller@get_move_catalog');                         //取得移动文件时所需目录信息
     Route::post('/sky_drive/move_catalog','sky_drive\SD_Home_Controller@move_catalog');                                 //移动文件、文件夹
+    Route::post('/sky_drive/download_files','sky_drive\SD_Home_Controller@download_files');                             //下载文件
 
     Route::post('/sky_drive/preview','sky_drive\SD_Preview_Controller@preview');                                        //预览视频
 

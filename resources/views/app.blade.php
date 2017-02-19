@@ -56,12 +56,10 @@
 				</button>
 				<a class="navbar-brand mdui-ripple" href="#">Laravel</a>
 			</div>
-
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a class='mdui-ripple' href="{{ url('/') }}">Home</a></li>
 				</ul>
-
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
 						<li><a class='mdui-ripple' href="{{ url('/login') }}">登录</a></li>
