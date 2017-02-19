@@ -52,7 +52,11 @@ var EverycatalogFlag = new Array(1000002);
 /*
  * 记录当前的请求翻页所需要的参数
  */
-var father_catalog_nameNow="",sizeNow=15,typeNow=0,last_idNow=0,file_typeNow="";
+var father_catalog_nameNow = "",
+	sizeNow = 15,
+	typeNow = 0,
+	last_idNow = 0,
+	file_typeNow = "";
 
 var cntInwhichm = 0; //记录是第几个音乐
 var cntInwhichv = 0; //记录是第几个视频
@@ -79,8 +83,8 @@ $(document).ready(function() {
 
 	//	refresh('yfh', 'catalog');
 	//	show_data_test();
-//	var str = GetFileName();
-//	SetTileOfEntry(str);
+	//	var str = GetFileName();
+	//	SetTileOfEntry(str);
 
 });
 
@@ -233,20 +237,33 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 				aLink.dispatchEvent(evt);
 			}
-
 		} else {
 			alert("下载不可以有文件夹");
 		}
 
 	}
 })</script>
+<div id="searchInput">
+	<div id="shareCode "  class="input-group">
+	<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
+	<span class="input-group-btn">
+	<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
+	Go!
+	</button> </span>
+</div><!-- /input-group -->
+</div>
+
 <div class="mdui-dialog">
-  <div class="mdui-dialog-title">分享码</div>
-  <div id="shareCode" class="mdui-dialog-content "></div>
-  <div class="mdui-dialog-actions">
-    <!--<button id="copyShareCode" class="mdui-btn mdui-ripple">点击复制</button>-->
-    <button id="closeShareCode" class="mdui-btn mdui-ripple">关闭</button>
-  </div>
+	<div class="mdui-dialog-title">
+		分享码
+	</div>
+	<div id="shareCode" class="mdui-dialog-content "></div>
+	<div class="mdui-dialog-actions">
+		<!--<button id="copyShareCode" class="mdui-btn mdui-ripple">点击复制</button>-->
+		<button id="closeShareCode" class="mdui-btn mdui-ripple">
+		关闭
+		</button>
+	</div>
 </div>
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
@@ -399,15 +416,16 @@ $(document).on('click', '#DownLoadTheFile', function() {
 				<div id="xiangangID" >
 					<div id='catalog' >
 						@foreach($data['catalogs_info'] as $v)
-						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '  data-father={{ $v->father_catalog_name }} >
+						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '  data-father={{ $v->
+							father_catalog_name }} >
 							@if($v->address==null)
 							<div id='0' class='firsttablelie col-sm-7'>
 								@else
 								<div id='1' class='firsttablelie col-sm-7'>
 									@endif
 									<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'>
-										<input id={{ $v->id }} class='checkboxInput' type='checkbox' name='checkboxOfFile' value=1 />
-										<i class='mdui-checkbox-icon'></i></label><?php $type = substr($v -> address, strrpos($v -> address, '/') + 1); ?>
+										<input id={{ $v->
+										id }} class='checkboxInput' type='checkbox' name='checkboxOfFile' value=1 /> <i class='mdui-checkbox-icon'></i></label><?php $type = substr($v -> address, strrpos($v -> address, '/') + 1); ?>
 										@if($v->md5==null)
 										<span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>
 										<a class='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile("{{ $v->cur_catalog_name}}");'>
