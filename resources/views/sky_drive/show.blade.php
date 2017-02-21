@@ -69,7 +69,7 @@ var inst;
 var listPage = 0,
 	listType = "catalog",
 	listMulu = "";
-
+var leftNow=0;
 function ChuShiHuaFlagOfmove() {
 	for(var i = 0; i < 1000000; i++) {
 		EverycatalogFlag[i] = 0;
@@ -90,8 +90,8 @@ $(document).ready(function() {
 });
 
 $("#ajaxForm").ajaxForm(function() {
-//	window.location.reload();
-//	refresh('', 'catalog');
+	window.location.reload();
+	//	refresh('', 'catalog');
 });
 
 //打开移动文件夹模态框
@@ -255,12 +255,15 @@ $(document).on('click', '#DownLoadTheFile', function() {
 	</div><!-- /input-group -->
 </div>
 
-<div class="mdui-dialog">
+<div class="mdui-dialog" 	>
 	<div  class="mdui-dialog-title">
 		分享码
 	</div>
 	<div id="shareCodeDiv"  class="mdui-dialog-content ">
-		<span id="shareCode" style="cursor: pointer;"></span>
+		<span id="shareCode" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="点击复制"></span>
+	</div>
+	<div id='IsCopyWancheng' style="opacity:0;margin:auto;width:110px;background-color: #000;color:white;text-align: center;">
+		复制完成
 	</div>
 	<div class="mdui-dialog-actions">
 		<button id="copyShareCode" class="mdui-btn mdui-ripple" data-clipboard-action="copy" data-clipboard-target="#shareCode">
@@ -271,6 +274,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 		</button>
 	</div>
 </div>
+
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >
@@ -402,7 +406,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 					<div  class="fistlie col-sm-7 col-md-7 "style="height:100%; "  >
 						<label class="mdui-checkbox">
 						<input id="FatherOfcheckbox" style='height:20px;width:20px; float: left;' class='hello' type="checkbox"  />
-						<i class="mdui-checkbox-icon" ></i> 文件名 </label>
+						<i  class="mdui-checkbox-icon" ></i> <span id="showCountFIle">文件名</span> </label>
 
 					</div>
 					<div class="secondlie col-sm-3 col-md-3 " style="height:100%;">
@@ -422,6 +426,30 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 				<div id="xiangangID" >
 					<div id='catalog' >
+						<div class='context-menu'>
+							<ul class='list'>
+								<li class='openFile' onclick="javascript:clickfile();">
+									打开
+								</li>
+								<li onclick="downloadFile()">
+									下载
+								</li>
+								<li class='separate'></li>
+								<li onclick="shareFile()">
+									分享
+								</li>
+								<li class='separate'></li>
+								<li onclick="javascript:MoveTheFile();">
+									移动
+								</li>
+								<li  onclick="delete_and_restore_getdate(0)">
+									删除
+								</li>
+								<li class='renameFileC' onclick="javascript:renameFile();">
+									重命名
+								</li>
+							</ul>
+						</div>
 						@foreach($data['catalogs_info'] as $v)
 						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '  data-father={{ $v->
 							father_catalog_name }} >
@@ -507,7 +535,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 										</p></td>
 								</div>
 							</div>
-							<div  class='mdui-divider-inset-light'></div>
+							<!--<div  class='mdui-divider-inset-light'></div>-->
 							@endforeach
 						</div>
 					</div>

@@ -1,26 +1,98 @@
 ﻿$(document).ready(function() {
-	$("#upload").on('click',function(){
+	$("#upload").on('click', function() {
 		$("#fatherName").val(father_catalog_nameNow);
 	})
+	/*
+	 * 右键菜单
+	 */
 	
+	$(document).on("contextmenu", ".firsttablelie", function(e) {
+		leftNow=0;
+		window.leftNow=leftNow;
+	})
+	$(document).on("contextmenu", ".secondtablelie", function(e) {
+		leftNow=$(".firsttablelie").width();
+		window.leftNow=leftNow;
+	})
+	$(document).on("contextmenu", ".thridtablelie ", function(e) {
+		leftNow=$(".firsttablelie").width()+$(".secondtablelie").width();
+		window.leftNow=leftNow;
+	})
+	$(document).on("contextmenu", ".FileShowLine", function(e) {
+		var index = $(this).index() - 1,
+			topNow = index * 36;
+		var scrollTop = $("#xiangangID").scrollTop();
+		topNow -= scrollTop;
+		
+		var leftNow=$(this).parent().offfsetX;
+		var left = e.offsetX+window.leftNow,
+			top = e.offsetY + topNow;
+
+		$("input[name='checkboxOfFile']").eq(index).prop("checked", true);
+		/*
+		 * 根据选中的数量来判断是否可以点击按钮
+		 */
+		var $subs = $("input[name='checkboxOfFile']");
+		if($subs.filter(":checked").length >= 1) {
+			$("#IsChooseFile").show();
+		} else {
+			$("#IsChooseFile").hide();
+		}
+		var countInputChecked = getCheckShuliang();
+		if(countInputChecked <= 1) {
+			$(".openFile,.renameFileC").removeClass("disable");
+		} else {
+			$(".openFile,.renameFileC").addClass("disable");
+		}
+		if(top > $("#xiangangID").height() / 2) {
+			top -= 160;
+		}
+		$(".list").css({
+			"display": "block",
+			"left": left,
+			"top": top
+		});
+		
+		if(getCheckShuliang()==0){
+			$("#showCountFIle").text("文件名");
+		}else{
+			$("#showCountFIle").text("已选中"+getCheckShuliang()+"个文件");
+		}
+		return false;
+	});
+	$(document).on("contextmenu", ".context-menu", function(e) {
+		return false;
+	});
+	$(document).on('click', function() {
+		$(".list").css({ "display": "none" });
+	})
 	/*
 	 * 点击按钮复制分享码
 	 */
-	 var clipboard = new Clipboard('#copyShareCode');
+	var clipboard = new Clipboard('#copyShareCode');
 
-    clipboard.on('success', function(e) {
-    });
+	clipboard.on('success', function(e) {
 
-    clipboard.on('error', function(e) {
-		
-    });
-    var instTips = new mdui.Tooltip("#shareCode", {
-    	"position":"bottom",
-		"content":"复制完成"
-    }); 
-    $("#shareCode").on('click',function(){
-    	
-    })
+		console.log(e);
+	});
+
+	clipboard.on('error', function(e) {
+		console.log(e);
+	});
+	$("[data-toggle='tooltip']").tooltip();
+	$("#shareCode").on('click', function() {
+		$("#copyShareCode").click();
+	})
+	$("#copyShareCode").on("click", function() {
+		$("#IsCopyWancheng").animate({
+			"opacity": '1'
+		}, 500);
+		setTimeout(function() {
+			$("#IsCopyWancheng").animate({
+				"opacity": '0'
+			}, 500);
+		}, 500);
+	})
 	//	console.log(GetQueryString('aaaa'))
 	//	$.ajaxSetup({
 	// 	   headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
@@ -79,15 +151,16 @@
 				"share_code": code
 			},
 			headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-		},
+				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			},
 			success: function(data) {
-				
-				if(data.result==false){
+
+				if(data.result == false) {
 					alert("该分享码错误，没有数据！");
-					return ;
+					return;
 				}
-//				$("#xiangangID").append("<div id='catalog'></div>");
+				//				$("#xiangangID").append("<div id='catalog'></div>");
+				console.log(data);
 				$("#catalog").empty();
 				show_data(data.data);
 			},
@@ -98,8 +171,8 @@
 	})
 	$("#shareCodeInput").on("change", function() {
 
-		})
-		//复选框事件和样式
+	})
+	//复选框事件和样式
 	$("#FatherOfcheckbox").addClass("checkbox");
 
 	$("#FatherOfcheckbox").click(function() {
@@ -118,6 +191,13 @@
 				$("#IsChooseFile").hide();
 			}
 		});
+		
+		if(getCheckShuliang()==0){
+			$("#showCountFIle").text("文件名");
+		}else{
+			$("#showCountFIle").text("已选中"+getCheckShuliang()+"个文件");
+		}
+		
 	});
 
 	//新建文件夹按钮事件
@@ -176,7 +256,7 @@
 				},
 				success: function(data) {
 					show_data(data);
-					
+
 				},
 				error: function() {
 					alert('调用失败');
@@ -188,6 +268,7 @@
 	})
 	updateData();
 });
+
 /*
  * 更新数据
  */
@@ -222,6 +303,7 @@ function updateData() {
 $(document).on('click', 'input[name="checkboxOfFile"]', function() {
 	var $subs = $("input[name='checkboxOfFile']");
 	$("#FatherOfcheckbox").prop("checked", $subs.length == $subs.filter(":checked").length ? true : false);
+	
 	if($subs.filter(":checked").length >= 1) {
 		$("#IsChooseFile").show();
 	} else {
@@ -232,8 +314,48 @@ $(document).on('click', 'input[name="checkboxOfFile"]', function() {
 	} else {
 		$(this).parent().parent().parent().children().removeClass('bcOfListWhileHover');
 	}
+	if(getCheckShuliang()==0){
+			$("#showCountFIle").text("文件名");
+		}else{
+			$("#showCountFIle").text("已选中"+getCheckShuliang()+"个文件");
+	}
 })
+/*
+ * 给右键按钮添加事件
+ */
+function getCheckShuliang() {
+	var cnt = 0;
+	$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
+		if($(this).prop("checked")) {
+			var str = $(this).attr("id");
+			cnt++;
+		}
+	});
+	return cnt;
+}
 
+function clickfile() {
+	if(getCheckShuliang() == 1) {
+		$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
+			if($(this).prop("checked")) {
+				$(this).parent().siblings('a').click();
+			}
+		});
+	}
+}
+function renameFile(){
+	if(getCheckShuliang() == 1) {
+		$("#ContentIntwoInTwoDiv").find(':checkbox[id!=FatherOfcheckbox]').each(function() {
+			if($(this).prop("checked")) {
+				$(this).parent().siblings("#toggletuBiao").find("#renameButton").click();
+			}
+		});
+	}
+}
+$(".disable").on('click', function(e) {
+	e.stopPropagation();
+	e.preventDefault();
+})
 //给列表绑定悬浮事件
 $(document).on('mouseover', '.FileShowLine', function() {
 	$(this).children().addClass('bcOfListWhileHover');
@@ -505,76 +627,75 @@ function GetTuBiaoLogo(str) {
 }
 //点击移动文件夹按钮
 $(document).on('click', '#removeButton', function() {
-		MoveTheFile();
-	})
-	//点击重命名按钮
+
+})
+//点击重命名按钮
 $(document).on('click', '#renameButton', function() {
-
-		$(this).parent().parent().siblings(".Filename").hide();
-		var ss = $(this).parent().parent().siblings(".Filename").text();
-		var ss2 = ss.substring(ss.lastIndexOf('.'), ss.length);
-		$(this).parent().parent().siblings("#Filerename").show();
-		$(this).parent().parent().siblings("#Filerename").children("input").select();
-		//alert($(this).parent().parent().siblings("#Filerename").children("input").attr('type'));
-	})
-	//确定重命名
+	$(this).parent().parent().siblings(".Filename").hide();
+	var ss = $(this).parent().parent().siblings(".Filename").text();
+	var ss2 = ss.substring(ss.lastIndexOf('.'), ss.length);
+	$(this).parent().parent().siblings("#Filerename").show();
+	$(this).parent().parent().siblings("#Filerename").children("input").select();
+	//alert($(this).parent().parent().siblings("#Filerename").children("input").attr('type'));
+})
+//确定重命名
 $(document).on('click', '#renameFileSure', function() {
-		var choose = $(this).parent().parent().attr('id');
-		var GetId = $(this).parent().siblings("input").attr('id');
-		//原先的名字
-		var NameFirst = $(this).parent().siblings(".Filename").text();
-		//原先名字的前缀
-		var NameFirstMEIHOUZHUI = NameFirst.substring(0, NameFirst.lastIndexOf('.'));
+	var choose = $(this).parent().parent().attr('id');
+	var GetId = $(this).parent().siblings("input").attr('id');
+	//原先的名字
+	var NameFirst = $(this).parent().siblings(".Filename").text();
+	//原先名字的前缀
+	var NameFirstMEIHOUZHUI = NameFirst.substring(0, NameFirst.lastIndexOf('.'));
 
-		//原先名字的后缀
-		var HouZhuiFileName = NameFirst.substring(NameFirst.lastIndexOf('.'), NameFirst.length);
+	//原先名字的后缀
+	var HouZhuiFileName = NameFirst.substring(NameFirst.lastIndexOf('.'), NameFirst.length);
 
-		//修改之后的名字
-		var NameNow = $(this).siblings("input").val();
+	//修改之后的名字
+	var NameNow = $(this).siblings("input").val();
 
-		if(choose == 0) { //修改的是文件夹的名字
+	if(choose == 0) { //修改的是文件夹的名字
 
-		} else { //其他情况
-			NameNow += HouZhuiFileName;
-		}
-		if(NameFirst == NameNow) {
+	} else { //其他情况
+		NameNow += HouZhuiFileName;
+	}
+	if(NameFirst == NameNow) {
+		$(this).parent().hide();
+		$(this).parent().siblings(".Filename").text(NameNow);
+		$(this).parent().siblings(".Filename").show();
+	} else {
+		var resultOfrename = "";
+		alert(NameNow);
+		$.ajax({
+			url: '/sky_drive/rename',
+			type: 'post',
+			async: false,
+			data: {
+				'id': GetId,
+				'rename': NameNow
+			},
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			},
+			success: function(data) {
+				resultOfrename = data;
+				console.log(data);
+			},
+			error: function() {
+				alert('命名失败！');
+			}
+		});
+		alert(resultOfrename);
+		if(resultOfrename == "ok") {
 			$(this).parent().hide();
 			$(this).parent().siblings(".Filename").text(NameNow);
 			$(this).parent().siblings(".Filename").show();
 		} else {
-			var resultOfrename = "";
-			alert(NameNow);
-			$.ajax({
-				url: '/sky_drive/rename',
-				type: 'post',
-				async: false,
-				data: {
-					'id': GetId,
-					'rename': NameNow
-				},
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-				},
-				success: function(data) {
-					resultOfrename = data;
-					console.log(data);
-				},
-				error: function() {
-					alert('命名失败！');
-				}
-			});
-			alert(resultOfrename);
-			if(resultOfrename == "ok") {
-				$(this).parent().hide();
-				$(this).parent().siblings(".Filename").text(NameNow);
-				$(this).parent().siblings(".Filename").show();
-			} else {
-				alert("当前目录下已经有相同的目录请重新命名");
-			}
+			alert("当前目录下已经有相同的目录请重新命名");
 		}
+	}
 
-	})
-	//对文件重命名取消renameFileFlase
+})
+//对文件重命名取消renameFileFlase
 $(document).on('click', '#renameFileFlase', function() {
 	$(this).parent().siblings(".Filename").show();
 	$(this).parent().hide();
@@ -656,7 +777,7 @@ function show_data(data) {
 		}
 		//      F+="<td><input  style='height:20px;width:20px; margin:8px;float: left;'  type='checkbox' >";
 		F += "<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'><input id=" + data[i]['id'] + " type='checkbox' name='checkboxOfFile' value=" + i + " /><i class='mdui-checkbox-icon'></i></label>"
-			//设置文件图标
+		//设置文件图标
 		if(data[i]['address'] == null) {
 			F += " <span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>";
 		} else {
@@ -765,7 +886,7 @@ function show_data_test() {
 			F += "<div id='1' class='firsttablelie col-sm-7'>";
 		}
 		F += "<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'><input id=" + data[i]['id'] + " type='checkbox' name='checkboxOfFile' value=" + i + " /><i class='mdui-checkbox-icon'></i></label>"
-			//设置文件图标
+		//设置文件图标
 		if(data[i]['address'] == null) {
 			F += " <span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>";
 		} else {
@@ -884,14 +1005,14 @@ function shareFile() {
 /*
  * 下载文件
  */
-function downloadFile(){
+function downloadFile() {
 	var list = getAllcheckbox();
 	$.ajax({
 		url: '/sky_drive/download_files',
 		type: 'post',
 		data: {
 			'ids': list,
-			"father_catalog_name":father_catalog_nameNow
+			"father_catalog_name": father_catalog_nameNow
 		},
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -934,12 +1055,11 @@ function delete_and_restore(list, flag) {
 		success: function(data) {
 			if(flag == 0) {
 				alert("删除成功！你可以在回收站还原已删除文件！");
-			}
-			else {
+			} else {
 				alert("还原成功！");
 			}
 			window.location.reload();
-//			refresh('', 'catalog');
+			//			refresh('', 'catalog');
 		},
 		error: function() {
 			if(flag == 0) alert("删除失败！");

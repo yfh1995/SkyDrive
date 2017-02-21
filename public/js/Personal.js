@@ -441,21 +441,23 @@ function akak() {
 	$("#d3Divshow").hide();
 	$("#List_1").addClass("hehecolor").siblings("li").removeClass("hehecolor");
 	var data1 = GetFileName();
-	username = data1[0]['name'];
-	var F = "<div id='div1' class='right-1 col-md-offset-2'>";
-	F += " <div class='right-top'>";
-	F += " <ul id='table-1' class='list-group col-md-12'>";
-	F += " <li class='list-group-item' style='border-bottom: none' ><br><a><h3 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本资料</h3></a><br></li>";
-	F += "<li class='list-group-item ' style='height: 70px; font-size: large; border-top: none;' ><a class='hehe col-md-2'>昵称：</a> <a>" + data1[0]['name'] + "</a></li>"
-	F += "<li class='list-group-item'style='height: 70px;font-size: large;border-top: none;'>";
-	F += "<a class='hehe col-md-2 ' >性别：</a>";
-	F += "<a>" + data1[0]['sex'] + "</a>";
-	F += "</li>";
-	F += "<li class='list-group-item' style='height: 70px;font-size: large;border-top: none;'><a class='hehe col-md-2'>邮箱：</a><a>" + data1[0]['email'] + "</a></li>"
-	F += "</ul>";
-	F += "</div>";
-
-	F += "</div>";
+//	username = data1[0]['name'];
+//	var F = "<div id='div1' class='right-1 col-md-offset-2'>";
+//	F += " <div class='right-top'>";
+//	F += " <ul id='table-1' class='list-group col-md-12'>";
+//	F += " <li class='list-group-item' style='border-bottom: none' ><br><a><h3 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本资料</h3></a><br></li>";
+//	F += "<li class='list-group-item ' style='height: 70px; font-size: large; border-top: none;' ><a class='hehe col-md-2'>昵称：</a> <a>" + data1[0]['name'] + "</a></li>"
+//	F += "<li class='list-group-item'style='height: 70px;font-size: large;border-top: none;'>";
+//	F += "<a class='hehe col-md-2 ' >性别：</a>";
+//	F += "<a>" + data1[0]['sex'] + "</a>";
+//	F += "</li>";
+//	F += "<li class='list-group-item' style='height: 70px;font-size: large;border-top: none;'><a class='hehe col-md-2'>邮箱：</a><a>" + data1[0]['email'] + "</a></li>"
+//	F += "</ul>";
+//	F += "</div>";
+//
+//	F += "</div>";
+	var F='<div id="div1" class="csshub-btn right-1 col-md-offset-4">基本资料<br/>昵称：'+data1[0]['name']+'<br/>性别：'+data1[0]['sex']+'<br/>邮箱：'+data1[0]['email']+'</div>';
+	
 	$("#aaaa").prepend(F);
 }
 

@@ -22,7 +22,7 @@
     <div class="container" >
         <div class="top">
             <ul id="mytab1" class="list-group">
-                <li class="list-group-item textColor"><a><h1>个人中心 </h1></a></li>
+                <li class="list-group-item textColor csshub-milky"><a><h1>个人中心 </h1></a></li>
             </ul>
         </div>
         <div class="left-top " >
@@ -40,7 +40,7 @@
                 <li id="List_1" onclick="akak();" class="list-group-item "><a style="text-decoration: none;" href="#basic">基本资料</a></li>
                 <li id="List_3" onclick="D3show();" class="list-group-item ">
 					<a style="text-decoration: none;" href="#basic">
-					个人中心
+					个人统计
 					</a>
 				</li>
                 <li  class="list-group-item"><a><b>密码管理</b></a></li>

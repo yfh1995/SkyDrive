@@ -44,7 +44,7 @@ a:hover {
 #d3Divshow {
 	height: 400px;
 	border: 1px solid gainsboro;
-	box-shadow: 2px 2px 3px #aaaaaa;
+	box-shadow: 0px 0px 8px #aaaaaa;
 	position: relative;
 	z-index: 10;
 }
@@ -139,5 +139,83 @@ a:hover {
 	background: linear-gradient(to bottom, #FF0000, #FF7F24, #C0FF3E, #FFFF00, #00F5FF, #68228B);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	font-size:1.5rem;
+	font-size: 1.5rem;
+	text-transform: uppercase;
+  /*color: #f1ebe5;*/
+  text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+  font-weight: bold;
+  letter-spacing: -4px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.csshub-btn {
+	padding:60px 0 0;
+	margin-top:50px;
+	 text-indent:2em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 459px;
+	height: 308px;
+	content: "";
+	border-top: 0 solid;
+	border-right: 0 solid;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	border-left: 1px solid rgba(0, 0, 0, 0.2);
+	-webkit-border-radius: 0 10px 200px / 0 200px 14px 250px;
+	border-radius: 0 10px 200px / 0 200px 14px 250px;
+	font: normal 34px/1.3 "Gochi Hand", Helvetica, sans-serif;
+	color: rgba(255, 0, 106, 0.58);
+	-o-text-overflow: clip;
+	text-overflow: clip;
+	white-space: pre;
+	background: -webkit-repeating-linear-gradient(-90deg, rgba(129, 203, 188, 0.5) 0, rgba(129, 203, 188, 0.5) 0.44%, rgba(0, 0, 0, 0) 0.44%, rgba(0, 0, 0, 0) 22%), #fcf59b;
+	background: -moz-repeating-linear-gradient(180deg, rgba(129, 203, 188, 0.5) 0, rgba(129, 203, 188, 0.5) 0.44%, rgba(0, 0, 0, 0) 0.44%, rgba(0, 0, 0, 0) 22%), #fcf59b;
+	background: repeating-linear-gradient(180deg, rgba(129, 203, 188, 0.5) 0, rgba(129, 203, 188, 0.5) 0.44%, rgba(0, 0, 0, 0) 0.44%, rgba(0, 0, 0, 0) 22%), #fcf59b;
+	background-position: 50% 50%;
+	-webkit-background-origin: padding-box;
+	background-origin: padding-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
+	-webkit-background-size: auto auto;
+	background-size: auto auto;
+	-webkit-box-shadow: -3px 5px 12px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: -3px 5px 12px 0 rgba(0, 0, 0, 0.1);
+	-webkit-transform: rotateZ(-4deg);
+	transform: rotateZ(-4deg);
+}
+
+.csshub-btn::after {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	content: "";
+	top: 9px;
+	right: 0;
+	left: 122px;
+	border: none;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	font: normal medium/normal Arial, Helvetica, sans-serif;
+	color: rgba(0, 0, 0, 0.9);
+	-o-text-overflow: clip;
+	text-overflow: clip;
+	background: -webkit-radial-gradient(circle closest-side, rgba(25, 119, 196, 1) 0, rgba(25, 119, 196, 1) 4%, rgba(12, 113, 201, 1) 77%, rgba(255, 255, 255, 0) 89%, rgba(255, 255, 255, 0) 100%), -webkit-radial-gradient(circle closest-side, rgba(0, 0, 0, 0.4) 0, rgba(0, 0, 0, 0.2) 81%, rgba(255, 255, 255, 0) 92%, rgba(255, 255, 255, 0) 100%), -webkit-radial-gradient(closest-side, rgba(64, 150, 238, 1) 0, rgba(64, 150, 238, 1) 100%), rgba(255, 255, 255, 0.9);
+	background: -moz-radial-gradient(circle closest-side, rgba(25, 119, 196, 1) 0, rgba(25, 119, 196, 1) 4%, rgba(12, 113, 201, 1) 77%, rgba(255, 255, 255, 0) 89%, rgba(255, 255, 255, 0) 100%), -moz-radial-gradient(circle closest-side, rgba(0, 0, 0, 0.4) 0, rgba(0, 0, 0, 0.2) 81%, rgba(255, 255, 255, 0) 92%, rgba(255, 255, 255, 0) 100%), -moz-radial-gradient(closest-side, rgba(64, 150, 238, 1) 0, rgba(64, 150, 238, 1) 100%), rgba(255, 255, 255, 0.9);
+	background: radial-gradient(circle closest-side, rgba(25, 119, 196, 1) 0, rgba(25, 119, 196, 1) 4%, rgba(12, 113, 201, 1) 77%, rgba(255, 255, 255, 0) 89%, rgba(255, 255, 255, 0) 100%), radial-gradient(circle closest-side, rgba(0, 0, 0, 0.4) 0, rgba(0, 0, 0, 0.2) 81%, rgba(255, 255, 255, 0) 92%, rgba(255, 255, 255, 0) 100%), radial-gradient(closest-side, rgba(64, 150, 238, 1) 0, rgba(64, 150, 238, 1) 100%), rgba(255, 255, 255, 0.9);
+	background-repeat: no-repeat;
+	background-position: 96% -4%, 71% 43%, 50% 50%;
+	-webkit-background-origin: padding-box;
+	background-origin: padding-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
+	-webkit-background-size: 20px 20px, 20px 20px, auto auto;
+	background-size: 20px 20px, 20px 20px, auto auto;
+	-webkit-box-shadow: -4px 8px 5px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: -4px 8px 5px 1px rgba(0, 0, 0, 0.2);
+	text-shadow: none;
 }
