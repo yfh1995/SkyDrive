@@ -1,6 +1,15 @@
 ﻿$(document).ready(function() {
 	$("#upload").on('click', function() {
 		$("#fatherName").val(father_catalog_nameNow);
+	});
+	$(document).on("click",".icon",function(){
+		$(this).parent().siblings("label").find("input").prop("checked",true);
+		var index=$(this).index();
+		if(index==0){
+			shareFile();
+		}else if(index==1){
+			downloadFile();
+		}
 	})
 	/*
 	 * 右键菜单
@@ -814,7 +823,8 @@ function show_data(data) {
 		}
 
 		F += "<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' > ";
-		F += "<a  role='button'data-toggle='dropdown' data-target='#'  ><span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span></a>"
+//		F += "<a  role='button'data-toggle='dropdown' data-target='#'  ><span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span></a>"
+		F +="<svg class='icon' aria-hidden='true' style='margin-top:8px;width:20;height:20;cursor:pointer;'><use xlink:href='#icon-fenxiang'></use></svg><svg class='icon' aria-hidden='true' style='margin-top:8px;width:20;height:20;cursor:pointer;'><use xlink:href='#icon-xiazai'></use></svg><svg data-toggle='dropdown' data-target='#' class='icon' aria-hidden='true' style='margin-top:8px;width:20;height:20;cursor:pointer;'><use xlink:href='#icon-shenglvehao'></use></svg>";	
 		F += "<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>";
 		F += "<li id='removeButton' style='text-align: center;cursor: pointer;'><a>移动</a></a></li>";
 		F += "<li role='presentation' class='divider'></li>";
@@ -922,7 +932,8 @@ function show_data_test() {
 		}
 
 		F += "<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' > ";
-		F += "<a  role='button'data-toggle='dropdown' data-target='#'  ><span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span></a>"
+//		F += "<a  role='button'data-toggle='dropdown' data-target='#'  ><span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span></a>"
+		F +="<svg class='icon' aria-hidden='true' style='margin-top:8px;width:20;height:20;cursor:pointer;'><use xlink:href='#icon-fenxiang'></use></svg><svg class='icon' aria-hidden='true' style='margin-top:8px;width:20;height:20;cursor:pointer;'><use xlink:href='#icon-xiazai'></use></svg><svg data-toggle='dropdown' data-target='#' class='icon' aria-hidden='true' style='margin-top:8px;width:20;height:20;cursor:pointer;'><use xlink:href='#icon-shenglvehao'></use></svg>";
 		F += "<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>";
 		F += "<li id='removeButton' style='text-align: center;cursor: pointer;'><a>移动</a></a></li>";
 		F += "<li role='presentation' class='divider'></li>";

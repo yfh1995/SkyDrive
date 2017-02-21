@@ -19,6 +19,7 @@
 <script src="{{asset('/viewper/viewer.js')}}"></script>
 <script src="{{asset('/mdui-v0.1.2/js/mdui.min.js')}}"></script>
 <script src="{{asset('/js/clipboard.min.js')}}"></script>
+<script src="{{asset('/js/iconfont.js')}}"></script>
 <script>var IsCreateFileNow = false; //判断有没有点击新建文件夹
 //给预览图片新建一个数组
 var listOfPicture = new Array(10000);
@@ -503,13 +504,20 @@ $(document).on('click', '#DownLoadTheFile', function() {
 											取消
 											</button>
 										</a>
-										<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' >
-											<a  role='button'data-toggle='dropdown' data-target='#'  >
-												<span class='glyphicon glyphicon-triangle-bottom'style='margin-top:8px;'><span>
-											</a>
+										<div id='toggletuBiao' class='dropdown' style='float:right;display:none;' >
+											<svg class="icon" aria-hidden="true" style='margin-top:8px;width:20;height:20;cursor:pointer;'>
+													<use xlink:href="#icon-fenxiang"></use>
+											</svg>
+											<svg class="icon" aria-hidden="true" style='margin-top:8px;width:20;height:20;cursor:pointer;'>
+													<use xlink:href="#icon-xiazai"></use>
+											</svg>
+											<svg data-toggle='dropdown' data-target='#' class="icon" aria-hidden="true" style='margin-top:8px;width:20;height:20;cursor:pointer;'>
+													<use xlink:href="#icon-shenglvehao"></use>
+											</svg>
+
 											<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>
-												<li id='removeButton' style='text-align: center;cursor: pointer;'>
-													<a>
+												<li id='removeButton' style='text-align: center;cursor: pointer;'onclick='javascript:MoveTheFile();'>
+													<a >
 														移动
 													</a></a>
 												</li>
