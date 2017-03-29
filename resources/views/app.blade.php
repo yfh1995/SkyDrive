@@ -72,7 +72,11 @@
 							</div>
 						</div>
 						</li>
-						<li class="dropdown"><a href="#" id="yangfuhao">{{ Auth::user()->name }}</a></li>
+                        @if(Auth::user()->admin == 'abc')
+						    <li class="dropdown"><a href="{{ url('admin/sky_drive') }}" id="yangfuhao">{{ Auth::user()->name }}</a></li>
+                        @else
+                            <li class="dropdown"><a href="{{ url('/') }}" id="yangfuhao">{{ Auth::user()->name }}</a></li>
+                        @endif
 						<li><a href="{{ url('logout') }}">注销</a></li>
 					@endif
 				</ul>
