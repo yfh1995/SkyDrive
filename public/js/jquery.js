@@ -157,7 +157,8 @@
 			url: '/sky_drive/getShareData',
 			type: 'post',
 			data: {
-				"share_code": code
+				"share_code": code,
+				"last_id":last_idNow
 			},
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
