@@ -294,10 +294,11 @@ function updateData() {
 	cntInwhichm = 0;
 	$(".Filename").each(function() {
 		var tt = $(this).attr("data-type"),
-			tturl = $(this).attr("data-url");
+			tturl = $(this).attr("data-url"),
+			ttName=$(this).text();
 		if(tt == "music") {
 			mplayer_song[0].push({
-				name: '未知',
+				name: ttName,
 				src: tturl,
 				lrc: "无歌词"
 			});
