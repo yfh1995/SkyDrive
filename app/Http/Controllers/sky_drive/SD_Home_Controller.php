@@ -471,8 +471,9 @@ class SD_Home_Controller extends Controller{
         $params = $request->all();
 
         if(!isset($params['ids']) || !$params['ids']) return;
+		$params['ids']=explode(",", $params['ids']);
         $father_catalog_name = isset($params['father_catalog_name'])?$params['father_catalog_name']:Auth::user()->name;
-
+		
         $data = DB::table('catalogs')->whereIn('id',$params['ids'])->get();
 
         $zipFileName = 'website/storage/other/'.$father_catalog_name.'.zip';

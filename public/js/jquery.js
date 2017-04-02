@@ -163,7 +163,7 @@
 				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 			},
 			success: function(data) {
-
+				console.log(data);
 				if(data.result == false) {
 					alert("该分享码错误，没有数据！");
 					return;
@@ -1019,23 +1019,29 @@ function shareFile() {
  */
 function downloadFile() {
 	var list = getAllcheckbox();
-	$.ajax({
-		url: '/sky_drive/download_files',
-		type: 'post',
-		data: {
-			'ids': list,
-			"father_catalog_name": father_catalog_nameNow
-		},
-		headers: {
-			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-		},
-		success: function(data) {
-			console.log(data);
-		},
-		error: function() {
-			alert("下载失败");
-		}
-	});
+	console.log(list);
+	$("#DownloadFileIds").val(list);
+	console.log($("#DownloadFileIds").val());
+	$("#DownloadFileFather_catalog_name").val(father_catalog_nameNow);
+	
+	$("#DownloadFileForm").submit();
+//	$.ajax({
+//		url: '/sky_drive/download_files',
+//		type: 'post',
+//		data: {
+//			'ids': list,
+//			"father_catalog_name": father_catalog_nameNow
+//		},
+//		headers: {
+//			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+//		},
+//		success: function(data) {
+//			console.log(data);
+//		},
+//		error: function() {
+//			alert("下载失败");
+//		}
+//	});
 }
 /*
  * 删除与文件

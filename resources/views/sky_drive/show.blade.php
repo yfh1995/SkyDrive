@@ -560,6 +560,11 @@ $(document).on('click', '#DownLoadTheFile', function() {
 		<input id="IDOFvideo" type="text" name="id" value="">
 		<input id="SRCOFvideo" type="text" name="src" value="">
 	</form>
+	<form id="DownloadFileForm"  action="{{url('/sky_drive/download_files')}}" method="POST" style="display: none;">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+		<input id="DownloadFileIds" type="text" name="ids" value="">
+		<input id="DownloadFileFather_catalog_name" type="text" name="father_catalog_name" value="">
+	</form>
 	<script>$(document).ready(function() {
 	/*
 	 * 动态设置初始化div的高度
