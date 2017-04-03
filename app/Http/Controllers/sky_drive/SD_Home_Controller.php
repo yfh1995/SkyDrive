@@ -99,6 +99,7 @@ class SD_Home_Controller extends Controller{
 
         $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
         $user_info->used_space = $this->getShowSize($user_info->used_space);
+        $user_info->total_space = $this->getShowSize(config('system_config.storage_space_size'));
 		
         if(isset($params['last_id'])) return $catalogs_info;
         else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
@@ -423,6 +424,7 @@ class SD_Home_Controller extends Controller{
     public function getShareData(Request $request){
         $params = $request->all();
 
+        $time = date('Y-m-d H:i:s',time());
         $size = isset($params['size'])?$params['size']:config('system_config.page_size');
         if(!isset($params['share_code'])) return ['result'=>false,'message'=>'分享码为空！'];
 
@@ -433,6 +435,7 @@ class SD_Home_Controller extends Controller{
                 $data = DB::table('share as s')
                     ->join('catalogs as c','c.id','=','s.catalog_id')
                     ->select(DB::raw('c.*'))
+                    ->where('s.deadline','<',$time)
                     ->where('s.share_code',$params['share_code'])
                     ->where('c.size','<>','-1')
                     ->where('c.id','<',$params['last_id'])
@@ -451,6 +454,7 @@ class SD_Home_Controller extends Controller{
         $table = $table
             ->join('catalogs as c','c.id','=','s.catalog_id')
             ->select(DB::raw('c.*'))
+            ->where('s.deadline','<',$time)
             ->where('s.share_code',$params['share_code'])
             ->where('c.size','-1');
         if(isset($params['last_id'])) $table->where('c.id','<',$params['last_id']);
@@ -466,6 +470,7 @@ class SD_Home_Controller extends Controller{
             $file_info = DB::table('share as s')
                 ->join('catalogs as c','c.id','=','s.catalog_id')
                 ->select(DB::raw('c.*'))
+                ->where('s.deadline','<',$time)
                 ->where('s.share_code',$params['share_code'])
                 ->where('c.size','<>','-1')
                 ->orderBy('c.id','desc')
@@ -518,7 +523,7 @@ class SD_Home_Controller extends Controller{
         unlink($zipFileName);
     }
 
-    function addFileToZip($data,$zip,$path){
+    public function addFileToZip($data,$zip,$path){
 
         foreach($data as $v){
             if($v->size == '-1'){
@@ -536,4 +541,42 @@ class SD_Home_Controller extends Controller{
         }
     }
 
+    public function getShareList(Request $request){
+        $params = $request->all();
+
+        $size = isset($params['size'])?$params['size']:config('system_config.page_size');
+
+        $table = DB::table('share');
+        if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
+        $data = $table->groupBy('share_code')->orderBy('id','desc')->take($size)->get();
+
+        if(isset($params['last_id'])) return $data;
+        else{
+            $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
+            $user_info->used_space = $this->getShowSize($user_info->used_space);
+            $user_info->total_space = $this->getShowSize(config('system_config.storage_space_size'));
+
+            return view('sky_drive.share')->with('data',['user_info'=>$user_info,'share_info'=>$data]);
+        }
+    }
+
+    public function getShareCatalogs(Request $request){
+        $this->validate($request,[
+            'share_code'    =>  'required'
+        ],[
+            'share_code.required'   =>  '缺少分享码'
+        ]);
+
+        $data = DB::table('share as s')
+            ->join('catalogs as c','c.id','=','s.catalog_id')
+            ->select(DB::raw('c.cur_catalog_name,c.father_catalog_name'))
+            ->where('s.share_code',$request->get('share_code'))
+            ->get();
+        $result = [];
+        foreach($data as $v){
+            $request[] = $v->father_catalog_name.'/'.$v->cur_catalog_name;
+        }
+
+        return $request;
+    }
 }

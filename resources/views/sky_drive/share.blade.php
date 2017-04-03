@@ -286,7 +286,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 					</a>
 				</li>
 				<li id="OtherDiv" class="mdui-ripple"	 >
-					<a   href="#">
+					<a   href="{{ url('/sky_drive/share_list') }}">
 						<strong style="color: gray;"><i class="mdui-icon mdui-icon-left material-icons">&#xe80d;</i>我的分享</strong>
 					</a>
 				</li>
@@ -300,7 +300,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 				<div class="progress progress-striped active" >
 					<div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="60"
 					aria-valuemin="0" aria-valuemax="100" style="width:80%"></div>
-				</div><strong>8G/10G</strong>
+				</div><strong>{{$data['user_info']->used_space}}/{{$data['user_info']->total_space}}</strong>
 			</div>
 		</div>
 		<div class=" twoInTwoDiv col-md-10 col-sm-10 col-lg-10" style="height:100%; margin:0px;padding:0px;">
@@ -310,7 +310,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 					<div  class="fistlie col-sm-7 col-md-7 "style="height:100%; "  >
 						<label class="mdui-checkbox">
 						<input id="FatherOfcheckbox" style='height:20px;width:20px; float: left;' class='hello' type="checkbox"  />
-						<i  class="mdui-checkbox-icon" ></i> <span id="showCountFIle">文件名</span> </label>
+						<i  class="mdui-checkbox-icon" ></i> <span id="showCountFIle">分享码</span> </label>
 					</div>
 					<div class="secondlie col-sm-3 col-md-3 " style="height:100%;">
 						<p style="line-height: 30px;">
@@ -328,42 +328,27 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 				<div id="xiangangID" >
 					<div id='catalog' >
+
+						@foreach($data['share_info'] as $v)
 						<div class="FileShowLine" style="margin:0px;padding:0px; " data-father="yfh">
 							<div id="0" class="firsttablelie col-sm-7 bcOfListWhileHover">
 								<span  style="line-height:36px;width:20px;margin:8px 5px;color: gray;"></span>
 								<a class="Filename" href="JavaScript:;" >
-									新建文件夹123131231
+									{{$v->share_code}}
 								</a>
 							</div>
 							<div class="secondtablelie  col-sm-3 bcOfListWhileHover">
 								<p style="float:left;line-height:36px;">
-									-1
+									{{$v->deadline<=time()?'可用':'过期'}}
 								</p>
 							</div>
 							<div class="thridtablelie col-sm-2 bcOfListWhileHover">
 								<p id="TimeOfCreateFile" style="float:left;line-height:36px;white-space:nowrap; ">
-									2017-02-21 10:50:17
+									{{$v->created_at}}
 								</p>
 							</div>
 						</div>
-						<div class="FileShowLine" style="margin:0px;padding:0px; " data-father="yfh">
-							<div id="0" class="firsttablelie col-sm-7 bcOfListWhileHover">
-								<span  style="line-height:36px;width:20px;margin:8px 5px;color: gray;"></span>
-								<a class="Filename" href="JavaScript:;" >
-									新建文件夹123131231
-								</a>
-							</div>
-							<div class="secondtablelie  col-sm-3 bcOfListWhileHover">
-								<p style="float:left;line-height:36px;">
-									-1
-								</p>
-							</div>
-							<div class="thridtablelie col-sm-2 bcOfListWhileHover">
-								<p id="TimeOfCreateFile" style="float:left;line-height:36px;white-space:nowrap; ">
-									2017-02-21 10:50:17
-								</p>
-							</div>
-						</div>
+						@endforeach
 
 					</div>
 				</div>
