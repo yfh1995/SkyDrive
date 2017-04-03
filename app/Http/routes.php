@@ -10,6 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('test','auth\LoginController@test');
 
 Route::get('/login','auth\LoginController@getlogin');								                                    //登陆页面1
 Route::post('/login','auth\LoginController@postlogin');								                                    //登陆验证1

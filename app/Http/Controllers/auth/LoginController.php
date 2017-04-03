@@ -18,6 +18,10 @@ class LoginController extends Controller{
 
     use AuthenticatesAndRegistersUsers;
 
+    public function test(){
+        return view('');
+    }
+
     public function getlogin(){
         return view('auth/login');
     }
