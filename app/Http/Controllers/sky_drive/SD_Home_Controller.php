@@ -575,9 +575,9 @@ class SD_Home_Controller extends Controller{
             ->get();
         $result = [];
         foreach($data as $v){
-            $request[] = $v->father_catalog_name.'/'.$v->cur_catalog_name;
+            $result[] = $v->father_catalog_name.'/'.$v->cur_catalog_name;
         }
 
-        return $request;
+        return $result;
     }
 }
