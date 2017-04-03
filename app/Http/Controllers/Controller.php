@@ -8,4 +8,12 @@ abstract class Controller extends BaseController {
 
 	use DispatchesCommands, ValidatesRequests;
 
+	public function getShowSize($size){
+		if($size<1024) return $size.'B';
+		$size = round($size/1024,2);
+		if($size<1024) return $size.'KB';
+		$size = round($size/1024,2);
+		if($size<1024) return $size.'MB';
+		return round($size/1024,2).'GB';
+	}
 }

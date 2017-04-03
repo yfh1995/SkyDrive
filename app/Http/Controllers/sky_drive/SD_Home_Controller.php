@@ -24,7 +24,7 @@ class SD_Home_Controller extends Controller{
         $params = $request->all();
 
         $user_name = Auth::user()->name;
-        $size = 15;
+        $size = config('system_config.page_size');
         if(isset($params['size'])) $size = (int)$params['size'];
         $where['owner_name'] = $user_name;
 
@@ -78,6 +78,11 @@ class SD_Home_Controller extends Controller{
         if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
         $catalogs_info = $table->orderBy('id','desc')->take($size)->get();
 
+        //转换数据单位
+        foreach($catalogs_info as &$v){
+            $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
+        }
+
         //如果文件夹数据不足一页数据量，则取文件
         if($size-count($catalogs_info)){
             $file_info = DB::table('catalogs')
@@ -87,15 +92,16 @@ class SD_Home_Controller extends Controller{
                 ->take($size-count($catalogs_info))
                 ->get();
             foreach($file_info as $v){
+                $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
                 $catalogs_info[] = $v;
             }
         }
 
         $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
+        $user_info->used_space = $this->getShowSize($user_info->used_space);
 		
         if(isset($params['last_id'])) return $catalogs_info;
         else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
-//    else return view('sky_drive.show')->with('data','123');
     }
 
     public function type(Request $request){
@@ -417,14 +423,14 @@ class SD_Home_Controller extends Controller{
     public function getShareData(Request $request){
         $params = $request->all();
 
-        $size = isset($params['size'])?$params['size']:15;
+        $size = isset($params['size'])?$params['size']:config('system_config.page_size');
         if(!isset($params['share_code'])) return ['result'=>false,'message'=>'分享码为空！'];
 
         //如果为翻页，则判断last_id是否为文件，若为文件则只取文件
         if(isset($params['last_id'])){
             $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
             if($last_info->address){
-                return DB::table('share as s')
+                $data = DB::table('share as s')
                     ->join('catalogs as c','c.id','=','s.catalog_id')
                     ->select(DB::raw('c.*'))
                     ->where('s.share_code',$params['share_code'])
@@ -433,6 +439,10 @@ class SD_Home_Controller extends Controller{
                     ->orderBy('c.id','desc')
                     ->take($size)
                     ->get();
+                foreach($data as $v){
+                    $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
+                }
+                return $data;
             }
         }
 
@@ -446,6 +456,11 @@ class SD_Home_Controller extends Controller{
         if(isset($params['last_id'])) $table->where('c.id','<',$params['last_id']);
         $catalogs_info = $table->orderBy('c.id','desc')->take($size)->get();
 
+        //转换数据单位
+        foreach($catalogs_info as $v){
+            $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
+        }
+
         //如果文件夹数据不足一页数据量，则取文件
         if($size-count($catalogs_info)){
             $file_info = DB::table('share as s')
@@ -457,11 +472,13 @@ class SD_Home_Controller extends Controller{
                 ->take($size-count($catalogs_info))
                 ->get();
             foreach($file_info as $v){
+                $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
                 $catalogs_info[] = $v;
             }
         }
 
         $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
+        $user_info->used_space = $this->getShowSize($user_info->used_space);
 
         if(isset($params['last_id'])) return $catalogs_info;
         else return view('sky_drive.show')->with('data',['user_info'=>$user_info,'catalogs_info'=>$catalogs_info]);
