@@ -253,6 +253,7 @@
 				"type": typeNow,
 				"last_id": last_idNow
 			}
+			var url='/sky_drive/home';
 			if(typeNow == 0 || typeNow == 2) {
 				dataset.father_catalog_name = father_catalog_nameNow;
 			} else {
@@ -264,10 +265,11 @@
 					"last_id": last_idNow,
 					"share_code":ShareCodeNow
 				};
+				url="/sky_drive/getShareData"
 			}
-						console.log(dataset);
+//						console.log(dataset);
 			$.ajax({
-				url: '/sky_drive/home',
+				url: url,
 				type: 'get',
 				data: dataset,
 				headers: {
