@@ -248,7 +248,27 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 	}
 })</script>
+<style type="text/css">th {
+	background-color: aqua;
+}
 
+td,
+th {
+	text-align: center;
+}
+
+td:nth-child(1) {
+	text-align: left;
+}
+
+.table {
+	margin-bottom: 0;
+	padding: 0;
+}
+
+td {
+	cursor: pointer;
+}</style>
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >
@@ -306,49 +326,34 @@ $(document).on('click', '#DownLoadTheFile', function() {
 		<div class=" twoInTwoDiv col-md-10 col-sm-10 col-lg-10" style="height:100%; margin:0px;padding:0px;">
 
 			<div id="ContentIntwoInTwoDiv" style="height:calc(85%);margin:0px;padding:0px;" >
-				<div class='hearderlie'  style=" height:30px; ">
-					<div  class="fistlie col-sm-7 col-md-7 "style="height:100%; "  >
-						<label class="mdui-checkbox">
-						<input id="FatherOfcheckbox" style='height:20px;width:20px; float: left;' class='hello' type="checkbox"  />
-						<i  class="mdui-checkbox-icon" ></i> <span id="showCountFIle">分享码</span> </label>
-					</div>
-					<div class="secondlie col-sm-3 col-md-3 " style="height:100%;">
-						<p style="line-height: 30px;">
-							状态
-						</p>
 
-					</div>
-					<div  class="thridlie col-sm-2 col-md-2 ">
-						<p style="line-height: 30px;">
-							创建时间
-						</p>
+				<div style="height:calc(15%)">
 
-					</div>
 				</div>
-
+				<table class="table" style="height: 38px!important;overflow: hidden;margin-top:38px;">
+					<thead>
+						<tr>
+							<th class='col-md-6 col-sm-6 col-lg-6'>分享码</th>
+							<th class='col-md-2 col-sm-2 col-lg-2'>状态</th>
+							<th class='col-md-4 col-sm-4 col-lg-4'>日期</th>
+						</tr>
+					</thead>
+				</table>
 				<div id="xiangangID" >
 					<div id='catalog' >
+						<table class="table table-hover table-bordered ">
+							
+							<tbody>
+								@foreach($data['share_info'] as $v)
+								<tr class="{{$v->deadline<=time()?'success':'danger'}}" data-share={{$v->share_code}}>
+									<td class='col-md-6 col-sm-6 col-lg-6'>{{$v->share_code}}</td>
+									<td class='col-md-2 col-sm-2 col-lg-2'>{{$v->deadline<=time()?'可用':'过期'}}</td>
+									<td class='col-md-4 col-sm-4 col-lg-4'>{{$v->created_at}}</td>
+								</tr>
 
-						@foreach($data['share_info'] as $v)
-						<div class="FileShowLine" style="margin:0px;padding:0px; " data-father="yfh">
-							<div id="0" class="firsttablelie col-sm-7 bcOfListWhileHover">
-								<span  style="line-height:36px;width:20px;margin:8px 5px;color: gray;"></span>
-								<a class="Filename" href="JavaScript:;" >
-									{{$v->share_code}}
-								</a>
-							</div>
-							<div class="secondtablelie  col-sm-3 bcOfListWhileHover">
-								<p style="float:left;line-height:36px;">
-									{{$v->deadline<=time()?'可用':'过期'}}
-								</p>
-							</div>
-							<div class="thridtablelie col-sm-2 bcOfListWhileHover">
-								<p id="TimeOfCreateFile" style="float:left;line-height:36px;white-space:nowrap; ">
-									{{$v->created_at}}
-								</p>
-							</div>
-						</div>
-						@endforeach
+								@endforeach
+							</tbody>
+						</table>
 
 					</div>
 				</div>
@@ -360,21 +365,26 @@ $(document).on('click', '#DownLoadTheFile', function() {
 	</div>
 </div>
 
-<form id="FromOfVideo"  action="{{url('/sky_drive/preview')}}" method="POST" style="display: none;"target="_blank">
-	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	<input id="IDOFvideo" type="text" name="id" value="">
-	<input id="SRCOFvideo" type="text" name="src" value="">
-</form>
-<form id="DownloadFileForm"  action="{{url('/sky_drive/download_files')}}" method="POST" style="display: none;">
-	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	<input id="DownloadFileIds" type="text" name="ids" value="">
-	<input id="DownloadFileFather_catalog_name" type="text" name="father_catalog_name" value="">
-</form>
+
 <script>$(document).ready(function() {
-	/*
-	 * 动态设置初始化div的高度
-	 */
-	//				$(".oneInTwoDiv").height($(window).height()-50);
+	$(document).on("click","tr",function(){
+		var shareCode=$(this).attr("data-share");
+		$.ajax({
+				url: "/sky_drive/get_share_catalog",
+				type: 'GET',
+				data: {
+					share_code:shareCode
+				},
+				
+				success: function(data) {
+					console.log(data);
+//					show_data(data);
+				},
+				error: function() {
+					alert('调用失败');
+				}
+			});
+	})
 
 })</script>
 @endsection
