@@ -83,7 +83,7 @@ Route::group(['middleware'=>'auth'],function()
     Route::post('/sky_drive/preview','sky_drive\SD_Preview_Controller@preview');                                        //预览视频
 
     Route::post('/sky_drive/createShare','sky_drive\SD_Home_Controller@createShare');                                   //创建分享
-    Route::post('/sky_drive/getShareData','sky_drive\SD_Home_Controller@getShareData');                                 //获取分享资源
+    Route::get('/sky_drive/getShareData','sky_drive\SD_Home_Controller@getShareData');                                 //获取分享资源
 
     Route::get('/forum/home','forum\Forum_Home_Controller@index');					                                    //论坛主页0
     Route::get('/forum/post','forum\Forum_Home_Controller@index');					                                    //帖子页面0
