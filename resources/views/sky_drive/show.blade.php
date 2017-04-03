@@ -58,7 +58,8 @@ var father_catalog_nameNow = "",
 	sizeNow = 15,
 	typeNow = 0,
 	last_idNow = 0,
-	file_typeNow = "";
+	file_typeNow = "",
+	ShareCodeNow="";
 
 var cntInwhichm = 0; //记录是第几个音乐
 var cntInwhichv = 0; //记录是第几个视频

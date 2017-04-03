@@ -112,6 +112,7 @@
 	});
 	typeNow = GetQueryString("type");
 	file_typeNow = GetQueryString('file_type');
+	ShareCodeNow=GetQueryString('share_code');
 	last_idNow = 100000;
 	$(".checkboxInput").each(function() {
 		last_idNow = last_idNow > $(this).attr("id") ? $(this).attr("id") : last_idNow;
@@ -153,31 +154,32 @@
 	});
 	$("#SearchSareCodeBtn").on('click', function() {
 		var code = $("#shareCodeInput").val();
-		$.ajax({
-			url: '/sky_drive/getShareData',
-			type: 'post',
-			data: {
-				"share_code": code,
-				"last_id":last_idNow
-			},
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-			},
-			success: function(data) {
-				console.log(data);
-				if(data.result == false) {
-					alert("该分享码错误，没有数据！");
-					return;
-				}
-				//				$("#xiangangID").append("<div id='catalog'></div>");
-				console.log(data);
-				$("#catalog").empty();
-				show_data(data.data);
-			},
-			error: function() {
-				alert('11数据读取发生错误！');
-			}
-		});
+		window.location.href="/sky_drive/getShareData?share_code="+code;
+		
+//		$.ajax({
+//			url: '',
+//			type: 'post',
+//			data: {
+//				"share_code": code
+//			},
+//			headers: {
+//				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+//			},
+//			success: function(data) {
+//				console.log(data);
+//				if(data.result == false) {
+//					alert("该分享码错误，没有数据！");
+//					return;
+//				}
+//				//				$("#xiangangID").append("<div id='catalog'></div>");
+//				console.log(data);
+//				$("#catalog").empty();
+//				show_data(data.data);
+//			},
+//			error: function() {
+//				alert('11数据读取发生错误！');
+//			}
+//		});
 	})
 	$("#shareCodeInput").on("change", function() {
 
@@ -256,7 +258,14 @@
 			} else {
 				dataset.file_type = file_typeNow;
 			}
-			//			console.log(dataset);
+			if(ShareCodeNow!==""&&ShareCodeNow!==null&&ShareCodeNow!==undefined){
+				dataset={};
+				dataset={
+					"last_id": last_idNow,
+					"share_code":ShareCodeNow
+				};
+			}
+						console.log(dataset);
 			$.ajax({
 				url: '/sky_drive/home',
 				type: 'get',
@@ -265,8 +274,8 @@
 					'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 				},
 				success: function(data) {
+					console.log(data);
 					show_data(data);
-
 				},
 				error: function() {
 					alert('调用失败');

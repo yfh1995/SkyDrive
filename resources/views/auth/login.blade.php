@@ -228,13 +228,13 @@
 			<div class='loginOrReg'>
 				<div class="index-tab-navs">
 					<div class="navs-slider">
-						<a href="#signup" class="active">注册</a>
-						<a href="#signin">登录</a>
+						<a href="#signup" class="active">登录</a>
+						<a href="#signin">注册</a>
 						<span class="navs-slider-bar"></span>
 					</div>
 				</div>
 				<div class="ndex-tab-body">
-					<form id='signupForm' role="form" method="POST" action="{{ url('/register') }}">
+					<form id='signinForm' role="form" method="POST" action="{{ url('/register') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="group-inputs">
 							<div class="group-ipt name">
@@ -258,7 +258,7 @@
 							<button type="submit" class="login-btn register-btn" id="button"  >注册</button>
 						</div>
 					</form>
-					<form id='signinForm' role="form" method="POST" action="{{ url('/login') }}">
+					<form id='signupForm' role="form" method="POST" action="{{ url('/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="group-inputs">
 							<div class="group-ipt email">
