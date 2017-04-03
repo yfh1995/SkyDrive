@@ -195,7 +195,7 @@
 					</div>
 				</div>
 				<div class="ndex-tab-body">
-					<form id='signupForm'  >
+					<form id='signupForm' role="form" method="POST" action="{{ url('/register') }}">
 						
 						<div class="group-inputs">
 							<div class="group-ipt name">
@@ -216,7 +216,7 @@
 							</div>
 						</div>
 						<div class="button">
-							<button type="submit" class="login-btn register-btn" id="button"  onclick="register()">注册</button>
+							<button type="submit" class="login-btn register-btn" id="button"  >注册</button>
 						</div>
 					</form>
 					<form id='signinForm' role="form" method="POST" action="{{ url('/login') }}">
