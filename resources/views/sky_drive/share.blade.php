@@ -59,7 +59,7 @@ var father_catalog_nameNow = "",
 	typeNow = 0,
 	last_idNow = 0,
 	file_typeNow = "",
-	ShareCodeNow="";
+	ShareCodeNow = "";
 
 var cntInwhichm = 0; //记录是第几个音乐
 var cntInwhichv = 0; //记录是第几个视频
@@ -71,7 +71,8 @@ var inst;
 var listPage = 0,
 	listType = "catalog",
 	listMulu = "";
-var leftNow=0;
+var leftNow = 0;
+
 function ChuShiHuaFlagOfmove() {
 	for(var i = 0; i < 1000000; i++) {
 		EverycatalogFlag[i] = 0;
@@ -247,35 +248,6 @@ $(document).on('click', '#DownLoadTheFile', function() {
 
 	}
 })</script>
-<div id="searchInput">
-	<div id="shareCode "  class="input-group">
-		<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
-		<span class="input-group-btn">
-		<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
-		Go!
-		</button> </span>
-	</div><!-- /input-group -->
-</div>
-
-<div class="mdui-dialog" 	>
-	<div  class="mdui-dialog-title">
-		分享码
-	</div>
-	<div id="shareCodeDiv"  class="mdui-dialog-content ">
-		<span id="shareCode" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="点击复制"></span>
-	</div>
-	<div id='IsCopyWancheng' style="opacity:0;margin:auto;width:110px;background-color: #000;color:white;text-align: center;">
-		复制完成
-	</div>
-	<div class="mdui-dialog-actions">
-		<button id="copyShareCode" class="mdui-btn mdui-ripple" data-clipboard-action="copy" data-clipboard-target="#shareCode">
-		点击复制
-		</button>
-		<button id="closeShareCode" class="mdui-btn mdui-ripple">
-		关闭
-		</button>
-	</div>
-</div>
 
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
@@ -332,245 +304,92 @@ $(document).on('click', '#DownLoadTheFile', function() {
 			</div>
 		</div>
 		<div class=" twoInTwoDiv col-md-10 col-sm-10 col-lg-10" style="height:100%; margin:0px;padding:0px;">
-			<div id="headerIntwoInTwoDiv" style="height:10%;max-height: 10%;">
-				<div class="tabcaidan" style="float:left; margin-left: 10px;margin-top: 10px; ">
-					<form id="ajaxForm" enctype="multipart/form-data" action="{{url('/sky_drive/upload')}}" method="POST" style="display: none;">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input id='fatherName' type="hidden" name="father_catalog_name" value="yfh"  />
-						<input type="file" name="file" id="file" class="file" data-language="zh" onchange="sb.click()">
-						<input name="sb" type="submit" id="sb">
-					</form>
-					<div id="fileOperator">
-						<button  id="upload"  onclick="file.click();" type="button" class="mdui-btn mdui-color-light-blue-accent mdui-ripple">
-						<a>
-							<span class="glyphicon glyphicon-cloud-upload"></span>
-						</a>
-						上传文件
-						</button>
-						<button id="createNewFile" type="button" class="mdui-btn mdui-color-white-accent  mdui-ripple">
-						<i class="mdui-icon material-icons">&#xe145;</i>
-						新建文件夹
-						</button>
 
-						<button type="button" class="mdui-btn mdui-color-white-accent  mdui-ripple">
-						<i class="mdui-icon material-icons">&#xe2c4;</i>
-						离线下载
-						</button>
-						<div id='IsChooseFile' class="btn-group" style="display:none;" >
-							<button id="DownLoadTheFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple " onclick="downloadFile()">
-							<i class="mdui-icon material-icons">&#xe2c0;</i>
-							下载
-							</button>
-							<button id="shareFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple " onclick="shareFile()">
-							<i class="mdui-icon material-icons">&#xe80d;</i>
-							分享
-							</button>
-							<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(0)">
-							<i class="mdui-icon material-icons " >&#xe872;</i>
-							删除
-							</button>
-
-							<button id="moveFileButton" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="javascript:MoveTheFile();" >
-							移动到
-							</button>
-							<button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
-							预览
-							</button>
-							<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
-							恢复
-							</button>
-						</div>
-					</div>
-
-				</div>
-
-				<!--<div class="btn-group " style="float:right;margin:10px 10px;">
-				<div class="btn-group btn-sm " id="LeftPicture" style="border: 1px solid #c0c0c0; background-color: gray;cursor: pointer;">
-				<a href="#">
-				<span class="glyphicon glyphicon-th-list" ></span>
-				</a>
-				</div>
-				<div class="btn-group btn-sm " id="RightPicture" style="border: 1px solid #c0c0c0;cursor: pointer;">
-				<a href="#">
-				<span class="glyphicon glyphicon-th"></span>
-				</a>
-				</div>
-				</div>-->
-			</div>
-			<div style="height:5%;">
-				<div id="MeuOfHeader" style="float:left; margin-left:20px;" ></div>
-				<p style="float:right; margin-right: 10px;">
-					已加载
-				</p>
-			</div>
 			<div id="ContentIntwoInTwoDiv" style="height:calc(85%);margin:0px;padding:0px;" >
 				<div class='hearderlie'  style=" height:30px; ">
 					<div  class="fistlie col-sm-7 col-md-7 "style="height:100%; "  >
 						<label class="mdui-checkbox">
 						<input id="FatherOfcheckbox" style='height:20px;width:20px; float: left;' class='hello' type="checkbox"  />
 						<i  class="mdui-checkbox-icon" ></i> <span id="showCountFIle">文件名</span> </label>
-
 					</div>
 					<div class="secondlie col-sm-3 col-md-3 " style="height:100%;">
 						<p style="line-height: 30px;">
-							大小
+							状态
 						</p>
 
 					</div>
 					<div  class="thridlie col-sm-2 col-md-2 ">
 						<p style="line-height: 30px;">
-							修改日期
+							创建时间
 						</p>
 
 					</div>
 				</div>
-				<?php $cntInwhichp = $cntInwhichm = $cntInwhichv = 0; ?>
 
 				<div id="xiangangID" >
 					<div id='catalog' >
-						<div class='context-menu'>
-							<ul class='list'>
-								<li class='openFile' onclick="javascript:clickfile();">
-									打开
-								</li>
-								<li onclick="downloadFile()">
-									下载
-								</li>
-								<li class='separate'></li>
-								<li onclick="shareFile()">
-									分享
-								</li>
-								<li class='separate'></li>
-								<li onclick="javascript:MoveTheFile();">
-									移动
-								</li>
-								<li  onclick="delete_and_restore_getdate(0)">
-									删除
-								</li>
-								<li class='renameFileC' onclick="javascript:renameFile();">
-									重命名
-								</li>
-							</ul>
-						</div>
-						@foreach($data['catalogs_info'] as $v)
-						<div class='FileShowLine' class='row' style='margin:0px;padding:0px; '  data-father={{ $v->
-							father_catalog_name }} >
-							@if($v->address==null)
-							<div id='0' class='firsttablelie col-sm-7'>
-								@else
-								<div id='1' class='firsttablelie col-sm-7'>
-									@endif
-									<td><label class='mdui-checkbox' style='height:20px;width:20px; float: left;'>
-										<input id={{ $v->
-										id }} class='checkboxInput' type='checkbox' name='checkboxOfFile' value=1 /> <i class='mdui-checkbox-icon'></i></label><?php $type = substr($v -> address, strrpos($v -> address, '/') + 1); ?>
-										@if($v->md5==null)
-										<span  class='glyphicon glyphicon-folder-open' style='height:20px;width:20px;margin:8px 5px;color: gray;'></span>
-										<a class='Filename' href='JavaScript:;' onclick='javascript:EntryNextFile("{{ $v->cur_catalog_name}}");'>
-											{{ $v->cur_catalog_name }}
-										</a> @elseif($type=='picture')
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/pictureLogo.jpg'>
-										<a class='Filename' href='JavaScript:;'data-type="picture" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}'  onclick='showTheFile({{ $cntInwhichp++ }});' style='padding-bottom: 5px;'>
-											{{ $v->cur_catalog_name }}
-										</a> @elseif($type=='music')
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/musicLogo.jpg'>
-										<a class='Filename' href='JavaScript:;'data-type="music" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}' onclick='showTheFileMusic({{ $cntInwhichm++ }});'  style='padding-bottom: 5px;'>
-											{{ $v->cur_catalog_name }}
-										</a> @elseif($type=='video')
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/videoLogo.jpg'>
-										<a class='Filename' href='JavaScript:;'data-type="video" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
-											{{ $v->cur_catalog_name }}
-										</a> @else
-										@if($type=='text')
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/txtlogo.jpg'>
-										@elseif($type=='bt')
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/btLogo.jpg'>
-										@elseif($type=='archive')
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/archiveLogo.jpg'>
-										@else
-										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/otherLogo.jpg'>
-										@endif
-										<a class='Filename' href='JavaScript:;'  style='padding-bottom: 5px;'>
-											{{ $v->cur_catalog_name }}
-										</a> @endif
-										<a id='Filerename' style='display:none;'>
-											@if($v->size!=-1)
-											<input type='text'  value='{{ substr($v->cur_catalog_name,0,strrpos($v->cur_catalog_name,'.')+1) }}'>
-											@else
-											<input type='text'  value='{{ $v->cur_catalog_name }}'>
-											@endif
-											<button  id='renameFileSure'>
-											确定
-											</button>
-											<button  id='renameFileFlase'>
-											取消
-											</button>
-										</a>
-										<div id='toggletuBiao' class='dropdown' style='float:right;display:none;' >
-											<svg class="icon" aria-hidden="true" style='margin-top:8px;width:20;height:20;cursor:pointer;'>
-													<use xlink:href="#icon-fenxiang"></use>
-											</svg>
-											<svg class="icon" aria-hidden="true" style='margin-top:8px;width:20;height:20;cursor:pointer;'>
-													<use xlink:href="#icon-xiazai"></use>
-											</svg>
-											<svg data-toggle='dropdown' data-target='#' class="icon" aria-hidden="true" style='margin-top:8px;width:20;height:20;cursor:pointer;'>
-													<use xlink:href="#icon-shenglvehao"></use>
-											</svg>
-
-											<ul class='dropdown-menu' role='menu' aria-labelledby='dLabel' style='left:-50px;width:100px;' onmouseout='$(this).dropdown('toggle');'>
-												<li id='removeButton' style='text-align: center;cursor: pointer;'onclick='javascript:MoveTheFile();'>
-													<a >
-														移动
-													</a></a>
-												</li>
-												<li role='presentation' class='divider'></li>
-												<li id='renameButton'  style='text-align: center;cursor: pointer;' >
-													<a>
-														重命名
-													</a>
-												</li>
-											</ul>
-										</div></td>
-								</div>
-								<div class='secondtablelie  col-sm-3'>
-									<td>
-										<p style='float:left;line-height:36px;'>
-											{{ $v->size }}
-										</p></td>
-								</div>
-								<div class='thridtablelie col-sm-2'>
-									<td>
-										<p id='TimeOfCreateFile' style='float:left;line-height:36px;white-space:nowrap; '>
-											{{ $v->created_at }}
-										</p></td>
-								</div>
+						<div class="FileShowLine" style="margin:0px;padding:0px; " data-father="yfh">
+							<div id="0" class="firsttablelie col-sm-7 bcOfListWhileHover">
+								<span  style="line-height:36px;width:20px;margin:8px 5px;color: gray;"></span>
+								<a class="Filename" href="JavaScript:;" >
+									新建文件夹123131231
+								</a>
 							</div>
-							<!--<div  class='mdui-divider-inset-light'></div>-->
-							@endforeach
+							<div class="secondtablelie  col-sm-3 bcOfListWhileHover">
+								<p style="float:left;line-height:36px;">
+									-1
+								</p>
+							</div>
+							<div class="thridtablelie col-sm-2 bcOfListWhileHover">
+								<p id="TimeOfCreateFile" style="float:left;line-height:36px;white-space:nowrap; ">
+									2017-02-21 10:50:17
+								</p>
+							</div>
 						</div>
-					</div>
-					<div id="paging">
+						<div class="FileShowLine" style="margin:0px;padding:0px; " data-father="yfh">
+							<div id="0" class="firsttablelie col-sm-7 bcOfListWhileHover">
+								<span  style="line-height:36px;width:20px;margin:8px 5px;color: gray;"></span>
+								<a class="Filename" href="JavaScript:;" >
+									新建文件夹123131231
+								</a>
+							</div>
+							<div class="secondtablelie  col-sm-3 bcOfListWhileHover">
+								<p style="float:left;line-height:36px;">
+									-1
+								</p>
+							</div>
+							<div class="thridtablelie col-sm-2 bcOfListWhileHover">
+								<p id="TimeOfCreateFile" style="float:left;line-height:36px;white-space:nowrap; ">
+									2017-02-21 10:50:17
+								</p>
+							</div>
+						</div>
 
 					</div>
+				</div>
+				<div id="paging">
+
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<form id="FromOfVideo"  action="{{url('/sky_drive/preview')}}" method="POST" style="display: none;"target="_blank">
-		<input type="hidden" name="_token" value="{{ csrf_token() }}">
-		<input id="IDOFvideo" type="text" name="id" value="">
-		<input id="SRCOFvideo" type="text" name="src" value="">
-	</form>
-	<form id="DownloadFileForm"  action="{{url('/sky_drive/download_files')}}" method="POST" style="display: none;">
-		<input type="hidden" name="_token" value="{{ csrf_token() }}">
-		<input id="DownloadFileIds" type="text" name="ids" value="">
-		<input id="DownloadFileFather_catalog_name" type="text" name="father_catalog_name" value="">
-	</form>
-	<script>$(document).ready(function() {
+<form id="FromOfVideo"  action="{{url('/sky_drive/preview')}}" method="POST" style="display: none;"target="_blank">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
+	<input id="IDOFvideo" type="text" name="id" value="">
+	<input id="SRCOFvideo" type="text" name="src" value="">
+</form>
+<form id="DownloadFileForm"  action="{{url('/sky_drive/download_files')}}" method="POST" style="display: none;">
+	<input type="hidden" name="_token" value="{{ csrf_token() }}">
+	<input id="DownloadFileIds" type="text" name="ids" value="">
+	<input id="DownloadFileFather_catalog_name" type="text" name="father_catalog_name" value="">
+</form>
+<script>$(document).ready(function() {
 	/*
 	 * 动态设置初始化div的高度
 	 */
 	//				$(".oneInTwoDiv").height($(window).height()-50);
 
 })</script>
-	@endsection
+@endsection
