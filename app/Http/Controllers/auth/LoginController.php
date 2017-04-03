@@ -18,14 +18,6 @@ class LoginController extends Controller{
 
     use AuthenticatesAndRegistersUsers;
 
-    public function test(){
-        $data=['name'=>'yfh','email'=>'yfh@qq.com','activation_code'=>'123'];
-        Mail::send('emails.create_user',$data,function($message) use($data)
-        {
-            $message->to('690828339@qq.com')->subject('欢迎注册本站！');
-        });
-    }
-
     public function getlogin(){
         return view('auth/login');
     }

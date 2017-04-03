@@ -38,12 +38,13 @@
 		<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<style>
-		
-	</style>
+
+	@yield('style')
+
 </head>
 <body>
 
+	@include('message')
 
 <nav class="navbar navbar-default " style="margin:0px;padding:0px;">
 		<div class="" >
@@ -86,7 +87,7 @@
 
 
 	@yield('content')
-
+)
 	<!-- Scripts -->
 	{{--<script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>--}}
 	{{--<script src="http://cdn.bootcss.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>--}}

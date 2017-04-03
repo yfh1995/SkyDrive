@@ -7,9 +7,9 @@
 </head>
 <body>
     @if($flag == 1)
-        注册成功！KJ is a big sb!将在三秒后跳转至首页！
+        注册成功！将在三秒后跳转至首页！
     @else
-        注册失败！请重试！KJ is a big sb!将在三秒后跳转至首页！
+        注册失败！请重试！将在三秒后跳转至首页！
     @endif
 </body>
 </html>

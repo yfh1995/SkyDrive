@@ -5,7 +5,7 @@
  * Date: 2015/10/14
  * Time: 21:03
  */
-use app\User;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
@@ -13,58 +13,52 @@ use Auth,Hash,DB,Mail;
 
 class RegisterController extends Controller{
 
-    public function get_register(){
-        return view('auth/register');
-    }
-
     public function post_register(Request $request){
-//        return Redirect::to('/register')->withInput()->withErrors('Error','Á½´ÎÊäÈëµÄÃÜÂë²»Ò»Ñù£¡');
-        $this->validate($request,
-            ['name'=>'required',//|unique:users
-             'email'=>'required|email',//|unique:users
-             'password'=>'required',
-             'repeatpassword'=>'required']);
+
+        $this->validate($request, [
+                'name'                  =>  'required|unique:users',
+                'email'                 =>  'required|email|unique:users',
+                'password'              =>  'required|confirmed',
+                'password_confirmation' =>  'required'
+            ],[
+                'name.required'         =>  'ç¼ºå°‘ç”¨æˆ·å',
+                'name.unique'           =>  'ç”¨æˆ·åå·²è¢«å ç”¨',
+                'email.required'        =>  'ç¼ºå°‘é‚®ç®±',
+                'email.email'           =>  'é‚®ç®±æ ¼å¼é”™è¯¯',
+                'email.unique'          =>  'é‚®ç®±å·²è¢«å ç”¨',
+                'password.required'     =>  'ç¼ºå°‘å¯†ç ',
+                'password.confirmed'    =>  'ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸ä¸€è‡´',
+                'password_confirmation.required'=>  'è¯·ç¡®è®¤å¯†ç '
+            ]);
         $name=$request->get('name');
         $email=$request->get('email');
         $password=$request->get('password');
-        $repeatpassword=$request->get('repeatpassword');
 
 
-        if($password!=$repeatpassword){
-            return Redirect::to('/register')->withInput()->with('Errors','Á½´ÎÊäÈëµÄÃÜÂë²»Ò»Ñù£¡');
-        }
-        else if(Auth::attempt(['name'=>$name])){
-            return Redirect::to('/register')->withInput()->withErrors('´ËÓÃ»§ÃûÒÑ×¢²á£¬Çë¸ü»»ÖØÊÔ£¡');
-        }
-        else if(Auth::attempt(['email'=>$email])){
-            return Redirect::to('/register')->withInput()->withErrors('´ËÓÊÏäÒÑ×¢²á£¬Çë¸ü»»ÖØÊÔ£¡');
-        }
-        else{
-            //¸´ÖÆÓÃ»§Ä¬ÈÏÍ·ÏñE:\SkyDrive\public\website\head_picture
-            $prefix = getcwd();
-            copy($prefix.'/img/value_head.jpg',$prefix.'/website/head_picture/'.$name.'.jpg');
+        //é»˜è®¤å¤´åƒåœ°å€E:\SkyDrive\public\website\head_picture
+        $prefix = getcwd();
+        copy($prefix.'/img/value_head.jpg',$prefix.'/website/head_picture/'.$name.'.jpg');
 
-            $timer=strtotime('now');
-            $timer=$timer+24*60*60;
-            $date=date('Y-m-d H:i:s',$timer);
+        $timer=strtotime('now');
+        $timer=$timer+24*60*60;
+        $date=date('Y-m-d H:i:s',$timer);
 
-            //´´½¨ÓÃ»§
-            $user=new User;
-            $user->name=$name;
-            $user->email=$email;
-            $user->password=Hash::make($password);
-            $user->head_address='/website/head_picture/'.$name.'.jpg';
-            $user->delete_at=$date;
-            $user->save();
+        //åˆ›å»ºç”¨æˆ·ä¿¡æ¯
+        $user=new User;
+        $user->name=$name;
+        $user->email=$email;
+        $user->password=Hash::make($password);
+        $user->head_address='/website/head_picture/'.$name.'.jpg';
+        $user->delete_at=$date;
+        $user->save();
 
-            //·¢ËÍ¼¤»îÓÊ¼ş
-            $data=['name'=>$name,'email'=>$email,'activation_code'=>$date];
-            Mail::send('emails.create_user',$data,function($message) use($data)
-            {
-                $message->to($data['email'])->subject('Welcome to XX cloud disk!');
-            });
-            return $date;
-        }
+        //å‘é€éªŒè¯é‚®ä»¶
+        $data=['name'=>$name,'email'=>$email,'activation_code'=>$date];
+        Mail::send('emails.create_user',$data,function($message) use($data)
+        {
+            $message->to($data['email'])->subject('Welcome to XX cloud disk!');
+        });
+        return redirect('login')->withErrors('æˆ‘ä»¬å·²å‘æ‚¨æŒ‡å®šçš„é‚®ç®±å‘é€æ¿€æ´»é‚®ä»¶ï¼Œè¯·å‰å¾€æ¿€æ´»ï¼');
     }
 
     public function activation_account(Request $request){
