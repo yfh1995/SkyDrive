@@ -326,8 +326,8 @@ $(document).on('click', '#DownLoadTheFile', function() {
 			</ul>
 			<div  class="col-md-offset-2"  style="width:70%;margin-bottom: 0px;padding-bottom:0px;position:absolute;bottom:20px;">
 				<div class="progress progress-striped active" >
-					<div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="60"
-					aria-valuemin="0" aria-valuemax="100" style="width:80%"></div>
+					<div id="progress-bar" class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="60"
+					aria-valuemin="0" aria-valuemax="100" ></div>
 				</div><strong>{{$data['user_info']->used_space}}/{{$data['user_info']->total_space}}</strong>
 			</div>
 		</div>
