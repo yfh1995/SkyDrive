@@ -1,0 +1,155 @@
+{
+	"name": "网盘实现",
+	"children": [
+		{
+			"name": "预备知识" ,
+			"children": [
+				{
+					"name": "前端",
+					"children": [
+						{
+							"name": "HTML & CSS"
+						}, {
+							"name": "JavaScript"
+						}, {
+							"name": "SVG & Canvas"
+						}, {
+							"name": "插件使用",
+							"_children": [
+								{
+									"name": "D3"
+								}, {
+									"name": "bootstarp"
+								}, {
+									"name": "jQuery"
+								}, {
+									"name": "mdui"
+								}, {
+									"name": "mpalyer"
+								}, {
+									"name": "particle"
+								}
+							]
+						}
+					]
+				}, {
+					"name": "后端",
+					"children": [
+						{
+							"name": "PHP"
+						}, {
+							"name": "Laravel 5"
+						}, {
+							"name": "mysql"
+						}, {
+							"name": "数据库设计",
+							"_children": [
+								{
+									"name": "user(用户表)"
+								}, {
+									"name": "catalogs(文件表)"
+								}, {
+									"name": "permission(权限表)"
+								}, {
+									"name": "还有很多表……"
+								}
+							]
+						}
+					]
+				}
+			]
+		}, {
+			"name": "安装" ,
+			"children": [
+				{
+					"name": "编辑软件",
+					"children": [
+						{
+							"name": "Notepad++"
+						}, {
+							"name": "Sublime Text3"
+						}, {
+							"name": "PhpStorm"
+						}, {
+							"name": "HBuilder"
+						}
+					]
+				}, {
+					"name": "服务器软件",
+					"children": [
+						{
+							"name": "WampServer"
+						}, {
+							"name": "XAMPP"
+						}
+					]
+				}, {
+					"name": "辅助工具",
+					"_children": [
+						{
+							"name": "github"
+						}, {
+							"name": "Git(sourcetree、tortoisegit)"
+						}, {
+							"name": "Postman"
+						}, {
+							"name": "Adobe Photoshop CC"
+						}
+					]
+				}
+			]
+		}, {
+			"name": "功能",
+			"children": [
+				{
+					"name": "文件类型",
+					"_children": [
+						{
+							"name": "图片"
+						}, {
+							"name": "文档"
+						}, {
+							"name": "视频"
+						}, {
+							"name": "种子"
+						}, {
+							"name": "音乐"
+						}, {
+							"name": "压缩包"
+						}, {
+							"name": "其他"
+						}
+					]
+				}, {
+					"name": "文件操作",
+					"children": [
+						{
+							"name": "上传"
+						}, {
+							"name": "下载"
+						}, {
+							"name": "预览"
+						}, {
+							"name": "移动"
+						}, {
+							"name": "重命名"
+						}, {
+							"name": "删除"
+						}
+					]
+				}, {
+					"name": "如何分享",
+					"children": [
+						{
+							"name": "1、选择文件"
+						}, {
+							"name": "2、点击分享按钮，分享完成"
+						}, {
+							"name": "3、输入分享码,获取分享文件"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -222,7 +222,7 @@ $(document).ready(function() {
 		range: 0,
 		num: 18,
 		maxR: 20,
-		maxSpeed: 11
+		maxSpeed: 3
 	});
 	var data1 = GetFileName();
 	username = data1[0]['name'];

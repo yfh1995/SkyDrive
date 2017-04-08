@@ -45,6 +45,10 @@
 				</li>
                 <li  class="list-group-item"><a><b>密码管理</b></a></li>
                 <li id="List_2" onclick="bkbk();" class="list-group-item"><a style="text-decoration: none" href="#changes">修改密码</a></li>
+               	
+
+                <li  class="list-group-item "><a style="text-decoration: none;" href="../test">网盘介绍</a></li>
+                
             </ul>
 			<div id="d3Divshow" class='col-md-10'>
 			

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="{{ asset('/bootstrap-3.3.5-dist/css/bootstrap.min.css') }}" rel="stylesheet">
 		<title></title>
 		<style type="text/css">
 			* {
@@ -21,7 +21,7 @@
 			}
 
 			#coverBg {
-				background-color: rgba(0, 0, 0, .6);
+				background-color: rgba(0, 0, 0, .5);
 				position: fixed;
 				top: 0;
 				bottom: 0;
