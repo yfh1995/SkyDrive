@@ -30,6 +30,21 @@
 			.link-play3{
 				left:calc(50% + 110px);
 			}
+			@media only screen and (max-width: 580px) {
+				
+				.link-play1{
+					left:calc(50% - 90px);
+					top:calc(50% - 95px);
+				}
+				.link-play2{
+					left:calc(50% - 90px);
+					top:calc(50% - 25px);
+				}
+				.link-play3{
+					left:calc(50% - 90px);
+					top:calc(50% + 45px);
+				}
+			}
 			/*添加一个箭头图片 设置位置*/
 			
 			.button {
@@ -166,7 +181,7 @@
 			c.width = window.innerWidth;
 
 			//文字
-			var txts = "0123456789";
+			var txts = "01";
 			//转为数组
 			txts = txts.split("");
 
