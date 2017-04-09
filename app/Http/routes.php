@@ -50,8 +50,11 @@ Route::group(['middleware'=>'auth'],function()
         Route::post('/admin/sky_drive/button_information','admin\SD_Controller@button_information');                    //按钮信息
         Route::post('/admin/sky_drive/user_information','admin\SD_Controller@user_information');                        //用户信息
         Route::post('/admin/sky_drive/admin_information','admin\SD_Controller@admin_information');                      //管理员信息
+        Route::post('/admin/sky_drive/get_roles','admin\SD_Controller@get_roles');                                      //角色列表
+        Route::post('/admin/sky_drive/get_permissions_by_name','admin\SD_Controller@get_permissions_by_name');          //获取权限
+        Route::post('/admin/sky_drive/modify_roles','admin\SD_Controller@modify_roles');                                //修改用户角色
+        Route::post('/admin/sky_drive/modify_permissions','admin\SD_Controller@modify_permissions');                    //更新角色权限
         Route::post('/admin/sky_drive/get_authority','admin\SD_Controller@get_authority');                              //取得权限组权限
-        Route::post('/admin/sky_drive/modify_permissions','admin\SD_Controller@modify_permissions');                    //修改用户、管理员权限
         Route::post('/admin/sky_drive/delete_and_restore','admin\SD_Controller@delete_and_restore');                    //删除和还原用户、管理员
         Route::post('/admin/sky_drive/get_permission_group','admin\SD_Controller@get_permission_group');                //取得所有权限组
         Route::post('/admin/sky_drive/add_permission','admin\SD_Controller@add_permission');                            //添加权限组

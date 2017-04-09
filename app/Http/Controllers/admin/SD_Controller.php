@@ -1,5 +1,10 @@
 <?php namespace app\Http\Controllers\admin;
 
+use App\permission;
+use App\permission_group;
+use App\permission_relationship;
+use App\type_group;
+use App\User;
 use DB,Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,6 +24,11 @@ class SD_Controller extends Controller{
         return $list;
     }
 
+    /**
+     * 查询普通用户
+     * @param Request $request
+     * @return mixed
+     */
     public function user_information(Request $request){
 
         $this->validate($request,['skip' => 'required',
@@ -27,11 +37,16 @@ class SD_Controller extends Controller{
         $skip=$request->get('skip');
         $size=$request->get('size');
 
-        $list=DB::table('users')->where('admin','user')->where('delete_at','0000-00-00 00:00:00')->skip($skip)->take($size)->get();
-        $list[count($list)]=count(DB::table('users')->where('admin','user')->where('delete_at','0000-00-00 00:00:00')->get());
+        $list=DB::table('users')->where('admin',config('system_config.roles.user.name'))->where('delete_at','0000-00-00 00:00:00')->skip($skip)->take($size)->get();
+        $list[count($list)]=count(DB::table('users')->where('admin',config('system_config.roles.user.name'))->where('delete_at','0000-00-00 00:00:00')->get());
         return $list;
     }
 
+    /**
+     * 查询所有管理员包含超管和普管
+     * @param Request $request
+     * @return mixed
+     */
     public function admin_information(Request $request){
 
         $this->validate($request,['skip' => 'required',
@@ -40,9 +55,8 @@ class SD_Controller extends Controller{
         $skip=$request->get('skip');
         $size=$request->get('size');
 
-        $list=DB::table('users')->where('admin','<>','user')->where('admin','<>','superAdmin')->where('delete_at','0000-00-00 00:00:00')->skip
-        ($skip)->take($size)->get();
-        $list[count($list)]=count(DB::table('users')->where('admin','<>','user')->where('admin','<>','superAdmin')->where('delete_at','0000-00-00 00:00:00')->get());
+        $list=DB::table('users')->where('admin','<>',config('system_config.roles.user.name'))->where('delete_at','0000-00-00 00:00:00')->skip($skip)->take($size)->get();
+        $list[count($list)]=count(DB::table('users')->where('admin','<>',config('system_config.roles.user.name'))->where('delete_at','0000-00-00 00:00:00')->get());
         return $list;
     }
 
@@ -89,35 +103,95 @@ class SD_Controller extends Controller{
         }
     }
 
+    /**
+     * 获取角色列表
+     * @return mixed
+     */
+    public function get_roles(){
+        return permission_group::get();
+    }
+
+    /**
+     * 更新角色权限
+     * @param Request $request
+     * @return bool
+     */
     public function modify_permissions(Request $request){
-        $this->validate($request,['id' => 'required']);
+        $this->validate($request,[
+            'group_name'    =>  'required',
+            'permission'    =>  'required'
+        ]);
+        $params = $request->all();
 
-        $id=$request->get('id');
-        $permission=$request->get('permission');
+        //禁止更新root用户权限
+        if($params['group_name'] == config('system_config.roles.root.name')) return -1;
 
-        if($permission==null){
-            $count=count($id);
-            for($i=0;$i<$count;$i++) {
-                DB::table('users')->where('id', $id[$i])->update(array('admin' => 'user'));
-            }
-            return 1;
+        $old_permissions = permission_relationship::where('group_name',$params['group_name'])->lists('id');
+        $new_permissions = $params['permission'];
+        foreach($new_permissions as &$v){
+            $v = ['group_name'=>$v];
         }
 
-        $permission_group=DB::table('permission_group')->get();
-        $count1=count($permission_group);
-        for($i=0;$i<$count1;$i++){
-            $list=DB::table('permission_relationship')->where('group_name',$permission_group[$i]->group_name)->lists('permission_name');
-            $result1=array_diff($list,$permission);
-            $result2=array_diff($permission,$list);
-            if(empty($result1)&&empty($result2)){
-                $count2=count($id);
-                for($j=0;$j<$count2;$j++){
-                    DB::table('users')->where('id',$id[$j])->update(array('admin'=>$permission_group[$i]->group_name));
-                }
-                return 1;
+        DB::beginTransaction();
+
+        //删除旧权限
+        $rs_de = permission_relationship::whereIn('id',$old_permissions)->delete();
+
+        //插入新权限
+        $rs_in = permission_relationship::insert($new_permissions);
+
+        if($rs_de === false || $rs_in === false){
+            DB::rollback();
+            return -1;
+        }
+
+        DB::commit();
+        return 1;
+    }
+
+    /**
+     * 获取权限组的权限选择情况
+     * @param Request $request
+     * @return mixed
+     */
+    public function get_permissions_by_name(Request $request){
+        $this->validate($request,[
+            'group_name'        =>  'required'
+        ]);
+
+        $all_permissions = permission::orderBy('group_name')->get();
+        $has_permissions = permission_relationship::where('group_name',$request->get('group_name'))->orderBy('permission_name')->get();
+        $cnt_a = count($all_permissions);
+        $cnt_h = count($has_permissions);
+        for($i=0,$j=0;$i<$cnt_a||$j<$cnt_h;){
+            if($i>=$cnt_a) break;
+            if($j>=$cnt_h){
+                $all_permissions[$i]->selected = false;
+                $i++;
+                continue;
+            }
+            if($all_permissions[$i]->permission_name == $has_permissions[$j]->permission_name){
+                $all_permissions[$i]->selected = true;
+                $i++;$j++;
+            }else{
+                $all_permissions[$i]->selected = false;
+                $i++;
             }
         }
-        return -1;
+
+        return $all_permissions;
+    }
+
+    public function modify_roles(Request $request){
+        $this->validate($request,[
+            'id'        =>  'required',
+            'group_name'=>  'required'
+        ]);
+        $params = $request->all();
+
+        $rs = User::where('id',$params['id'])->update(['admin'=>$params['group_name']]);
+        if($rs === false) return -1;
+        else return 1;
     }
 
     public function get_permission_group(Request $request){
