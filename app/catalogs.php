@@ -8,4 +8,6 @@ class catalogs extends Model {
     protected $fillable = ['owner_name', 'md5', 'garbage', 'cur_catalog_name', 'father_catalog_name','validate',
                             'click','download','address','size','root_garbage'];
     protected $dates = ['deleted_at'];
+
+    protected $table = 'catalogs';
 }
