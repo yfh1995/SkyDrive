@@ -159,7 +159,7 @@ class SD_Controller extends Controller{
             'group_name'        =>  'required'
         ]);
 
-        $all_permissions = permission::orderBy('group_name')->get();
+        $all_permissions = permission::orderBy('permission_name')->get();
         $has_permissions = permission_relationship::where('group_name',$request->get('group_name'))->orderBy('permission_name')->get();
         $cnt_a = count($all_permissions);
         $cnt_h = count($has_permissions);
