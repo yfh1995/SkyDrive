@@ -32,7 +32,7 @@ td {
 	display: block;
 	font-size: 70px;
 	color: #f1ebe5;
-	text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+	text-shadow: 0 8px 9px #FFF, 0px -2px 1px #fff;
 	font-weight: bold;
 	letter-spacing: -4px;
 	text-align: center;
@@ -42,7 +42,54 @@ td {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	border-radius: 20px;
-}</style>
+}
+
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+
+#modal-body::-webkit-scrollbar {
+	width: 10px;
+	height: 16px;
+	background-color: #f5f5f5;
+}
+/*定义滚动条的轨道，内阴影及圆角*/
+
+#modal-body::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	border-radius: 10px;
+	background-color: #f5f5f5;
+	/*background-color: steelblue;*/
+}
+
+
+/*定义滑块，内阴影及圆角*/
+
+#modal-body::-webkit-scrollbar-thumb {
+	width: 3px;
+	height: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: gray;
+}
+#searchInput {
+	position: absolute;
+	z-index: 100;
+	left: 70%;
+	top: 10px;
+}
+
+.input-group {
+	width: 200px;
+}
+</style>
+<div id="searchInput">
+	<div id="shareCode "  class="input-group">
+		<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
+		<span class="input-group-btn">
+		<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
+		Go!
+		</button> </span>
+	</div><!-- /input-group -->
+</div>
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >
@@ -101,7 +148,7 @@ td {
 
 			<div id="ContentIntwoInTwoDiv" style="height:calc(85%);margin:0px;padding:0px;" >
 
-				<div style="height:calc(15%);width:100%;background: #ece4d9;position: relative;">
+				<div style="height:calc(15%);width:100%;background: #000;position: relative;">
 					<div class="csshub-milky">
 						我的分享
 					</div>
@@ -153,7 +200,7 @@ td {
 				</button>
 				<h4 class="modal-title" id="myModalLabel"> 分享文件列表 </h4>
 			</div>
-			<div class="modal-body" style="height:300px;overflow-y: auto;">
+			<div id="modal-body" class="modal-body" style="height:200px;max-height:300px;overflow-y: auto;">
 				<table class="table">
 					<thead>
 						<tr>
@@ -181,7 +228,7 @@ td {
 
 <script>$(document).ready(function() {
 	var strTd = "",strTr;
-	$(document).on("click", "tr", function() {
+	$(document).on("click", "#myshareCodelist tr", function() {
 		var shareCode = $(this).attr("data-share");
 		$.ajax({
 			url: "/sky_drive/get_share_catalog",
@@ -207,7 +254,34 @@ td {
 			}
 		});
 	})
-	
+	$("#SearchSareCodeBtn").on('click', function() {
+		var code = $("#shareCodeInput").val();
+		window.location.href="/sky_drive/getShareData?share_code="+code;
+//		$.ajax({
+//			url: '',
+//			type: 'post',
+//			data: {
+//				"share_code": code
+//			},
+//			headers: {
+//				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+//			},
+//			success: function(data) {
+//				console.log(data);
+//				if(data.result == false) {
+//					alert("该分享码错误，没有数据！");
+//					return;
+//				}
+//				//				$("#xiangangID").append("<div id='catalog'></div>");
+//				console.log(data);
+//				$("#catalog").empty();
+//				show_data(data.data);
+//			},
+//			error: function() {
+//				alert('11数据读取发生错误！');
+//			}
+//		});
+	})
 	var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
 	var nScrollTop = 0; //滚动到的当前位置
 	var nDivHight = 0; //滚动div的高度

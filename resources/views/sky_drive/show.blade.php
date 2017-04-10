@@ -326,7 +326,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 			</ul>
 			<div  class="col-md-offset-2"  style="width:70%;margin-bottom: 0px;padding-bottom:0px;position:absolute;bottom:20px;">
 				<div class="progress progress-striped active" >
-					<div id="progress-bar" class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="60"
+					<div id="progress-bar" class="progress-bar progress-bar-success " style="width:80%;" role="progressbar" aria-valuenow="60"
 					aria-valuemin="0" aria-valuemax="100" ></div>
 				</div><strong>{{$data['user_info']->used_space}}/{{$data['user_info']->total_space}}</strong>
 			</div>
@@ -365,7 +365,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 							<i class="mdui-icon material-icons">&#xe80d;</i>
 							分享
 							</button>
-							<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(0)">
+							<button type="button" id="DeleteFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(0)">
 							<i class="mdui-icon material-icons " >&#xe872;</i>
 							删除
 							</button>
@@ -376,7 +376,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 							<button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
 							预览
 							</button>
-							<button type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
+							<button type="button" id="HuiFuFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">
 							恢复
 							</button>
 						</div>

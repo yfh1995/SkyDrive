@@ -69,7 +69,7 @@
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 },
                 success:function(data){
-                	
+                	console.log(data);
                     for(var i=0;i<data.length;i++)
                     {
                         if(data[i]['permission_name']=='recycle') {

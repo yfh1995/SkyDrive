@@ -121,6 +121,14 @@
 	if(father_catalog_nameNow == null) {
 		father_catalog_nameNow = decodeURI(GetQueryString("father_catalog_name"));
 	}
+	/*
+	 * 当在回收站的时候的设置
+	 */
+	if(file_typeNow=="garbage"){
+		$("#DeleteFile").hide();
+	}else{
+		$("#HuiFuFile").hide();
+	}
 	SetTileOfEntry(father_catalog_nameNow);
 	$("#mytab a").click(function(e) {
 		e.preventDefault();
@@ -155,7 +163,6 @@
 	$("#SearchSareCodeBtn").on('click', function() {
 		var code = $("#shareCodeInput").val();
 		window.location.href="/sky_drive/getShareData?share_code="+code;
-		
 //		$.ajax({
 //			url: '',
 //			type: 'post',
@@ -551,7 +558,7 @@ function SureButtonFunction() {
 	var cur_catalog_name = document.getElementById("text1").value;
 	//alert(cur_catalog_name);
 	if(cur_catalog_name == null && cur_catalog_name == "") {
-		alert("请重新输入");
+		myAlert("请重新输入");
 	} else {
 		$.ajax({
 			url: '/sky_drive/set_up_catalog',
@@ -565,24 +572,27 @@ function SureButtonFunction() {
 			},
 			success: function(data) {
 				if(data == 'ok') {
-					IsCreateFileNow = false;
-					alert('创建成功！');
-					$(".Filename").text(cur_catalog_name);
-					$(".Filename").show();
-					$("#text1").hide();
-					$("#createFileSure").hide();
-					$("#createFileFlase").hide();
-					$("#TimeOfCreateFile").text(getNowTime());
-					remove_data('div1');
-					refresh('', 'catalog');
+					myAlert("创建文件夹成功了！");
+					$(".errorBtnSure").attr("Isreload","true");
+//					IsCreateFileNow = false;
+//					alert('创建成功！');
+//					$(".Filename").text(cur_catalog_name);
+//					$(".Filename").show();
+//					$("#text1").hide();
+//					$("#createFileSure").hide();
+//					$("#createFileFlase").hide();
+//					$("#TimeOfCreateFile").text(getNowTime());
+//					remove_data('div1');
+//					refresh('', 'catalog');
+					
 				} else if(data == 'duplication of name') {
-					alert('创建失败！此文件名和本目录下文件名重复！');
+					myAlert('创建失败！此文件名和本目录下文件名重复！');
 				} else {
-					alert('因为未知原因创建失败！');
+					myAlert('因为未知原因创建失败！');
 				}
 			},
 			error: function() {
-				alert('创建失败！');
+				myAlert('创建失败！');
 			}
 		});
 
@@ -663,7 +673,7 @@ $(document).on('click', '#renameButton', function() {
 //确定重命名
 $(document).on('click', '#renameFileSure', function() {
 	var choose = $(this).parent().parent().attr('id');
-	var GetId = $(this).parent().siblings("input").attr('id');
+	var GetId = $(this).parent().siblings("label").children("input").attr('id');
 	//原先的名字
 	var NameFirst = $(this).parent().siblings(".Filename").text();
 	//原先名字的前缀
@@ -686,7 +696,6 @@ $(document).on('click', '#renameFileSure', function() {
 		$(this).parent().siblings(".Filename").show();
 	} else {
 		var resultOfrename = "";
-		alert(NameNow);
 		$.ajax({
 			url: '/sky_drive/rename',
 			type: 'post',
@@ -700,19 +709,16 @@ $(document).on('click', '#renameFileSure', function() {
 			},
 			success: function(data) {
 				resultOfrename = data;
-				console.log(data);
 			},
 			error: function() {
-				alert('命名失败！');
+				myAlert('命名失败！');
 			}
 		});
-		alert(resultOfrename);
 		if(resultOfrename == "ok") {
-			$(this).parent().hide();
-			$(this).parent().siblings(".Filename").text(NameNow);
-			$(this).parent().siblings(".Filename").show();
+			myAlert("重命名成功！");
+			$(".errorBtnSure").attr("Isreload","true");
 		} else {
-			alert("当前目录下已经有相同的目录请重新命名");
+			myAlert("当前目录下已经有相同的目录请重新命名");
 		}
 	}
 
@@ -1022,7 +1028,7 @@ function shareFile() {
 			inst.open();
 		},
 		error: function() {
-			alert("分享失败");
+			myAlert("分享失败");
 		}
 	});
 }
@@ -1084,16 +1090,18 @@ function delete_and_restore(list, flag) {
 		},
 		success: function(data) {
 			if(flag == 0) {
-				alert("删除成功！你可以在回收站还原已删除文件！");
+				myAlert("删除成功！你可以在回收站还原已删除文件！");
+				$(".errorBtnSure").attr("Isreload","true");
 			} else {
-				alert("还原成功！");
+				myAlert("还原成功！");
+				$(".errorBtnSure").attr("Isreload","true");
 			}
-			window.location.reload();
+
 			//			refresh('', 'catalog');
 		},
 		error: function() {
-			if(flag == 0) alert("删除失败！");
-			else alert("还原失败！");
+			if(flag == 0) myAlert("删除失败！");
+			else myAlert("还原失败！");
 		}
 	});
 }
@@ -1134,7 +1142,7 @@ function show_type(type, page, size, flag) {
 			//			}
 		},
 		error: function() {
-			alert('数据读取发生错误！');
+			myAlert('数据读取发生错误！');
 		}
 	});
 }
@@ -1161,7 +1169,7 @@ function show_garbage(type, page, size, flag) {
 			//			}
 		},
 		error: function() {
-			alert("数据读取错误！");
+			myAlert("数据读取错误！");
 		}
 	});
 }
@@ -1194,10 +1202,10 @@ function show_catalog(father_catalog_name, type, page, size, flag) {
 			//			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest.status);
-			alert(XMLHttpRequest.readyState);
-			alert(textStatus);
-			alert('数据读取发生错误！');
+			myAlert(XMLHttpRequest.status);
+			myAlert(XMLHttpRequest.readyState);
+			myAlert(textStatus);
+			myAlert('数据读取发生错误！');
 		}
 	});
 }
@@ -1223,10 +1231,10 @@ function show_catalog2() {
 			show_data(data);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest.status);
-			alert(XMLHttpRequest.readyState);
-			alert(textStatus);
-			alert('数据读取发生错误！');
+			myAlert(XMLHttpRequest.status);
+			myAlert(XMLHttpRequest.readyState);
+			myAlert(textStatus);
+			myAlert('数据读取发生错误！');
 		}
 	});
 }
@@ -1279,7 +1287,7 @@ function GetFatherUnder_catalog(str) {
 
 		},
 		error: function() {
-			alert("提取子目录发生错误");
+			myAlert("提取子目录发生错误");
 		}
 	});
 }
@@ -1298,11 +1306,11 @@ function MoveFileOfYidongwenjianjia() {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		},
 		success: function() {
-			alert('移动文件夹成功了');
-
+			myAlert('移动文件夹成功了');
+			$(".errorBtnSure").attr("Isreload","true");
 		},
 		error: function() {
-			alert("移动文件夹错误");
+			myAlert("移动文件夹错误");
 		}
 	});
 }

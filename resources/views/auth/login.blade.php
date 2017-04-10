@@ -28,7 +28,7 @@
 				left: 0;
 				right: 0;
 				display:none;
-				z-index: 1000;;
+				z-index: 1000;
 			}
 			#alertErrorBox {
 				position: absolute;
@@ -41,7 +41,7 @@
 			}
 
 			.ErrorTips {
-				padding-left: 5px;
+				padding: 15px;
 				line-height: 25px;
 				font-size: 1.5em;
 			}
