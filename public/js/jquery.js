@@ -28,6 +28,9 @@
 		window.leftNow=leftNow;
 	})
 	$(document).on("contextmenu", ".FileShowLine", function(e) {
+		if(file_typeNow=="garbage"){
+			return ;
+		}
 		var index = $(this).index() - 1,
 			topNow = index * 36;
 		var scrollTop = $("#xiangangID").scrollTop();
@@ -125,7 +128,7 @@
 	 * 当在回收站的时候的设置
 	 */
 	if(file_typeNow=="garbage"){
-		$("#DeleteFile").hide();
+		$("#HuiFuFile").show().siblings("button").hide();
 	}else{
 		$("#HuiFuFile").hide();
 	}
@@ -387,9 +390,15 @@ $(".disable").on('click', function(e) {
 })
 //给列表绑定悬浮事件
 $(document).on('mouseover', '.FileShowLine', function() {
+	if(file_typeNow=="garbage"){
+			return ;
+		}
 	$(this).children().addClass('bcOfListWhileHover');
 	$(this).find("DIV #toggletuBiao").show();
 }).on("mouseout", '.FileShowLine', function() {
+	if(file_typeNow=="garbage"){
+			return ;
+		}
 	$(this).find("DIV #toggletuBiao").hide();
 	if($(this).find("input").is(":checked") == false) {
 		$(this).children().removeClass('bcOfListWhileHover');
