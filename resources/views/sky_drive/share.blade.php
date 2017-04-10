@@ -2,9 +2,11 @@
 
 @section('content')
 <link href="{{ asset('/css/style.css')}}" rel="stylesheet" type="text/css">
-
+<link href="{{ asset('/css/animate.css')}}" rel="stylesheet" type="text/css">
 <style type="text/css">th {
-	background-color: aqua;
+	/*background-color: aqua;*/
+	background-color: #000;
+	color:#FFF;
 }
 
 td,
@@ -79,6 +81,9 @@ td {
 
 .input-group {
 	width: 200px;
+}
+#myshareCodelist>tr{
+	display: none;
 }
 </style>
 <div id="searchInput">
@@ -156,9 +161,10 @@ td {
 				<table class="table" style="height: 38px!important;overflow: hidden;">
 					<thead>
 						<tr>
-							<th class='col-md-6 col-sm-6 col-lg-6'>分享码</th>
+							<th class='col-md-5 col-sm-5 col-lg-5'>分享码</th>
 							<th class='col-md-2 col-sm-2 col-lg-2'>状态</th>
-							<th class='col-md-4 col-sm-4 col-lg-4'>日期</th>
+							<th class='col-md-3 col-sm-3 col-lg-3'>日期</th>
+							<th class='col-md-2 col-sm-2 col-lg-2'>操作</th>
 						</tr>
 					</thead>
 				</table>
@@ -168,10 +174,13 @@ td {
 
 							<tbody id="myshareCodelist">
 								@foreach($data['share_info'] as $v)
-								<tr  class="mytr {{$v->deadline<=time()?'success':'danger'}}" data-share={{$v->
-									share_code}}  data-lastid={{$v->id}} > <td class='col-md-6 col-sm-6 col-lg-6'>{{$v->share_code}}</td>
+								<tr   class=" mytr {{$v->deadline<=time()?'success':'danger'}}" data-share={{$v->
+									share_code}}  data-lastid={{$v->id}} >
+									 <td class='col-md-5 col-sm-5 col-lg-5'>
+									 	<span class='btnbtn' data-toggle="tooltip" data-placement="right" title="点击复制分享码" data-clipboard-text={{$v->share_code}}>{{$v->share_code}}</span></td>
 									<td class='col-md-2 col-sm-2 col-lg-2'>{{$v->deadline<=time()?'可用':'过期'}}</td>
-									<td class='col-md-4 col-sm-4 col-lg-4'>{{$v->created_at}}</td>
+									<td class='col-md-3 col-sm-3 col-lg-3'>{{$v->created_at}}</td>
+									<td class='col-md-2 col-sm-2 col-lg-2'><span id='LookFIleList' class='glyphicon glyphicon-eye-open'></span></td>
 								</tr>
 
 								@endforeach
@@ -204,7 +213,7 @@ td {
 				<table class="table">
 					<thead>
 						<tr>
-							<th style="background-color: #FFF;text-align: left;">文件名称</th>
+							<th style="background-color: #FFF;text-align: left;color:#000;">文件名称</th>
 						</tr>
 					</thead>
 
@@ -225,11 +234,41 @@ td {
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<script src="{{asset('/js/clipboard.min.js')}}"></script>
 <script>$(document).ready(function() {
+	/*
+	 * 动画效果
+	 */
+	var clipboard = new Clipboard('.btnbtn');
+
+	clipboard.on('success', function(e) {
+
+		console.log(e);
+	});
+
+	clipboard.on('error', function(e) {
+		console.log(e);
+	});
+	$("[data-toggle='tooltip']").tooltip();
+	$("#shareCode").on('click', function() {
+		$("#copyShareCode").click();
+	})
+	var AnimateEL=$("#myshareCodelist>tr");
+	var AnimateLen=AnimateEL.length;
+	var AniCnt=0;
+	shouAnimate();
+	function shouAnimate(){
+		AnimateEL=$("#myshareCodelist>tr");
+		AnimateLen=AnimateEL.length;
+		setTimeout(function(){
+		AnimateEL.eq(AniCnt++).addClass("animated slideInUp").show(200);
+			if(AniCnt<AnimateLen)
+			setTimeout(arguments.callee,200);
+		},200);
+	}
 	var strTd = "",strTr;
-	$(document).on("click", "#myshareCodelist tr", function() {
-		var shareCode = $(this).attr("data-share");
+	$(document).on("click", "#LookFIleList", function() {
+		var shareCode = $(this).parent().parent().attr("data-share");
 		$.ajax({
 			url: "/sky_drive/get_share_catalog",
 			type: 'GET',
@@ -243,7 +282,6 @@ td {
 				$("#shareList").empty();
 				for(var i = 0; i < data.length; i++) {
 					strTd = "<tr><td>" + data[i] + "</td></tr>";
-					
 					$("#shareList").append(strTd);
 				}
 
@@ -311,14 +349,16 @@ td {
 					for(var i=0;i<data.length;i++){
 						var className=(new Date(data[i]["deadline"])<new Date()?'success':'danger');
 						strTr="<tr data-share="+data[i]['share_code']+" class='mytr "+className+" 'data-lastid="+data[i]['id']+">";
-						strTr+="<td class='col-md-6 col-sm-6 col-lg-6'>"+data[i]['share_code']+"</td>";
+						strTr+="<td class='col-md-5 col-sm-5 col-lg-5'><span class='btnbtn' data-toggle='tooltip' data-placement='right' title='点击复制分享码' data-clipboard-text='"+data[i]['share_code']+"'>"+data[i]['share_code']+"</span></td>";
 						strTr+="<td class='col-md-2 col-sm-2 col-lg-2'>"+(new Date(data[i]["deadline"])<new Date()?'可用':'过期')+"</td>";
-						strTr+="<td class='col-md-4 col-sm-4 col-lg-4'>"+data[i]['created_at']+"</td>";
+						strTr+="<td class='col-md-3 col-sm-3 col-lg-3'>"+data[i]['created_at']+"</td>";
+						str+="<td class='col-md-2 col-sm-2 col-lg-2'><span id='LookFIleList' class='glyphicon glyphicon-eye-open'></span></td>";
 						strTr+="</tr>";
 						console.log(strTr);
 						$("#myshareCodelist").append(strTr);
 					}
-					
+					shouAnimate();
+					$("[data-toggle='tooltip']").tooltip();
 				},
 				error: function() {
 					alert('调用失败');
