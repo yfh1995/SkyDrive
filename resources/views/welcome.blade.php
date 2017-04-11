@@ -158,6 +158,8 @@
 				<span class="line line-bottom"></span> 个人中心
 			</a>
 		</div>
+
+		@if (Auth::check())
 		<div class="link link-play3">
 			<a  class="button "  href="{{ url('/admin/sky_drive') }}">
 				<span class="line line-left"></span>
@@ -166,6 +168,7 @@
 				<span class="line line-bottom"></span> 后台管理
 			</a>
 		</div>
+		@endif
 		<script>
 			var texiao=["hinge","fadeOutDown","rollOut"];
 			$(".link").on("click",function(){

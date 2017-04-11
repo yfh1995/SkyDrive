@@ -73,10 +73,9 @@
 							</div>
 						</div>
 						</li>
-                        @if(Auth::user()->admin == 'abc')
-						    <li class="dropdown"><a href="{{ url('admin/sky_drive') }}" id="yangfuhao">{{ Auth::user()->name }}</a></li>
-                        @else
-                            <li class="dropdown"><a href="{{ url('/') }}" id="yangfuhao">{{ Auth::user()->name }}</a></li>
+						<li class="dropdown"><a href="{{ url('/personal_center') }}" id="yangfuhao">{{ Auth::user()->name }}</a></li>
+                        @if(Auth::user()->admin != config('system_config.roles.user'))
+							<li><a href="{{ url('admin/sky_drive') }}">后台管理</a></li>
                         @endif
 						<li><a href="{{ url('logout') }}">注销</a></li>
 					@endif
