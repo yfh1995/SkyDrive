@@ -39,9 +39,10 @@ class PE_Controller extends Controller{
         $head=base64_decode(str_replace('data:image/png;base64,', '', $request->get('head')));
         $head_address='/website/head_picture/'.Auth::user()->name.'.jpg';
 
+        $old_data = DB::table('users')->where('name',$name)->first();
+        unlink(substr($old_data->head_address,1));
         DB::table('users')->where('name',$name)->update(array('head_address'=>$head_address));
-        Storage::disk('head_picture')->delete($name.'.jpg');
-        Storage::disk('head_picture')->put(Auth::user()->name.'.jpg',$head);
+        file_put_contents(substr($old_data->head_address,1),$head);
         return 'ok';
     }
 
@@ -62,7 +63,7 @@ class PE_Controller extends Controller{
         $repeatnewpassword=$request->get('repeatpassword');
 
         if($newpassword!=$repeatnewpassword){
-            return 'Á½´ÎÊäÈëµÄÃÜÂë²»Ò»Ñù£¬ÇëÖØÊÔ£¡';
+            return 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½';
         }
         else if(Auth::attempt(['name'=>$name,'password'=>$oldpassword])){
             if(DB::table('users')->where('name',$name)->update(array('password'=>Hash::make($newpassword)))) {
@@ -73,7 +74,7 @@ class PE_Controller extends Controller{
             }
         }
         else{
-            return '¾ÉÃÜÂëÊäÈë´íÎó£¡ÇëÖØÊÔ£¡';
+            return 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½';
         }
     }
 
