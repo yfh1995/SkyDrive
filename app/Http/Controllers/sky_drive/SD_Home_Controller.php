@@ -64,6 +64,9 @@ class SD_Home_Controller extends Controller{
                 if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
 
                 $catalogs_info = $table->orderBy('id','desc')->take($size)->get();
+                foreach($catalogs_info as $v){
+                    $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
+                }
 
                 $user_info = DB::table('users')->select('used_space')->where('id',Auth::user()->id)->first();
                 $user_info->used_space = $this->getShowSize($user_info->used_space);
