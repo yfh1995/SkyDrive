@@ -171,6 +171,10 @@
 		@endif
 		<script>
 			var texiao=["hinge","fadeOutDown","rollOut"];
+//			if($(".link").length)==2){
+//				texiao=["hinge","rollOut"];
+//				$(".link")
+//			}
 			$(".link").on("click",function(){
 				var index=$(this).index()-7;
 
