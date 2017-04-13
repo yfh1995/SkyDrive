@@ -6236,4 +6236,83 @@ label,
 }
 
 
+#photoofhead2 a{
+	line-height: 50px;
+}
+#photoofhead2 img{
+	border-radius: 100%;
+	height:30px;
+	width:30px;
+	
+}
+.dropdown{
+	margin-right:200px;
+}
+#myDownList{
+	width:200px;
+	background-color:#FFF;
+	position:absolute;
+	z-index:1;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
+	border-radius: 5px;
+	/*overflow: hidden;*/
+	display:none;
+	/*border:10px solid #FFF;*/
+}
+.mylist_info{
+	position:relative;
+	z-index: 0;
+	border-top-left-radius:5px;
+	-webkit-border-top-left-radius:5px; /* Safari */
+	border-top-right-radius:5px;
+	-webkit-border-top-right-radius:5px; /* Safari */
+	height:70px;
+	background-color: #3e81e0;
+}
+.mylist_info_arrwo{
+		width:10px;
+		height:10px;
+		position: absolute;
+		left:calc(50% - 5px);
+		top:-10px;
+	  border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #3e81e0;
+}.mylist_info_img{
+	line-height: 70px;
+	    padding-left:10px;
+	    display: inline-block;
+}
+.mylist_info_name{
+	line-height: 70px;
+	color: #FFF;
+	 padding-left:10px;
+	display: inline-block;
 
+}
+.mylist_info_img img{
+	height:50px;
+	width:50px;
+	border-radius: 50%;
+}
+.myOperatorList_item{
+	position: relative;
+	cursor: pointer;
+}
+.myOperatorList_item>a{
+	text-decoration: none;
+	line-height:35px;
+	padding-left:10px;
+	color:#111;
+}
+.myOperatorList_item>a:hover{
+	color:#111;
+	text-decoration: none;
+}
+.myOperatorList_item>a:active{
+	color:#111;
+	text-decoration: none;
+}
+.myOperatorList_item:hover{
+	background-color: rgba(0,255,255,.2);
+}

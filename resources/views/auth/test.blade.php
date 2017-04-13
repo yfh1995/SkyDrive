@@ -26,10 +26,32 @@ body{
 	stroke-width: 1.5px;
 }
 
+.path--background {
+  fill: none;
+  stroke: #FFF;
+  stroke-width: 2px;
+}
+
+.label {
+  font: 24px sans-serif;
+  text-anchor: middle;
+  color: #FFF;
+}
+#mySvg{
+	/*background-color: #FFF;*/
+	position: fixed;
+	right:0;
+}
+@media only screen and (max-width: 900px) {
+	#mySvg{
+	display:none;
+}
+}
 </style>
+
 <script src="{{asset('/js/d3.js')}}"></script>
 
-<script>var width = 1000;
+<script>var width = 900;
 var height = 500;
 
 //边界空白
@@ -243,5 +265,95 @@ d3.json("learn.json", function(error, root) {
 	}
 
 });</script>
+<script>
+		var width = 400,
+			height = 600;
 
+		var fields = [{
+			value: 24,
+			size: 24,
+			label: "h",
+			update: function(date) {
+				return date.getHours();
+			}
+		}, {
+			value: 60,
+			size: 60,
+			label: "m",
+			update: function(date) {
+				return date.getMinutes();
+			}
+		}, {
+			value: 60,
+			size: 60,
+			label: "s",
+			update: function(date) {
+				return date.getSeconds();
+			}
+		}];
+
+		var arc = d3.svg.arc()
+			.innerRadius(height / 6.5 - 60)
+			.outerRadius(height / 6.5 - 5)
+			.startAngle(0)
+			.endAngle(function(d) {
+				return (d.value / d.size) * 2 * Math.PI;
+			});
+
+		var svg2 = d3.select("body").append("svg")
+			.attr("width", width)
+			.attr("height", height)
+			.attr("id","mySvg");
+
+		var field = svg2.selectAll(".field")
+			.data(fields)
+			.enter().append("g")
+			.attr("transform", function(d, i) {
+//				return "translate(" + (i * 2 + 1.25) / 6.5 * width + "," + height / 2 + ")";
+				return "translate("+width/2+","+(i*2+1.25)/6.5*height+")";
+			})
+			.attr("class", "field");
+
+		field.append("path")
+			.attr("class", "path path--background")
+			.attr("d", arc);
+
+		var path = field.append("path")
+			.attr("class", "path path--foreground");
+
+		var label = field.append("text")
+			.attr("class", "label")
+			.attr("dy", ".35em")
+			.attr("stroke","#FFF");
+
+		(function update() {
+			var now = new Date();
+
+			field
+				.each(function(d) {
+					d.previous = d.value, d.value = d.update(now);
+				});
+
+			path.transition()
+				.ease("elastic")
+				.duration(750)
+				.attrTween("d", arcTween);
+
+			label
+				.text(function(d) {
+					return d.value + d.label;
+				});
+
+			setTimeout(update, 1000 - (now % 1000));
+		})();
+
+		function arcTween(b) {
+			var i = d3.interpolate({
+				value: b.previous
+			}, b);
+			return function(t) {
+				return arc(i(t));
+			};
+		}
+</script>
 @endsection

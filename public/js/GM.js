@@ -1,6 +1,7 @@
 var GM_single_or_All = 1;
 var GM_user_or_GM = 1;
-var nameNow="";
+var nameNow = "",IDNow=-1;
+
 function addGM_Recycle() //加载回收站按钮
 {
 	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(0)'><span class='glyphicon glyphicon-trash'></span>&nbsp;&nbsp;回收站</a></li>";
@@ -9,9 +10,13 @@ function addGM_Recycle() //加载回收站按钮
 
 function addGM_peoplev1() //加载用户按钮
 {
+	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(5)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;管理员</a></li>";
+	$("#GM_people").append(str1);
+	//debug
+	
 	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(4)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;角色</a></li>";
 	$("#GM_people").append(str1);
-//	debug
+	//	debug
 	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(1)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;用户</a></li>";
 	$("#GM_people").append(str1);
 }
@@ -115,7 +120,7 @@ function GM_Search() //搜索ajax
 	var flag = $('#search').attr('whatever');
 	var name = $('#search').val();
 	var GM_name = name.split('');
-	
+
 	if(GM_name == '') {
 		if(flag == 'permissiongroup') {
 			GM_getGMslist2(0, 10, false);
@@ -333,8 +338,9 @@ function GM_getRecycleBinRevise(GM_flag) //回收站恢复ajax
 	});
 }
 //-------------------------------用户-----------------------------------------------------------------------------------------------------
-function GM_Addition(GM_flag1, GM_flag2) //加载增加的模块
+function GM_Addition(GM_flag1, GM_flag2, GM_flag3) //加载增加的模块
 {
+
 	var GM_div1 = document.getElementById("GM_addition");
 	GM_div1.style.background = "#f5f5f5";
 	if(GM_flag2 == 1) {
@@ -343,43 +349,69 @@ function GM_Addition(GM_flag1, GM_flag2) //加载增加的模块
 			$(".GM_userInput").attr("style", "pointer-events: none;background:#000;opacity:0.1;");
 			GM_div1.innerHTML = "<div class='col-md-12 btn-info'><h4>修改密码</h4></div> <div  class='col-md-12 GM_Boder' style='text-align:center;'> <div class='col-md-12'style='margin-top: 20px;padding: 0'><input type='password' id='GM_passWord' class='form-control'  placeholder='Password'> </div> <div class='col-md-12'style='margin-top: 20px;margin-bottom:15px;padding: 0'> <input type='password' id='GM_RepassWord' class='form-control'  placeholder='Repeat'> </div><div id='GM_warning' class='col-md-12 alert alert-danger' style='margin-top: 20px;margin-bottom:15px;padding: 0;display:none '></div> </div> <div class='col-md-12' style='text-align:center;margin:20px 0px 400px 0px;'><div class='col-md-12'style='margin-top: 20px;'> <div class='col-md-10'style='margin: 0;padding: 0;'>通知用户</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_ToUser'></div> </div> <div style='float:left;padding: 0;margin-top: 20px' class='col-md-6' > <a class='btn btn-info btn-xs' onclick='GM_clearAddition()'> <i class='glyphicon glyphicon-edit icon-white' ></i>取消 </a> </div> <div style='float:left;padding: 0;margin-top: 20px' class='col-md-6'> <a class='btn btn-danger btn-xs' data-toggle='modal' data-target='#GM_isSureChangePass' > <i class='glyphicon glyphicon-trash icon-white'> </i>确定 </a> </div> </div>";
 		}
-		if(GM_flag1 == 2) {//获取权限
-			$.ajax({
-				url: "/admin/sky_drive/get_permissions_by_name",
-				type: 'post',
-				data: {
-					group_name:nameNow
-				},
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-				},
-				success: function(data) {
-					console.log(data);
-					$(".GM_userInput").attr("style", "pointer-events: none;background:#000;opacity:0.1;");
-					var strOfGM_div1="<div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >设置权限</h4></div> ";
-					strOfGM_div1+="<div class='col-md-12 GM_Boder'>";
-					for(var i=0;i<data.length;i++){
-						strOfGM_div1+='<div class="col-md-12" style="margin-top: 15px;padding: 0;">';
-						strOfGM_div1+=' <div class="col-md-10" style="margin: 0;padding: 0;">'+data[i].chinese_name+'</div>';
-						strOfGM_div1+=' <div class="col-md-2" style="margin: 0;padding: 0">';
-						var women=data[i].permission_name;
-						women+="_"+data[i].chinese_name;
-						strOfGM_div1+="<input type='checkbox' name='GM_userSetSelect' value="+women+" /></div> </div>";
+		if(GM_flag1 == 2) { //获取权限
+			if(GM_flag3 == 1) {
+				$.ajax({
+					url: "/admin/sky_drive/get_roles",
+					type: 'post',
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+					},
+					success: function(data) {
+						console.log(data);
+						$(".GM_userInput").attr("style", "pointer-events: none;background:#000;opacity:0.1;");
+						var strOfGM_div1 = "<div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >角色管理</h4></div> ";
+						strOfGM_div1 += "<div class='col-md-12 GM_Boder'>";
+						for(var i = 0; i < data.length; i++) {
+							strOfGM_div1 += '<div class="col-md-12" style="margin-top: 15px;padding: 0;">';
+							strOfGM_div1 += ' <div class="col-md-10" style="margin: 0;padding: 0;">' + data[i].cn_name + '</div>';
+							strOfGM_div1 += ' <div class="col-md-2" style="margin: 0;padding: 0">';
+							var women = data[i].cn_name+"_"+data[i].group_name;
+							strOfGM_div1 += "<input type='radio' name='GM_userSetSelect2' value=" + women + " /></div> </div>";
+						}
+						strOfGM_div1 += "</div>";
+						strOfGM_div1 += '<div class="col-md-12" style="text-align:center;margin:20px 0px 400px 0px;"><div class="col-md-10" style="margin: 0;padding: 0;">通知管理员</div> <div class="col-md-2" style="margin: 0;padding: 0"><input type="checkbox" name="GM_ToUser" value="12"></div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-info btn-xs" onclick="GM_clearAddition()"> <i class="glyphicon glyphicon-edit icon-white"></i>取消 </a> </div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#GM_isSurePower2"> <i class="glyphicon glyphicon-trash icon-white"></i>确定 </a> </div> </div>';
+						GM_div1.innerHTML = strOfGM_div1;
+
+
+					},
+					error: function() {
+						alert('调用失败');
 					}
-					strOfGM_div1+="</div>";
-					strOfGM_div1+='<div class="col-md-12" style="text-align:center;margin:20px 0px 400px 0px;"><div class="col-md-10" style="margin: 0;padding: 0;">通知管理员</div> <div class="col-md-2" style="margin: 0;padding: 0"><input type="checkbox" name="GM_ToUser" value="12"></div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-info btn-xs" onclick="GM_clearAddition()"> <i class="glyphicon glyphicon-edit icon-white"></i>取消 </a> </div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#GM_isSurePower"> <i class="glyphicon glyphicon-trash icon-white"></i>确定 </a> </div> </div>';
-					GM_div1.innerHTML=strOfGM_div1;
-//					GM_div1.innerHTML = " <div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >设置权限</h4></div><div class='col-md-12 GM_Boder'><div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>回收站</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='recycle 回收站'></div> </div><div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>滑动展览</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev1 滑动展览'></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>热度TOP榜</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev2 热度TOP榜' ></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>下载TOP榜</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev3 下载TOP榜'></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>管理员推荐</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev4 管理员推荐'></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>后缀</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox'name='GM_userSetSelect' value='suffix 后缀'></div> </div> <div class='col-md-12'style='margin-top: 15px;margin-bottom:15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>删除</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='delete 删除'></div> </div> </div> <div class='col-md-12' style='text-align:center;margin:20px 0px 400px 0px;'> <div class='col-md-10'style='margin: 0;padding: 0;'>通知管理员</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_ToUser' value='12'></div> <div style='float:left;padding: 0;margin-top: 20px' class='col-md-6' > <a class='btn btn-info btn-xs' onclick='GM_clearAddition()'> <i class='glyphicon glyphicon-edit icon-white' ></i>取消 </a> </div> <div style='float:left;padding: 0;margin-top: 20px' class='col-md-6'> <a class='btn btn-danger btn-xs' data-toggle='modal' data-target='#GM_isSurePower'> <i class='glyphicon glyphicon-trash icon-white'></i>确定 </a> </div> </div>";
-					
-					
-				},
-				error: function() {
-					alert('调用失败');
-				}
-			});
-			
-			
-			
+				});
+			} else {
+				$.ajax({
+					url: "/admin/sky_drive/get_permissions_by_name",
+					type: 'post',
+					data: {
+						group_name: nameNow
+					},
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+					},
+					success: function(data) {
+						$(".GM_userInput").attr("style", "pointer-events: none;background:#000;opacity:0.1;");
+						var strOfGM_div1 = "<div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >设置权限</h4></div> ";
+						strOfGM_div1 += "<div class='col-md-12 GM_Boder'>";
+						for(var i = 0; i < data.length; i++) {
+							strOfGM_div1 += '<div class="col-md-12" style="margin-top: 15px;padding: 0;">';
+							strOfGM_div1 += ' <div class="col-md-10" style="margin: 0;padding: 0;">' + data[i].chinese_name + '</div>';
+							strOfGM_div1 += ' <div class="col-md-2" style="margin: 0;padding: 0">';
+							var women = data[i].permission_name;
+							women += "_" + data[i].chinese_name;
+							strOfGM_div1 += "<input type='checkbox' name='GM_userSetSelect' value=" + women + " /></div> </div>";
+						}
+						strOfGM_div1 += "</div>";
+						strOfGM_div1 += '<div class="col-md-12" style="text-align:center;margin:20px 0px 400px 0px;"><div class="col-md-10" style="margin: 0;padding: 0;">通知管理员</div> <div class="col-md-2" style="margin: 0;padding: 0"><input type="checkbox" name="GM_ToUser" value="12"></div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-info btn-xs" onclick="GM_clearAddition()"> <i class="glyphicon glyphicon-edit icon-white"></i>取消 </a> </div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#GM_isSurePower"> <i class="glyphicon glyphicon-trash icon-white"></i>确定 </a> </div> </div>';
+						GM_div1.innerHTML = strOfGM_div1;
+						//					GM_div1.innerHTML = " <div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >设置权限</h4></div><div class='col-md-12 GM_Boder'><div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>回收站</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='recycle 回收站'></div> </div><div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>滑动展览</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev1 滑动展览'></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>热度TOP榜</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev2 热度TOP榜' ></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>下载TOP榜</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev3 下载TOP榜'></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>管理员推荐</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='homePagev4 管理员推荐'></div> </div> <div class='col-md-12'style='margin-top: 15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>后缀</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox'name='GM_userSetSelect' value='suffix 后缀'></div> </div> <div class='col-md-12'style='margin-top: 15px;margin-bottom:15px;padding: 0;'> <div class='col-md-10'style='margin: 0;padding: 0;'>删除</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_userSetSelect' value='delete 删除'></div> </div> </div> <div class='col-md-12' style='text-align:center;margin:20px 0px 400px 0px;'> <div class='col-md-10'style='margin: 0;padding: 0;'>通知管理员</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_ToUser' value='12'></div> <div style='float:left;padding: 0;margin-top: 20px' class='col-md-6' > <a class='btn btn-info btn-xs' onclick='GM_clearAddition()'> <i class='glyphicon glyphicon-edit icon-white' ></i>取消 </a> </div> <div style='float:left;padding: 0;margin-top: 20px' class='col-md-6'> <a class='btn btn-danger btn-xs' data-toggle='modal' data-target='#GM_isSurePower'> <i class='glyphicon glyphicon-trash icon-white'></i>确定 </a> </div> </div>";
+
+					},
+					error: function() {
+						alert('调用失败');
+					}
+				});
+			}
 		}
 	} else if(GM_flag2 == 2) {
 		if(GM_flag1 == 1) //修改密码
@@ -393,9 +425,12 @@ function GM_Addition(GM_flag1, GM_flag2) //加载增加的模块
 		}
 	}
 }
-
+$(document).on("click",".GM_userInput",function(){
+		IDNow=$(this).attr("data-id")
+})	
 function GM_showUsersFrame() //加载用户页面框架
 {
+
 	GM_user_or_GM = 1;
 	var GM_div1 = document.getElementById("GM_Show");
 	console.log(GM_div1);
@@ -422,7 +457,10 @@ function GM_showUsersFrame() //加载用户页面框架
 		$("#GM_usersModal1").attr("whatever", GM_SS);
 		GM_SS = GM_SS.split(' ');
 		modal.find('.modal-title').text('编辑 ' + GM_SS[1] + ' 的选项');
-		nameNow=GM_SS[1] ;
+		nameNow = GM_SS[1];
+
+		
+//		console.log("我在这里呀！！！"+$(this).parent().parent().parent());
 		GM_single_or_All = 1;
 	})
 	$('#GM_usersModal2').on('show.bs.modal', function(event) {
@@ -461,7 +499,7 @@ function GM_showUsersFrame() //加载用户页面框架
 	$('#GM_isSurePower').on('show.bs.modal', function(event) {
 		var GM_data1 = document.getElementsByName("GM_userSetSelect");
 		var data1 = [];
-		for(var i=0;i<GM_data1.length;i++) {
+		for(var i = 0; i < GM_data1.length; i++) {
 			if(GM_data1[i].checked) {
 				var GM_data2 = GM_data1[i].value.split('_')
 				data1.push(GM_data2[1]);
@@ -470,6 +508,96 @@ function GM_showUsersFrame() //加载用户页面框架
 		var modal = $(this);
 		modal.find('.modal-title').text('确定给这些权限');
 		modal.find('.modal-body').text(data1);
+	})
+	var GM_div1 = document.getElementById("GM_title");
+	GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>人员管理</li> <li style='color: #080808'>用户管理表</li> </ol> </div>";
+}
+
+function GM_showJuesesFrame() //加载用户页面框架
+{
+
+	GM_user_or_GM = 1;
+	var GM_div1 = document.getElementById("GM_Show");
+	console.log(GM_div1);
+	GM_div1.innerHTML = "<div id='GM_title'></div><div id='GM_exhibition' > </div> <div id='show_paging'> </div><div id='GM_userM'></div>";
+	var str1 = "<div id='GM_usersModal11' class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'> <div class='modal-dialog modal-sm'> <div class='modal-content'> <div class='modal-header'><button type='button' class='close'data-dismiss='modal' aria-hidden='true'> &times;</button> <h4 class='modal-title' >请选择需要编辑的选项 </h4> </div> <div class='modal-footer'><div style='width:50%;float:left;text-align:center'> <button type='button' class='btn btn-info'data-dismiss='modal' onclick='GM_Addition(1,1)'>修改密码</button></div><div style='width:50%;float:left;text-align:center'><button type='button' class='btn btn-danger' data-dismiss='modal' onclick='GM_Addition(2,1,1)'>设置用户类型</button></div> </div> </div> </div> </div>";
+	//编辑按钮
+
+	str1 += "<div id='GM_isSurePower2' class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'> <div class='modal-dialog modal-sm'> <div class='modal-content'> <div class='modal-header'><button type='button' class='close'data-dismiss='modal' aria-hidden='true'> &times;</button><h4 class='modal-title' >确定给这些权限</h4> </div> <div class='modal-body'> <p>One fine body&hellip;</p> </div> <div class='modal-footer'><button type='button' class='btn btn-default'data-dismiss='modal'>取消</button><button type='button' class='btn btn-primary setPower' data-dismiss='modal'>确定</button> </div> </div> </div> </div>";
+	//确定已经设置权限成功
+	str1 += "<div id='GM_isSureChangePass' class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'> <div class='modal-dialog modal-sm'> <div class='modal-content'> <div class='modal-header'><button type='button' class='close'data-dismiss='modal' aria-hidden='true'> &times;</button><h4 class='modal-title' >确定修改密码</h4> </div>  <div class='modal-footer'><button type='button' class='btn btn-default'data-dismiss='modal'>取消</button><button type='button' class='btn btn-primary' data-dismiss='modal' onclick='GM_ChangePass()'>确定</button> </div> </div> </div> </div>";
+	//确定已经修改密码成功
+
+	str1 += "<div id='GM_usersModalAll1' class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'> <div class='modal-dialog modal-sm'> <div class='modal-content'> <div class='modal-header'><button type='button' class='close'data-dismiss='modal' aria-hidden='true'> &times;</button><h4 class='modal-title' >请选择需要编辑的选项 </h4> </div>  <div class='modal-footer'><div style='float:center;text-align:center'> <button type='button' class='btn btn-info'data-dismiss='modal' onclick='GM_Addition(1,2)'>修改密码</button></div> </div> </div> </div> </div>";
+	//全选编辑按钮
+
+	str1 += "<div id='GM_usersModalAll2' class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'> <div class='modal-dialog modal-sm'> <div class='modal-content'> <div class='modal-header'><button type='button' class='close'data-dismiss='modal' aria-hidden='true'> &times;</button><h4 class='modal-title' >确定要删除这个用户</h4> </div>  <div class='modal-footer'><div class='col-md-5'> <div class='col-md-10'style='margin: 0;padding: 0;'>通知用户</div> <div class='col-md-2' style='margin: 0;padding: 0'><input type='checkbox' name='GM_ToUser'></div> </div><div class='col-md-7'><button type='button' class='btn btn-default'data-dismiss='modal'>取消</button><button type='button' class='btn btn-primary' data-dismiss='modal' onclick='GM_sureDeleteUser(2,2)'>确定</button> </div> </div></div> </div> </div>";
+	//全选删除按钮
+	$("#GM_userM").append(str1);
+	$('#GM_usersModal11').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget);
+		var GM_SS = button.data('whatever');
+		var modal = $(this);
+		$("#GM_usersModal1").attr("whatever", GM_SS);
+		GM_SS = GM_SS.split(' ');
+		modal.find('.modal-title').text('编辑 ' + GM_SS[1] + ' 的选项');
+		nameNow = GM_SS[1];
+		GM_single_or_All = 1;
+	})
+	$('#GM_usersModal2').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget);
+		var GM_SS = button.data('whatever');
+		var modal = $(this);
+		$("#GM_usersModal2").attr("whatever", GM_SS);
+		GM_SS = GM_SS.split(' ');
+		modal.find('.modal-title').text('确定删除: ' + GM_SS[1]);
+		GM_single_or_All = 1;
+	})
+	$('#GM_usersModalAll1').on('show.bs.modal', function(event) {
+		var GM_obj = document.getElementsByName("GM_user");
+		var GM_check_val = [];
+		for(var GM_k in GM_obj) {
+			if(GM_obj[GM_k].checked) {
+				GM_check_val.push(GM_obj[GM_k].value);
+			}
+		}
+		var modal = $(this);
+		modal.find('.modal-title').text('编辑: ' + GM_check_val + '等的选项');
+		GM_single_or_All = 2;
+	})
+	$('#GM_usersModalAll2').on('show.bs.modal', function(event) {
+		var GM_obj = document.getElementsByName("GM_user");
+		var GM_check_val = [];
+		for(var GM_k in GM_obj) {
+			if(GM_obj[GM_k].checked) {
+				GM_check_val.push(GM_obj[GM_k].value);
+			}
+		}
+		var modal = $(this);
+		modal.find('.modal-title').text('确定删除: ' + GM_check_val + '等');
+		GM_single_or_All = 2;
+	})
+	$('#GM_isSurePower2').on('show.bs.modal', function(event) {
+		var GM_data1 = document.getElementsByName("GM_userSetSelect2");
+		var data1 = "",data2="";
+		for(var i = 0; i < GM_data1.length; i++) {
+			if(GM_data1[i].checked) {
+				data1 = GM_data1[i].value.split("_")[0];
+				data2=GM_data1[i].value.split("_")[1];
+				break;
+			}
+		}
+		var modal = $(this);
+		
+		if(data1.length==0){
+			modal.find('.modal-title').text('错误提示:');
+			modal.find('.modal-body').text("请选择一个正确的用户角色类型！！");
+			return ;
+		}
+		var modal = $(this);
+		modal.find('.modal-title').text('是否将该用户的角色类型变成:');
+		modal.find('.modal-body').text(data1);
+		GM_SetPower2(data2);
 	})
 	var GM_div1 = document.getElementById("GM_title");
 	GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>人员管理</li> <li style='color: #080808'>用户管理表</li> </ol> </div>";
@@ -484,16 +612,67 @@ function GM_showUsers() //加载用户页面
 	GM_div1.innerHTML = GM_str2;
 }
 
-function GM_showUsersTable(GM_data1) //加载用户表单
+function GM_showJueses() { //加载角色页面
+	var GM_div1 = document.getElementById("GM_exhibition");
+	GM_div1.innerHTML = "";
+	var GM_str2 =
+		"<div class='col-md-12' id='GM_usersTa'> <table class='table table-bordered table-hover'> <caption><div class='col-md-4'style='float:left;'>用户管理表</div><div   id='GM_selectAllBtnTwoBtn' class='col-md-4' style='float:left;text-align: center;display: none' ><div style='display:inline;padding:0;margin-right:10px;' ><a class='btn btn-success btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModalAll1'  > <i class='glyphicon glyphicon-edit icon-white' ></i>编辑 </a></div><div style='display:inline;padding:0;margin-left:10px;'><a class='btn btn-success btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModalAll2' > <i class='glyphicon glyphicon-trash icon-white'></i>删除 </a></div></div><div class='col-md-4'style='float:right;'><div style='width:80%;float:left;' ><input id='search'class='form-control'  placeholder='请输入姓名'  whatever='user'></div><div style='width:20%;float:left;'><a class='btn btn-primary GM_userInput' onclick=GM_Search()>搜索 </a></div></div></caption> <thead> <tr> <th>选择<button class='btn btn-success btn-xs GM_userInput' onclick='GM_selectAll()'>全选/不选</button></th><th>ID</th> <th>账户</th> <th>用户名</th> <th>创建时间</th> <th>操作</th> </tr> </thead><tbody id='GM_usersTbody'></tbody></table></div>";
+	GM_div1.innerHTML = GM_str2;
+}
+
+function GM_showJuesesTable(GM_data1) //加载用户表单
 {
 	var str1 = "";
 	for(var i = 0; i < GM_data1.length - 1; i++) {
-		str1 = str1 + "<tr><td class='GM_userInput'><div style='text-align:center' ><input onclick=' ShowAllBtn()' type='checkbox' name='GM_user'  value='" + GM_data1[i]['id'] + "'></div></td><td><div>" + GM_data1[i]['id'] + "</div></td><td><div>" + GM_data1[i]['email'] + "</div></td><td><div>" + GM_data1[i]['name'] + "</div></td><td><div>" + GM_data1[i]['created_at'] + "</span></div></td><td><div style='text-align: center'><div style='display:inline;padding:0;margin:20px;' ><a class='btn btn-info btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal1' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' > <i class='glyphicon glyphicon-edit icon-white' ></i>编辑 </a></div><div style='display:inline;padding:0;margin:20px;'><a class='btn btn-danger btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal2' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' > <i class='glyphicon glyphicon-trash icon-white'></i>删除 </a></div></div></td></tr>";
+		str1 = str1 + "<tr><td class='GM_userInput'><div style='text-align:center' ><input onclick=' ShowAllBtn()' type='checkbox' name='GM_user'  value='" + GM_data1[i]['id'] + "'></div></td><td><div>" + GM_data1[i]['id'] + "</div></td><td><div>" + GM_data1[i]['email'] + "</div></td><td><div>" + GM_data1[i]['name'] + "</div></td><td><div>" + GM_data1[i]['created_at'] + "</span></div></td>";
+		str1 += "<td><div style='text-align: center'><div style='display:inline;padding:0;margin:20px;' >";
+		str1 += "<a class='btn btn-info btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal11' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' data-id=" + GM_data1[i]['id'] + "  > <i class='glyphicon glyphicon-edit icon-white' ></i>";
+		str1 += "编辑 </a></div></div></td></tr>";
 	}
 	var GM_div1 = document.getElementById("GM_usersTbody");
 	GM_div1.innerHTML = str1;
 }
 
+function GM_showUsersTable(GM_data1) //加载用户表单
+{
+	var str1 = "";
+	for(var i = 0; i < GM_data1.length - 1; i++) {
+		str1 = str1 + "<tr><td class='GM_userInput'><div style='text-align:center' ><input onclick=' ShowAllBtn()' type='checkbox' name='GM_user'  value='" + GM_data1[i]['id'] + "'></div></td><td><div>" + GM_data1[i]['id'] + "</div></td><td><div>" + GM_data1[i]['email'] + "</div></td><td><div>" + GM_data1[i]['name'] + "</div></td><td><div>" + GM_data1[i]['created_at'] + "</span></div></td><td><div style='text-align: center'><div style='display:inline;padding:0;margin:20px;' ><a class='btn btn-info btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal1' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' data-id=" + GM_data1[i]['id'] + " > <i class='glyphicon glyphicon-edit icon-white' ></i>编辑 </a></div><div style='display:inline;padding:0;margin:20px;'><a class='btn btn-danger btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal2' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' > <i class='glyphicon glyphicon-trash icon-white'></i>删除 </a></div></div></td></tr>";
+	}
+	var GM_div1 = document.getElementById("GM_usersTbody");
+	GM_div1.innerHTML = str1;
+}
+//<tr>
+//<td class="GM_userInput">
+//	<div style="text-align:center">
+//		<input onclick=" ShowAllBtn()" type="checkbox" name="GM_user" value="25">
+//	</div>
+//</td>
+//<td>
+//	<div>25</div>
+//</td>
+//<td>
+//	<div>892498546@qq.com</div>
+//</td>
+//<td>
+//	<div>kj</div></td>
+//<td>
+//	<div>2015-12-20 08:31:45</div>
+//</td>
+//<td>
+//	<div style="text-align: center">
+//		<div style="display:inline;padding:0;margin:20px;">
+//			<a class="btn btn-info btn-xs GM_userInput" data-toggle="modal" data-target="#GM_usersModal1" data-whatever="25 kj">
+//			<i class="glyphicon glyphicon-edit icon-white"></i>编辑 </a>
+//		</div>
+//		<div style="display:inline;padding:0;margin:20px;">
+//		<a class="btn btn-danger btn-xs GM_userInput" data-toggle="modal" data-target="#GM_usersModal2" data-whatever="25 kj"> 
+//		<i class="glyphicon glyphicon-trash icon-white"></i>
+//		删除 </a>
+//		</div>
+//		</div>
+//</td>
+//</tr>
 function GM_showUsersPaging(sum, size, flag) //加载用户分页
 {
 	var GM_div1 = document.getElementById("show_paging");
@@ -786,9 +965,9 @@ function GM_showGM2Paging(sum, size, flag) //加载管理组分页
 //-------------------------------------人员管理部分函数-----------------------------------------------------------------------------------------------------------------------------------------------
 function GM_clearAddition() //清空副栏
 {
-	  var GM_div1=document.getElementById("GM_addition");
-	  GM_div1.innerHTML="";
-	  $(".GM_userInput").attr("style","");
+	var GM_div1 = document.getElementById("GM_addition");
+	GM_div1.innerHTML = "";
+	$(".GM_userInput").attr("style", "");
 }
 
 function GM_clearShow() //清空展览页面
@@ -813,12 +992,15 @@ function GM_clickBtnShow(btn) //按钮对应选择器
 			GM_getDisksSuffixList('video', 0, 25, false);
 			break;
 		case 4: //用户
-			GM_getJueSelist(0, 10, false);
+			GM_getJuseslist(0, 10, false);
+			break;
+		case 5: //管理员
+			GM_getAdminslist(0, 10, false);
 			break;
 	}
 }
 //-------------------------------角色ajax-------------------------------------
-function GM_getJueSelist(page,size,flag){
+function GM_getJueSelist(page, size, flag) {
 	$.ajax({
 		url: '/admin/sky_drive/get_roles',
 		type: 'post',
@@ -828,14 +1010,14 @@ function GM_getJueSelist(page,size,flag){
 		},
 		success: function(data) {
 			console.log(data);
-//			if(flag == false) {
-//				GM_clearAddition();
-//				GM_showUsersFrame();
-//			}
-//			GM_showUsers();
-//			GM_showUsersTable(data);
-//			if(flag == false)
-//				GM_showUsersPaging(Math.ceil(data[data.length - 1] / size), size, true);
+			if(flag == false) {
+				GM_clearAddition();
+				GM_showUsersFrame();
+			}
+			GM_showUsers();
+			GM_showUsersTable(data);
+			if(flag == false)
+				GM_showUsersPaging(Math.ceil(data[data.length - 1] / size), size, true);
 		},
 		error: function() {
 			$('#GM_information').find('.modal-body').text('数据读入出错');
@@ -863,7 +1045,7 @@ function GM_getUserslist(page, size, flag) //用户ajax
 				GM_clearAddition();
 				GM_showUsersFrame();
 			}
-			GM_showUsers();
+			GM_showJueses();
 			GM_showUsersTable(data);
 			if(flag == false)
 				GM_showUsersPaging(Math.ceil(data[data.length - 1] / size), size, true);
@@ -874,12 +1056,17 @@ function GM_getUserslist(page, size, flag) //用户ajax
 		}
 	});
 }
+
 function GM_getJuseslist(page, size, flag) //用户ajax
 {
 	$.ajax({
 		url: '/admin/sky_drive/user_information',
 		type: 'post',
 		async: false,
+		data: {
+			'skip': page * size,
+			'size': size
+		},
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 		},
@@ -887,10 +1074,40 @@ function GM_getJuseslist(page, size, flag) //用户ajax
 			console.log(data);
 			if(flag == false) {
 				GM_clearAddition();
-				GM_showUsersFrame();
+				GM_showJuesesFrame();
 			}
 			GM_showUsers();
-			GM_showUsersTable(data);
+			GM_showJuesesTable(data);
+			if(flag == false)
+				GM_showUsersPaging(Math.ceil(data[data.length - 1] / size), size, true);
+		},
+		error: function() {
+			$('#GM_information').find('.modal-body').text('数据读入出错');
+			document.getElementById('GM_informationBtn').click();
+		}
+	});
+}
+function GM_getAdminslist(page, size, flag) //用户ajax
+{
+	$.ajax({
+		url: '/admin/sky_drive/admin_information',
+		type: 'post',
+		async: false,
+		data: {
+			'skip': page * size,
+			'size': size
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			console.log(data);
+			if(flag == false) {
+				GM_clearAddition();
+				GM_showJuesesFrame();
+			}
+			GM_showUsers();
+			GM_showJuesesTable(data);
 			if(flag == false)
 				GM_showUsersPaging(Math.ceil(data[data.length - 1] / size), size, true);
 		},
@@ -976,7 +1193,6 @@ function GM_SetPower() //设置用户权限
 	var data1 = [];
 	var data2 = [];
 	var data3 = 0;
-	alert(GM_single_or_All);
 	if(GM_single_or_All == 1) {
 		var GM_data1 = $('#GM_usersModal1').attr('whatever').split(' ');
 		data1.push(GM_data1[0]);
@@ -1016,7 +1232,6 @@ function GM_SetPower() //设置用户权限
 		}
 		GM_clearAddition();
 	}
-	console.log(data2)
 	$.ajax({
 		url: '/admin/sky_drive/modify_permissions',
 		type: 'post',
@@ -1060,6 +1275,59 @@ function GM_SetPower() //设置用户权限
 					});
 				}
 			}
+		},
+		error: function() {
+			$('#GM_information').find('.modal-body').text('数据读入出错');
+			document.getElementById('GM_informationBtn').click();
+		}
+	});
+}
+function GM_SetPower2(data2) //设置哟农户类型
+{
+	$.ajax({
+		url: '/admin/sky_drive/modify_roles',
+		type: 'post',
+		async: false,
+		data: {
+			'id': IDNow,
+			'group_name': data2
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			console.log(data);
+			GM_clearAddition();
+//			if(data == -1) {
+//				$('#GM_information').find('.modal-body').text('未找到对应权限组');
+//				document.getElementById('GM_informationBtn').click();
+//			} else {
+//				GM_clickBtnShow(GM_user_or_GM);
+//				$('#GM_information').find('.modal-body').text('设置权限成功');
+//				document.getElementById('GM_informationBtn').click();
+//				if(data3 == true) {
+//					$.ajax({
+//						url: '/email/change_user_permission',
+//						type: 'post',
+//						async: false,
+//						data: {
+//							'id': data1,
+//							'permission': data2
+//						},
+//						headers: {
+//							'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+//						},
+//						success: function(data) {
+//							$('#GM_information').find('.modal-body').text('发送邮件成功');
+//							document.getElementById('GM_informationBtn').click();
+//						},
+//						error: function() {
+//							$('#GM_information').find('.modal-body').text('发送邮件失败');
+//							document.getElementById('GM_informationBtn').click();
+//						}
+//					});
+//				}
+//			}
 		},
 		error: function() {
 			$('#GM_information').find('.modal-body').text('数据读入出错');

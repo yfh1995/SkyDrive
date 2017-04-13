@@ -86,15 +86,15 @@ td {
 	display: none;
 }
 </style>
-<div id="searchInput">
+<!--<div id="searchInput">
 	<div id="shareCode "  class="input-group">
 		<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
 		<span class="input-group-btn">
 		<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
 		Go!
 		</button> </span>
-	</div><!-- /input-group -->
-</div>
+	</div>
+</div>-->
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >

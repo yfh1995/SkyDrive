@@ -1,4 +1,25 @@
 ﻿$(document).ready(function() {
+	/*
+	 * 设置进度条宽度js
+	 */
+	var data=$("#progress_data").text();
+	var Prodatatype=0;
+	data=data.split("/")[0];
+	var num1;
+	if(data.indexOf("KB")>=0){
+		num1=parseFloat(data)/1000;
+	}else if(data.indexOf("MB")>=0){
+		num1=parseFloat(data);
+	}else if(data.indexOf("GB")>=0){
+		num1=parseFloat(data)*1000;
+	}
+	var num2=parseFloat(10*1024);
+	var proPercent=num1/num2*100;
+	console.log(proPercent)
+	$(".progress-bar").css({
+		"width":proPercent+"%"
+	})
+	console.log(num1);
 	$("#upload").on('click', function() {
 		$("#fatherName").val(father_catalog_nameNow);
 	});
