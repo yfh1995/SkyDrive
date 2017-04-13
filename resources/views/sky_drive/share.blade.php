@@ -72,21 +72,9 @@ td {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	background-color: gray;
 }
-#searchInput {
-	position: absolute;
-	z-index: 100;
-	left: 70%;
-	top: 10px;
-}
 
-.input-group {
-	width: 200px;
-}
-#myshareCodelist>tr{
-	display: none;
-}
 </style>
-<!--<div id="searchInput">
+<div id="searchInput">
 	<div id="shareCode "  class="input-group">
 		<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
 		<span class="input-group-btn">
@@ -94,7 +82,7 @@ td {
 		Go!
 		</button> </span>
 	</div>
-</div>-->
+</div>
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >

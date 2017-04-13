@@ -24,7 +24,7 @@ svg{
 #searchInput {
 	position: absolute;
 	z-index: 100;
-	left: 70%;
+	right: calc(20% + 100px);
 	top: 10px;
 }
 

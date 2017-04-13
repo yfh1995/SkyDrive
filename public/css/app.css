@@ -6279,6 +6279,7 @@ label,
     border-right: 10px solid transparent;
     border-bottom: 10px solid #3e81e0;
 }.mylist_info_img{
+	text-align: center;
 	line-height: 70px;
 	    padding-left:10px;
 	    display: inline-block;
