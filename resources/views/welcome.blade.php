@@ -33,16 +33,16 @@
 			@media only screen and (max-width: 580px) {
 				
 				.link-play1{
-					left:calc(50% - 90px);
-					top:calc(50% - 95px);
+					left:calc(50% - 90px)!important;
+					top:calc(50% - 95px)!important;;
 				}
 				.link-play2{
-					left:calc(50% - 90px);
-					top:calc(50% - 25px);
+					left:calc(50% - 90px)!important;;
+					top:calc(50% - 25px)!important;;
 				}
 				.link-play3{
-					left:calc(50% - 90px);
-					top:calc(50% + 45px);
+					left:calc(50% - 90px)!important;;
+					top:calc(50% + 45px)!important;;
 				}
 			}
 			/*添加一个箭头图片 设置位置*/
@@ -171,10 +171,15 @@
 		@endif
 		<script>
 			var texiao=["hinge","fadeOutDown","rollOut"];
-//			if($(".link").length)==2){
-//				texiao=["hinge","rollOut"];
-//				$(".link")
-//			}
+			if($(".link").length==2){
+				texiao=["hinge","rollOut"];
+				$(".link").eq(0).css({
+					"left":"calc(50% - 200px)"
+				});
+				$(".link").eq(1).css({
+					"left":"calc(50% )"
+				})
+			}
 			$(".link").on("click",function(){
 				var index=$(this).index()-7;
 

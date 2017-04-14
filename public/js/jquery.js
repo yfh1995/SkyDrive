@@ -56,7 +56,6 @@
 			topNow = index * 36;
 		var scrollTop = $("#xiangangID").scrollTop();
 		topNow -= scrollTop;
-		
 		var leftNow=$(this).parent().offfsetX;
 		var left = e.offsetX+window.leftNow,
 			top = e.offsetY + topNow;

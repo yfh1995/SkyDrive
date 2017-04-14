@@ -303,6 +303,7 @@ svg{
 
 #catalog{
 	position: relative;
+	overflow: hidden;
 }
 
 /*

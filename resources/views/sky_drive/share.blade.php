@@ -73,6 +73,9 @@ td {
 	background-color: gray;
 }
 
+#myshareCodelist>tr{
+	display: none;
+}
 </style>
 <div id="searchInput">
 	<div id="shareCode "  class="input-group">

@@ -114,7 +114,7 @@
 								</a><span></span>
 							</div>
 							<div class='myOperatorList_item'>
-								<a href="{{ url('logout') }}">
+								<a href="{{ url('Help') }}">
 									网盘帮助
 								</a><span></span>
 							</div>
@@ -140,14 +140,15 @@
 		@yield('content')
 
 		<!-- Scripts -->
-		{{--<script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>--}}
-		{{--<script src="http://cdn.bootcss.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>--}}
-		<script>$(document).ready(function() {
-	function myAlert(str) {
+
+		<script>
+			function myAlert(str) {
 		$(".ErrorTips").remove();
 		$("#alertErrorBox").prepend("<p class='ErrorTips'>" + str + "！</p>");
 		$("#coverBg").show();
 	}
+			$(document).ready(function() {
+	
 
 	function getTop(e) {
 		var offset = e.offsetTop;
@@ -163,33 +164,32 @@
 	}
 	var IsoverList = false; //用来判断是否在下拉菜单上面
 	var headimg = document.getElementById("photoofhead2");
-	var left,top;
+	var left, top;
 
 	$("#photoofhead2").on("click", function() {
-		IsoverList=true;
-		 left = getLeft(headimg) - 100 + 20,
+		IsoverList = true;
+		left = getLeft(headimg) - 100 + 20,
 			top = 70;
 		$("#myDownList").css({
 			"top": top + "px",
 			"left": left + "px"
 		}).show();
-		
+
 	});
-	$(document).on("click",function(e){
-		console.log(e.pageX+" "+e.pageY	);
-		
-		console.log(left+" "+top);
-		if(left<=e.pageX&&(left+200)>=e.pageX&&e.pageY>=top&&e.pageY<=top+215){
-			
-		}else{
+	$(document).on("click", function(e) {
+		console.log(e.pageX + " " + e.pageY);
+
+		console.log(left + " " + top);
+		if(left <= e.pageX && (left + 200) >= e.pageX && e.pageY >= top && e.pageY <= top + 215) {
+
+		} else {
 
 			if(!IsoverList)
 				$("#myDownList").hide();
-			IsoverList=false;
+			IsoverList = false;
 		}
 	})
-	
-	
+
 })</script>
 	</body>
 </html>

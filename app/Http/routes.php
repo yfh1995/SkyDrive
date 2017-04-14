@@ -11,7 +11,7 @@
 |
 */
 Route::get('test','auth\LoginController@test');
-
+Route::get("Help","sky_drive\SD_Home_Controller@Help");
 Route::get('/login','auth\LoginController@getlogin');								                                    //登陆页面1
 Route::post('/login','auth\LoginController@postlogin');								                                    //登陆验证1
 Route::get('/logout','auth\LogoutController@logout');								                                    //注销1

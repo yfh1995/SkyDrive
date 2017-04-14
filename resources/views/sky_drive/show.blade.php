@@ -373,7 +373,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 							<button id="moveFileButton" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="javascript:MoveTheFile();" >
 							移动到
 							</button>
-							<button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" >
+							<button id="previewBtn" type="button" class="btn mdui-btn mdui-color-white-accent  mdui-ripple"onclick="javascript:clickfile();" >
 							预览
 							</button>
 							<button type="button" id="HuiFuFile" class="btn mdui-btn mdui-color-white-accent  mdui-ripple" onclick="delete_and_restore_getdate(1)">

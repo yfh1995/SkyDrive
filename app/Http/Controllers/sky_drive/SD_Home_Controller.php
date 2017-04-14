@@ -20,6 +20,9 @@ class SD_Home_Controller extends Controller{
      * @param Request $request
      * @return $this
      */
+    public function Help(){
+    	return view("sky_drive/wangpanHelp");
+    }
     public function index(Request $request){
         $params = $request->all();
 
