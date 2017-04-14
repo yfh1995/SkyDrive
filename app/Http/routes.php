@@ -65,6 +65,8 @@ Route::group(['middleware'=>'auth'],function()
         Route::post('/admin/sky_drive/delete_suffix','admin\SD_Controller@delete_suffix');                              //删除后缀
         Route::post('/admin/sky_drive/search_user','admin\SD_Controller@search_user');                                  //搜索用户
         Route::post('/admin/sky_drive/get_garbage_user','admin\SD_Controller@get_garbage_user');                        //获取被删除用户
+        Route::get('/admin/sky_drive/get_different_files','admin\SD_Controller@get_different_files');                   //获取分类文件
+        Route::post('/admin/sky_drive/delete_files','admin\SD_Controller@delete_files');                                //删除文件
 
         Route::get('/admin/forum','admin\Forum_Controller@index');                                                      //论坛后台控制0
     });

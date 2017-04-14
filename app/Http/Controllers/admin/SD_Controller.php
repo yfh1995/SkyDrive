@@ -387,4 +387,51 @@ class SD_Controller extends Controller{
         return $list;
     }
 
+    public function get_different_files(Request $request){
+        $this->validate($request,[
+            'type'      =>  'required',
+            'size'   =>  'numeric',
+            'last_id'   =>  'numeric'
+        ]);
+        $params = $request->all();
+        $size = isset($params['size'])?$params['size']:15;
+
+        $table = DB::table('files');
+
+        if($params['type'] == 'text') $table->where('address','/website/storage/text');
+        else if($params['type'] == 'picture') $table->where('address','/website/storage/picture');
+        else if($params['type'] == 'music') $table->where('address','/website/storage/music');
+        else if($params['type'] == 'bt') $table->where('address','/website/storage/bt');
+        else if($params['type'] == 'video') $table->where('address','/website/storage/video');
+        else if($params['type'] == 'archive') $table->where('address','/website/storage/archive');
+        else if($params['type'] == 'other') $table->where('address','/website/storage/other');
+        else return [];
+
+        if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
+
+        $data = $table->orderBy('id','desc')->take($size)->get();
+
+        return $data;
+    }
+
+    public function delete_files(Request $request){
+        $this->validate($request,[
+            'ids'    =>  'required'
+        ]);
+
+        $data = DB::table('files')->whereIn('id',$request->get('ids'))->get();
+
+        foreach($data as $v){
+            //删除files表数据
+            DB::table('files')->where('md5',$v->md5)->delete();
+
+            //删除catalogs表数据
+            DB::table('catalogs')->where('md5',$v->md5)->delete();
+
+            //删除文件
+            unlink($v->address.'/'.$v->md5.','.$v->type);
+        }
+
+        return back();
+    }
 }
