@@ -39,7 +39,6 @@ class LoginController extends Controller{
         }
         else{
             if(Auth::attempt(['email'=>$email,'password'=>$password],$request->get('remember'))){
-
                 if(!isset($_SESSION)) session_start();
                 $_SESSION['father_catalog_name']=Auth::user()->name;
                 if(Auth::user()->admin!='admin'){

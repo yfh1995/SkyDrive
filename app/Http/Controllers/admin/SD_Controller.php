@@ -429,7 +429,7 @@ class SD_Controller extends Controller{
             DB::table('catalogs')->where('md5',$v->md5)->delete();
 
             //删除文件
-            unlink($v->address.'/'.$v->md5.','.$v->type);
+            unlink($v->address.'/'.$v->md5.'.'.$v->type);
         }
 
         return back();

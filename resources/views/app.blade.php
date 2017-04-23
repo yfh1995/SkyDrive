@@ -109,24 +109,30 @@
 						</div>
 						<div class='myOperatorList'>
 							<div class='myOperatorList_item'>
-								<a href="{{url('/personal_center')}}">
-									个人中心
+								<a data-href="{{ url('/sky_drive/home?type=0') }}">
+									网盘中心
 								</a><span></span>
 							</div>
 							<div class='myOperatorList_item'>
-								<a href="{{ url('Help') }}">
+								<a data-href="{{url('/personal_center')}}">
+									个人中心
+								</a><span></span>
+							</div>
+							
+							<div class='myOperatorList_item'>
+								<a data-href="{{ url('Help') }}">
 									网盘帮助
 								</a><span></span>
 							</div>
 							@if(Auth::user()->admin != config('system_config.roles.user'))
 							<div class='myOperatorList_item'>
-								<a href="{{ url('admin/sky_drive') }}">
+								<a data-href="{{ url('admin/sky_drive') }}">
 									后台管理
 								</a><span></span>
 							</div>
 							@endif
 							<div class='myOperatorList_item'>
-								<a href="{{ url('logout') }}">
+								<a data-href="{{ url('logout') }}">
 									退出
 								</a>
 							</div>
@@ -149,7 +155,14 @@
 	}
 			$(document).ready(function() {
 	
+		$(".myOperatorList_item").on("click",function(){
+				var href=$(this).children("a").attr("data-href");
+				console.log(href);
+				console.log(window.location.href);
 
+						window.location.href=href;
+
+		})
 	function getTop(e) {
 		var offset = e.offsetTop;
 		if(e.offsetParent != null) offset += getTop(e.offsetParent);
@@ -166,7 +179,7 @@
 	var headimg = document.getElementById("photoofhead2");
 	var left, top;
 
-	$("#photoofhead2").on("click", function() {
+	$("#photoofhead2").on("click ", function() {
 		IsoverList = true;
 		left = getLeft(headimg) - 100 + 20,
 			top = 70;
@@ -177,9 +190,9 @@
 
 	});
 	$(document).on("click", function(e) {
-		console.log(e.pageX + " " + e.pageY);
+//		console.log(e.pageX + " " + e.pageY);
 
-		console.log(left + " " + top);
+//		console.log(left + " " + top);
 		if(left <= e.pageX && (left + 200) >= e.pageX && e.pageY >= top && e.pageY <= top + 215) {
 
 		} else {

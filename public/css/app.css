@@ -7443,7 +7443,7 @@ label,
 	width: 200px;
 	background-color: #FFF;
 	position: absolute;
-	z-index: 1;
+	z-index: 11;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, .2);
 	border-radius: 5px;
 	/*overflow: hidden;*/

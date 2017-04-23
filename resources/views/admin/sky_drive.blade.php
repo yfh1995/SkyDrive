@@ -3,7 +3,7 @@
 @section('content')
 
     <link href="{{ asset('/css/GM.css') }}" rel="stylesheet" >
-    
+     <link href="{{ asset('/fancybox/jquery.fancybox.min.css') }}" rel="stylesheet" >
 
     <div class="col-md-2 sidebar" >
         <ul class="nav nav-tabs nav-pills nav-stacked">
@@ -35,17 +35,21 @@
         </div>
     </div>
 	
-	<div id="GM_Show" class="col-md-8">
+	<!--<div id="GM_Show" class="col-md-8">
 		<div class="box">
 			<span>单击文本框全选文字：</span><br>
 				<div class="content">
 					<input type="text" value="单击即可全选文字" aria-selected="true">
 				</div>
 		</div>
-	</div>
-	<div id='GM_addition' class='col-md-2'  >
+	</div>-->
+	<div id='GM_addition' class='col-md-2' style='display: none;' >
 		
 	</div>
+	<div id="DeleteFile" class="col-md-10" style="display: block;">
+		
+	</div>
+
     {{--<div id="GM_Show" class="col-md-8">--}}
         {{--<div class="box">--}}
             {{--<span>单击文本框全选文字：</span><br>--}}
@@ -57,10 +61,92 @@
     {{--<div id='GM_addition' class='col-md-2'  >--}}
 
     {{--</div>--}}
-
+<script src="{{asset('/fancybox/jquery.fancybox.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/GM.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function(){
+        	/*
+        	 * 点击删除按钮下面的具体哪类文件按钮
+        	 */
+        	$(document).on("click",".deleteBtn",function(){
+        		var fileId=$(this).attr("data-id");
+        		var a=new Array();
+        		a.push(fileId);
+				$.ajax({
+	                url:'sky_drive/delete_files',
+	                type:'post',
+	                headers:{
+	                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+	                },data:{
+	                	ids:a
+	                },
+	                success:function(data){
+	                	
+	                },
+	                error:function(){
+	                    alert("数据读入出错");
+	                }
+	            });
+        	});
+			
+        	function hideShowDiv(){
+        		$("#DeleteFile").hide();
+        		$("#GM_addition").show();
+        	}
+        	function showPicList(fileType,fileSize,fileLastId){
+        		$("#DeleteFile").show();
+        		$("#GM_addition").hide();
+        		var toData={}
+        		if(fileType!=null||fileType!=""){
+        			toData.type=fileType;
+        		}
+        		if(fileSize!=null||fileSize!=""){
+        			toData.size=fileSize;
+        		}
+        		if(fileLastId!=null||fileLastId!=""){
+        			toData.last_id=fileLastId;
+        		}
+	        	$.ajax({
+	                url:'sky_drive/get_different_files',
+	                type:'get',
+	                headers:{
+	                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+	                },data:toData,
+	                success:function(data){
+	                	$("#DeleteFile").empty();
+	                	console.log(data);
+	                	var str="",imgurl;
+	                	for(var i=0;i<data.length;i++){
+	                		imgurl=data[i].address+"/"+data[i].md5+"."+data[i].type;
+	                		str+='<div class="show-pic">';
+	                		str+='<div class="imgbox"><span data-id="'+data[i].id+'" class="deleteBtn glyphicon glyphicon-remove" ></span><img src="'+imgurl+'" alt="" /></div>';
+							str+='<a href="'+imgurl+'" class="imgbox" data-fancybox="group">';
+
+							str+='<img src="'+imgurl+'" alt="" />';
+							str+="</a></div>";
+	                	}
+	                	$("#DeleteFile").append(str);
+	                },
+	                error:function(){
+	                    alert("数据读入出错");
+	                }
+	            });
+        	}
+        	$(document).on("click","a",function(){
+        		var Atext=$(this).text().trim();
+        		console.log(Atext+" "+Atext.length)
+        		if(Atext==""){
+        			return ;
+        		}
+        		if(Atext.indexOf("图片")>=0){
+        			showPicList("picture");
+        		}else{
+        			hideShowDiv();
+        		}
+        	})		
+        	/*
+        	 * 获取按钮信息
+        	 */
             $.ajax({
                 url:'/admin/sky_drive/button_information',
                 type:'post',

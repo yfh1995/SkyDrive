@@ -1,7 +1,76 @@
-.GM_breadcrumb > li + li:before ,.GM_breadcrumb > li{
-     content: ">";
-     color:#777;
- }
-.GM_Boder{
-    border: 1px solid #ddd;
+.GM_breadcrumb>li+li:before,
+.GM_breadcrumb>li {
+	content: ">";
+	color: #777;
+}
+
+.GM_Boder {
+	border: 1px solid #ddd;
+}
+
+#DeleteFile {
+	
+}
+
+.show-pic {
+	float: left;
+	width: 200px;
+	height: 200px;
+	width:25%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+
+}
+
+.show-pic .imgbox {
+	max-width: 150px;
+	max-height: 150px;
+	min-width:100px;
+	min-height:100px;
+	width:80%;
+	margin: auto;
+	position:absolute;
+}
+.show-pic .imgbox span{
+	position:absolute;
+	color:#000;
+	font-size:bold;
+	cursor: pointer;
+	font-size:10px;
+	right:-5px;
+	top:-5px;
+	transition:all .3s linear;
+	z-index:10;
+}
+.show-pic .imgbox span:hover{
+	font-size:20px;
+	right:-10px;
+	top:-10px;
+	transform: rotate(90deg);
+
+}
+.show-pic .imgbox img{
+	width:100%;
+	cursor: pointer;
+	box-shadow:0px 0px 20px gray;
+	
+}
+.show-pic .imgbox:hover{
+	
+}
+@media only screen and (min-width: 1600px) {
+	.show-pic {
+		width:20%;
+	}
+}
+@media only screen and (max-width: 600px) {
+	.show-pic {
+		width:50%;
+	}
+}
+@media only screen and (max-width: 300px) {
+	.show-pic {
+		width:100%;
+	}
 }
