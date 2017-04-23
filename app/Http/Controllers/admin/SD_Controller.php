@@ -421,17 +421,35 @@ class SD_Controller extends Controller{
 
         $data = DB::table('files')->whereIn('id',$request->get('ids'))->get();
 
+        DB::beginTransaction();
+        $flag = true;
+
         foreach($data as $v){
             //删除files表数据
-            DB::table('files')->where('md5',$v->md5)->delete();
+            if(DB::table('files')->where('md5',$v->md5)->delete()===false){
+                $flag = false;
+                break;
+            }
 
             //删除catalogs表数据
-            DB::table('catalogs')->where('md5',$v->md5)->delete();
-
-            //删除文件
-            unlink($v->address.'/'.$v->md5.'.'.$v->type);
+            if(DB::table('catalogs')->where('md5',$v->md5)->delete()===false){
+                $flag = false;
+                break;
+            }
         }
 
-        return back();
+        if($flag===false){
+            DB::rollback();
+            return false;
+        }
+
+        DB::commmit();
+
+        //删除文件
+        foreach($data as $v){
+            if(file_exists(substr($v->address,1).'/'.$v->md5.'.'.$v->type))
+                unlink(substr($v->address,1).'/'.$v->md5.'.'.$v->type);
+        }
+        return true;
     }
 }
