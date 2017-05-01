@@ -440,16 +440,16 @@ class SD_Controller extends Controller{
 
         if($flag===false){
             DB::rollback();
-            return false;
+            return 0;
         }
 
-        DB::commmit();
+        DB::commit();
 
         //删除文件
         foreach($data as $v){
             if(file_exists(substr($v->address,1).'/'.$v->md5.'.'.$v->type))
                 unlink(substr($v->address,1).'/'.$v->md5.'.'.$v->type);
         }
-        return true;
+        return 1;
     }
 }
