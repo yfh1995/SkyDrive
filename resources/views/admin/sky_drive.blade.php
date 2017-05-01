@@ -81,6 +81,7 @@
 	                	ids:a
 	                },
 	                success:function(data){
+	                	console.log(data);
 	                	if(data==true){
 	        	        	myAlert("删除成功！");
 							$(".errorBtnSure").attr("Isreload","true");
@@ -105,6 +106,7 @@
         		$("#GM_addition").show();
         	}
         	function ShowPiCList(data){
+        		$("#GM_Show").hide();
         		$("#DeleteFile").empty();
             	
             	var str="",imgurl;
