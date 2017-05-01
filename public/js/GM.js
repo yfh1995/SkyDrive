@@ -74,9 +74,9 @@ function addGM_delete() //加载删除按钮
 	newnode.innerHTML = "<a  href='#GM_delete' class='nav-header collapsed' data-toggle='collapse'><span class='glyphicon glyphicon-remove-circle'></span>&nbsp;&nbsp;删除<b class='caret'></b></a>" +
 		"<ul id='GM_delete' style='width:90%;float:right;'class='nav nav-list collapse secondmenu nav-pills nav-stacked'>" +
 		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-picture'></span>&nbsp;&nbsp;图片</a></li>" +
-		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-film'></span>&nbsp;&nbsp;视频</a></li>" +
-		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-list-alt'></span>&nbsp;&nbsp;文本</a></li>" +
-		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-leaf'></span>&nbsp;&nbsp;种子</a></li>" +
+//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-film'></span>&nbsp;&nbsp;视频</a></li>" +
+//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-list-alt'></span>&nbsp;&nbsp;文本</a></li>" +
+//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-leaf'></span>&nbsp;&nbsp;种子</a></li>" +
 		"</ul> ";
 	GM_ul1.appendChild(newnode);
 }
@@ -1814,6 +1814,7 @@ function GM_DisksSuffixShow(GM_str) //加载网盘后缀表
 	if(GM_str == 'video') {
 		GM_seIndexActive(1);
 		var GM_div1 = document.getElementById("GM_title");
+//		GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>网盘</li><li>后缀</li> <li style='color: #080808'>视频</li> </ol> </div>";
 		GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>网盘</li><li>后缀</li> <li style='color: #080808'>视频</li> </ol> </div>";
 		var GM_div2 = document.getElementById("GM_exhibition");
 		GM_div2.innerHTML = "";
@@ -1896,6 +1897,9 @@ function GM_ShowDisksSuffixTable(GM_data1) //加载网盘后缀表单
 
 function GM_getDisksSuffixList(type, page, size, flag) //后缀分页ajax
 {
+
+	$("#GM_Show").show();
+	$("#DeleteFile").hide();
 	$.ajax({
 		url: '/admin/sky_drive/get_suffix',
 		type: 'post',
