@@ -35,14 +35,14 @@
         </div>
     </div>
 	
-	<!--<div id="GM_Show" class="col-md-8">
-		<div class="box">
+	<div id="GM_Show" class="col-md-8">
+		<!--<div class="box">
 			<span>单击文本框全选文字：</span><br>
 				<div class="content">
 					<input type="text" value="单击即可全选文字" aria-selected="true">
 				</div>
-		</div>
-	</div>-->
+		</div>-->
+	</div>
 	<div id='GM_addition' class='col-md-2' style='display: none;' >
 		
 	</div>
@@ -50,17 +50,17 @@
 		
 	</div>
 
-    {{--<div id="GM_Show" class="col-md-8">--}}
+    <!--{{--<div id="GM_Show" class="col-md-8">--}}
         {{--<div class="box">--}}
             {{--<span>单击文本框全选文字：</span><br>--}}
             {{--<div class="content">--}}
                 {{--<input type="text" value="单击即可全选文字" aria-selected="true">--}}
             {{--</div>--}}
         {{--</div>--}}
-    {{--</div>--}}
-    {{--<div id='GM_addition' class='col-md-2'  >--}}
-
-    {{--</div>--}}
+    {{--</div>--}}-->
+    <div id='GM_addition' class='col-md-2'  >
+	</div>
+    
 <script src="{{asset('/fancybox/jquery.fancybox.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/GM.js')}}" type="text/javascript"></script>
     <script>

@@ -31,7 +31,8 @@
 		}else if(index==1){
 			downloadFile();
 		}
-	})
+	});
+	console.log("asdasd"+$("#catalog").height()+" "+$("#xiangangID").height())
 	/*
 	 * 右键菜单
 	 */
