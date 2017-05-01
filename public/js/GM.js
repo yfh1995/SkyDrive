@@ -1897,6 +1897,9 @@ function GM_ShowDisksSuffixTable(GM_data1) //加载网盘后缀表单
 
 function GM_getDisksSuffixList(type, page, size, flag) //后缀分页ajax
 {
+
+	$("#GM_Show").show();
+	$("#DeleteFile").hide();
 	$.ajax({
 		url: '/admin/sky_drive/get_suffix',
 		type: 'post',
