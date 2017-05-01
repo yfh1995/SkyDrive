@@ -15,7 +15,7 @@
                 </ul>
             </li>
         </ul>
-        <ul class="nav nav-tabs nav-pills nav-stacked">
+        <ul class="nav nav-tabs nav-pills nav-stacked" style="display: none;">
             <li><a  href="#GM_homePage" class="nav-header collapsed" data-toggle="collapse"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;首页<b class="caret"></b></a>
                 <ul id="GM_homePage" class="nav nav-list collapse secondmenu nav-pills nav-stacked" style='width:90%;float:right;'>
                 </ul>
@@ -81,21 +81,48 @@
 	                	ids:a
 	                },
 	                success:function(data){
-	                	
+	                	if(data==true){
+	        	        	myAlert("删除成功！");
+							$(".errorBtnSure").attr("Isreload","true");
+	                	}else{
+	                		myAlert("删除失败！");
+							$(".errorBtnSure").attr("Isreload","true");
+	                	}
 	                },
 	                error:function(){
 	                    alert("数据读入出错");
 	                }
 	            });
         	});
+			function showLoading(){
+				$("#DeleteFile").empty();
+				var str='<div class="csshub-loader"><span></span><span></span><span></span></div>';
+				$("#DeleteFile").append(str);
+			}
 			
         	function hideShowDiv(){
         		$("#DeleteFile").hide();
         		$("#GM_addition").show();
         	}
-        	function showPicList(fileType,fileSize,fileLastId){
+        	function ShowPiCList(data){
+        		$("#DeleteFile").empty();
+            	
+            	var str="",imgurl;
+            	for(var i=0;i<data.length;i++){
+            		imgurl=data[i].address+"/"+data[i].md5+"."+data[i].type;
+            		str+='<div class="show-pic">';
+            		str+='<div class="imgbox"><span data-id="'+data[i].id+'" class="deleteBtn glyphicon glyphicon-remove" ></span><img src="'+imgurl+'" alt="" /></div>';
+					str+='<a href="'+imgurl+'" class="imgbox" data-fancybox="group">';
+
+					str+='<img src="'+imgurl+'" alt="" />';
+					str+="</a></div>";
+            	}
+            	$("#DeleteFile").append(str);
+        	}
+        	function GetFileList(fileType,fileSize,fileLastId){
         		$("#DeleteFile").show();
         		$("#GM_addition").hide();
+        		showLoading();
         		var toData={}
         		if(fileType!=null||fileType!=""){
         			toData.type=fileType;
@@ -113,19 +140,10 @@
 	                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 	                },data:toData,
 	                success:function(data){
-	                	$("#DeleteFile").empty();
 	                	console.log(data);
-	                	var str="",imgurl;
-	                	for(var i=0;i<data.length;i++){
-	                		imgurl=data[i].address+"/"+data[i].md5+"."+data[i].type;
-	                		str+='<div class="show-pic">';
-	                		str+='<div class="imgbox"><span data-id="'+data[i].id+'" class="deleteBtn glyphicon glyphicon-remove" ></span><img src="'+imgurl+'" alt="" /></div>';
-							str+='<a href="'+imgurl+'" class="imgbox" data-fancybox="group">';
-
-							str+='<img src="'+imgurl+'" alt="" />';
-							str+="</a></div>";
+	                	if(fileType=="picture"){
+	                		ShowPiCList(data);
 	                	}
-	                	$("#DeleteFile").append(str);
 	                },
 	                error:function(){
 	                    alert("数据读入出错");
@@ -139,7 +157,9 @@
         			return ;
         		}
         		if(Atext.indexOf("图片")>=0){
-        			showPicList("picture");
+        			GetFileList("picture");
+        		}else if(Atext.indexOf("种子")>=0){
+        			GetFileList("bt");
         		}else{
         			hideShowDiv();
         		}

@@ -7,9 +7,11 @@
 .GM_Boder {
 	border: 1px solid #ddd;
 }
-
+html,body{
+	height:100%;
+}
 #DeleteFile {
-	
+	height:calc(100% - 50px);
 }
 
 .show-pic {
@@ -74,3 +76,53 @@
 		width:100%;
 	}
 }
+
+.csshub-loader{
+	position: absolute;
+	top:20%;
+	left:30%;
+}
+.csshub-loader span{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #3498db;
+  opacity: 0;
+}
+
+.csshub-loader span:nth-child(1){
+  animation: csshub-opacitychange 1s ease-in-out infinite;
+  -webkit-animation: csshub-opacitychange 1s ease-in-out infinite;
+}
+
+.csshub-loader span:nth-child(2){
+  animation: csshub-opacitychange 1s ease-in-out 0.33s infinite;
+  -webkit-animation: csshub-opacitychange 1s ease-in-out 0.33s infinite;
+}
+
+.csshub-loader span:nth-child(3){
+  animation: csshub-opacitychange 1s ease-in-out 0.66s infinite;
+  -webkit-animation: csshub-opacitychange 1s ease-in-out 0.66s infinite;
+}
+
+@keyframes csshub-opacitychange{
+  0%, 100%{
+    opacity: 0;
+  }
+
+  60%{
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes csshub-opacitychange{
+  0%, 100%{
+    opacity: 0;
+  }
+
+  60%{
+    opacity: 1;
+  }
+}
+
