@@ -278,7 +278,7 @@
 		nScrollHight = $(this)[0].scrollHeight;
 		nScrollTop = $(this)[0].scrollTop;
 
-		if(nScrollTop + nDivHight >= nScrollHight) {
+		if(nScrollTop + nDivHight+1 >= nScrollHight) {
 			var dataset = {
 				"size": sizeNow,
 				"type": typeNow,
