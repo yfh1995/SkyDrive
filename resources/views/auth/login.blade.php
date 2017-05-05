@@ -1,3 +1,10 @@
+@extends('message')
+
+@section('content')
+
+
+
+@endsection
 <!DOCTYPE html>
 <html>
 
