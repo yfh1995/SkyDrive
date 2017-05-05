@@ -388,7 +388,7 @@ function send_email() {
 		},
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-		},
+			},
 		success: function(data) {
 			alert('success!!');
 		},
