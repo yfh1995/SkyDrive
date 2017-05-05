@@ -124,7 +124,7 @@
 									网盘帮助
 								</a><span></span>
 							</div>
-							@if(Auth::user()->admin != config('system_config.roles.user'))
+							@if(Auth::user()->admin != config('system_config.roles.user.name'))
 							<div class='myOperatorList_item'>
 								<a data-href="{{ url('admin/sky_drive') }}">
 									后台管理

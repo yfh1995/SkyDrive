@@ -159,7 +159,7 @@
 			</a>
 		</div>
 
-		@if (Auth::check())
+		@if (Auth::user()->admin != config('system_config.roles.user.name'))
 		<div class="link link-play3">
 			<a  class="button "  href="{{ url('/admin/sky_drive') }}">
 				<span class="line line-left"></span>
