@@ -92,7 +92,8 @@ $(document).ready(function() {
 });
 
 $("#ajaxForm").ajaxForm(function() {
-	window.location.reload();
+	$("#fatherName").val(father_catalog_nameNow);
+//	window.location.reload();
 	//	refresh('', 'catalog');
 });
 
@@ -336,7 +337,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 				<div class="tabcaidan" style="float:left; margin-left: 10px;margin-top: 10px; ">
 					<form id="ajaxForm" enctype="multipart/form-data" action="{{url('/sky_drive/upload')}}" method="POST" style="display: none;">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input id='fatherName' type="hidden" name="father_catalog_name" value="yfh"  />
+						<input id='fatherName' type="hidden" name="father_catalog_name" value=""  />
 						<input type="file" name="file" id="file" class="file" data-language="zh" onchange="sb.click()">
 						<input name="sb" type="submit" id="sb">
 					</form>
