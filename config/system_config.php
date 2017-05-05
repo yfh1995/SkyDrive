@@ -22,5 +22,5 @@ return [
         ]
     ],
     'storage_space_size'    =>  10*1024*1024*1024*1.0,
-    'page_size'             =>  15
+    'page_size'             =>  20
 ];
