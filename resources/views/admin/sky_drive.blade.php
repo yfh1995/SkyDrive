@@ -43,7 +43,7 @@
 				</div>
 		</div>-->
 	</div>
-	<div id='GM_addition' class='col-md-2' style='display: none;' >
+	<div id='GM_addition' class='col-md-2'>
 		
 	</div>
 	<div id="DeleteFile" class="col-md-10" style="display: block;">
@@ -103,6 +103,7 @@
 			
         	function hideShowDiv(){
         		$("#DeleteFile").hide();
+        		$("#GM_Show").show();
         		$("#GM_addition").show();
         	}
         	function ShowPiCList(data){
@@ -153,6 +154,8 @@
 	            });
         	}
         	$(document).on("click","a",function(){
+        		
+        		
         		var Atext=$(this).text().trim();
         		console.log(Atext+" "+Atext.length)
         		if(Atext==""){
@@ -163,6 +166,7 @@
         		}else if(Atext.indexOf("种子")>=0){
         			GetFileList("bt");
         		}else{
+        			
         			hideShowDiv();
         		}
         	})		

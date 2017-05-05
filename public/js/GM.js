@@ -978,6 +978,7 @@ function GM_clearShow() //清空展览页面
 
 function GM_clickBtnShow(btn) //按钮对应选择器
 {
+	$("#GM_Show").show();
 	switch(btn) {
 		case 0:
 			GM_getRecycleBinlist(0, 10, false);
@@ -1344,7 +1345,7 @@ function GM_ChangePass() //修改用户密码
 	var GM_str1 = document.getElementById("GM_warning");
 	GM_str1.innerHTML = "123";
 	if(GM_single_or_All == 1) {
-		var GM_data1 = $('#GM_usersModal1').attr('whatever').split(' ');
+		var GM_data1 = $('#GM_usersModal11').attr('whatever').split(' ');
 		data1.push(GM_data1[0]);
 
 		var GM_data2_pa = $("#GM_passWord").val();

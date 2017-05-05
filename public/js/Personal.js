@@ -307,7 +307,7 @@ function GetFileName() {
 }
 
 function reset_password() {
-	alert(document.getElementById('new').value + document.getElementById('sure').value);
+//	alert(document.getElementById('new').value + document.getElementById('sure').value);
 	$.ajax({
 		url: '/personal_center/reset_password',
 		type: 'post',
