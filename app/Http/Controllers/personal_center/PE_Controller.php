@@ -60,12 +60,12 @@ class PE_Controller extends Controller{
         $name=Auth::user()->name;
         $oldpassword=$request->get('oldpassword');
         $newpassword=$request->get('newpassword');
-        $repeatnewpassword=$request->get('repeatpassword');
+        $repeatnewpassword=$request->get('repeatnewpassword');
 
         if($newpassword!=$repeatnewpassword){
-            return '������������벻һ���������ԣ�';
+            return '两次密码不一致！';
         }
-        else if(Auth::attempt(['name'=>$name,'password'=>$oldpassword])){
+        else if(Auth::validate(['name'=>$name,'password'=>$oldpassword])){
             if(DB::table('users')->where('name',$name)->update(array('password'=>Hash::make($newpassword)))) {
                 return 1;
             }
@@ -74,7 +74,7 @@ class PE_Controller extends Controller{
             }
         }
         else{
-            return '������������������ԣ�';
+            return '修改失败！';
         }
     }
 
