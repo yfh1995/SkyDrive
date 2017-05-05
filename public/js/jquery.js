@@ -142,6 +142,7 @@
 		last_idNow = last_idNow > $(this).attr("id") ? $(this).attr("id") : last_idNow;
 	})
 	father_catalog_nameNow = $(".FileShowLine").attr("data-father");
+	$("#fatherName").val(father_catalog_nameNow);
 	if(father_catalog_nameNow == null) {
 		father_catalog_nameNow = decodeURI(GetQueryString("father_catalog_name"));
 	}
