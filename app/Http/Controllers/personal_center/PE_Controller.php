@@ -70,11 +70,11 @@ class PE_Controller extends Controller{
                 return 1;
             }
             else{
-                return 2;
+                return '修改失败！';
             }
         }
         else{
-            return '修改失败！';
+            return '旧密码错误！';
         }
     }
 
