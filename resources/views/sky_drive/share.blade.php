@@ -165,11 +165,11 @@ td {
 
 							<tbody id="myshareCodelist">
 								@foreach($data['share_info'] as $v)
-								<tr   class=" mytr {{$v->deadline<=time()?'success':'danger'}}" data-share={{$v->
+								<tr   class=" mytr {{strtotime($v->deadline)>=time()?'success':'danger'}}" data-share={{$v->
 									share_code}}  data-lastid={{$v->id}} >
 									 <td class='col-md-5 col-sm-5 col-lg-5'>
 									 	<span class='btnbtn' data-toggle="tooltip" data-placement="right" title="点击复制分享码" data-clipboard-text={{$v->share_code}}>{{$v->share_code}}</span></td>
-									<td class='col-md-2 col-sm-2 col-lg-2'>{{$v->deadline<=time()?'可用':'过期'}}</td>
+									<td class='col-md-2 col-sm-2 col-lg-2'>{{strtotime($v->deadline)>=time()?'可用':'过期'}}</td>
 									<td class='col-md-3 col-sm-3 col-lg-3'>{{$v->created_at}}</td>
 									<td class='col-md-2 col-sm-2 col-lg-2'><span id='LookFIleList' class='glyphicon glyphicon-eye-open'></span></td>
 								</tr>
@@ -341,11 +341,10 @@ td {
 						var className=(new Date(data[i]["deadline"])<new Date()?'success':'danger');
 						strTr="<tr data-share="+data[i]['share_code']+" class='mytr "+className+" 'data-lastid="+data[i]['id']+">";
 						strTr+="<td class='col-md-5 col-sm-5 col-lg-5'><span class='btnbtn' data-toggle='tooltip' data-placement='right' title='点击复制分享码' data-clipboard-text='"+data[i]['share_code']+"'>"+data[i]['share_code']+"</span></td>";
-						strTr+="<td class='col-md-2 col-sm-2 col-lg-2'>"+(new Date(data[i]["deadline"])<new Date()?'可用':'过期')+"</td>";
+						strTr+="<td class='col-md-2 col-sm-2 col-lg-2'>"+(new Date(data[i]["deadline"])>=new Date()?'可用':'过期')+"</td>";
 						strTr+="<td class='col-md-3 col-sm-3 col-lg-3'>"+data[i]['created_at']+"</td>";
 						str+="<td class='col-md-2 col-sm-2 col-lg-2'><span id='LookFIleList' class='glyphicon glyphicon-eye-open'></span></td>";
 						strTr+="</tr>";
-						console.log(strTr);
 						$("#myshareCodelist").append(strTr);
 					}
 					shouAnimate();
