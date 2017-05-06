@@ -478,7 +478,7 @@ class SD_Home_Controller extends Controller{
             $file_info = DB::table('share as s')
                 ->join('catalogs as c','c.id','=','s.catalog_id')
                 ->select(DB::raw('c.*'))
-                ->where('s.deadline','<',$time)
+                ->where('s.deadline','>',$time)
                 ->where('s.share_code',$params['share_code'])
                 ->where('c.size','<>','-1')
                 ->orderBy('c.id','desc')
