@@ -555,7 +555,7 @@ class SD_Home_Controller extends Controller{
 
         $size = isset($params['size'])?$params['size']:config('system_config.page_size');
 
-        $table = DB::table('share');
+        $table = DB::table('share')->where('owner_id',Auth::user()->id);
         if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
         $data = $table->groupBy('share_code')->orderBy('id','desc')->take($size)->get();
 
@@ -587,5 +587,15 @@ class SD_Home_Controller extends Controller{
         }
 
         return $result;
+    }
+
+    public function deleteCatalogs(Request $request){
+        $params = $request->all();
+
+        if(!isset($params['ids'])) return '操作对象数组不存在';
+
+        $rs = DB::table('catalogs')->whereIn('id',$params['ids'])->delete();
+        if(!$rs) return '删除失败！';
+        else return 1;
     }
 }

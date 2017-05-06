@@ -87,6 +87,7 @@ Route::group(['middleware'=>'auth'],function()
     Route::post('/sky_drive/download_files','sky_drive\SD_Home_Controller@download_files');                             //下载文件
     Route::get('/sky_drive/share_list','sky_drive\SD_Home_Controller@getShareList');                                    //分享页面
     Route::get('/sky_drive/get_share_catalog','sky_drive\SD_Home_Controller@getShareCatalogs');                         //获取一次分享的目录信息
+    Route::get('/sky_drive/deleteCatalogs','sky_drive\SD_Home_Controller@deleteCatalogs');                              //彻底删除目录
 
     Route::post('/sky_drive/preview','sky_drive\SD_Preview_Controller@preview');                                        //预览视频
 
