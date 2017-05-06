@@ -151,8 +151,10 @@
 	 */
 	if(file_typeNow=="garbage"){
 		$("#HuiFuFile").show().siblings("button").hide();
+		$("#DeleteComplete").show();
 	}else{
 		$("#HuiFuFile").hide();
+		$("#DeleteComplete").hide();
 	}
 	SetTileOfEntry(father_catalog_nameNow);
 	$("#mytab a").click(function(e) {
@@ -321,7 +323,32 @@
 	})
 	updateData();
 });
+function deleteFileComplete(){
+	var list=getAllcheckbox();
+	$.ajax({
+		url: '/sky_drive/deleteCatalogs',
+		type: 'get',
+		async: false,
+		data:{
+			ids:list
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			if(data==1){
+				myAlert("文件已被彻底删除");
+				$(".errorBtnSure").attr("Isreload","true");
+			}else{
+				console.log(data);
+			}
 
+		},
+		error: function() {
+			alert('11数据读取发生错误！');
+		}
+	});
+}
 /*
  * 更新数据
  */
