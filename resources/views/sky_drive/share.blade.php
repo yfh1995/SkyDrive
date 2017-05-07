@@ -76,6 +76,8 @@ td {
 #myshareCodelist>tr{
 	display: none;
 }
+
+
 </style>
 <div id="searchInput">
 	<div id="shareCode "  class="input-group">
@@ -86,6 +88,7 @@ td {
 		</button> </span>
 	</div>
 </div>
+
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >

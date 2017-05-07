@@ -611,6 +611,7 @@ function showTheFileMusic(index) {
 	}
 }
 
+
 function SureButtonFunction() {
 	//alert($("#text1").attr("value"));
 	var cur_catalog_name = document.getElementById("text1").value;
@@ -662,18 +663,20 @@ function createFileQuXiao() {
 	IsCreateFileNow = false;
 	$("#div1").remove();
 }
+$(document).on('click',".video",function(){
+	var src=$(this).attr("data-url");
+	console.log(src);
+	$("#playVideo video").attr("src",src);
+	$("#playVideo").show();
+})
 //点击视频
 function showTheFileVideo(str) {
-	//for(var i=0;i<cntInVideo;i++){
-	//    alert(listOfVideo[i]);
-	//}
-	var strnum = str.split(".");
 
-	$("#SRCOFvideo").val(listOfVideo[strnum[1]]);
-	$("#IDOFvideo").val(strnum[0]);
-	//	$("#IDOFvideo").val(45);
-	//	$("#SRCOFvideo").val("/website/storage/video/610c5dce66c50a43aa147c009ed47ac1.mp4");
-	$("#FromOfVideo").submit();
+	var src=$(this).attr("src");
+	console.log(src);
+	$("#playVideo video").attr("src",src);
+	$("#playVideo").show();
+	
 }
 
 function getNowTime() {

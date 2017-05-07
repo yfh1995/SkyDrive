@@ -246,7 +246,41 @@ $(document).on('click', '#DownLoadTheFile', function() {
 		}
 
 	}
-})</script>
+})
+function chuli1(e){
+	$("#playVideo video").attr("src","");
+	$("#playVideo").hide();
+}
+function chuli2(e){
+	 e.stopPropagation();
+}
+</script>
+<style>
+	#playVideo{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	display: none;
+	background-color: rgba(0,0,0,.5);
+	z-index: 1000;
+}
+#playVideo video{
+	width:60%;
+	height:400px;
+	max-width: 700px;
+	position:absolute;
+	left:50%;
+	top:calc(50% - 200px);
+	transform: translateX(-50%);
+}
+</style>
+
+<div id='playVideo' onclick="chuli1(event)" >
+	<video onclick="chuli2(event)" src="" controls=""></video>
+</div>
+
 <div id="searchInput">
 	<div id="shareCode "  class="input-group">
 		<input id="shareCodeInput" type="text" class="form-control " placeholder="输入分享码">
@@ -481,7 +515,7 @@ $(document).on('click', '#DownLoadTheFile', function() {
 											{{ $v->cur_catalog_name }}
 										</a> @elseif($type=='video')
 										<img style='height:20px;width:20px;margin:8px 5px;' src='/img/videoLogo.jpg'>
-										<a class='Filename' href='JavaScript:;'data-type="video" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}' onclick='showTheFileVideo({{ $v->id.'.'.($cntInwhichv++) }});'  style='padding-bottom: 5px;'>
+										<a class='Filename video' href='JavaScript:;'data-type="video" data-url='{{$v -> address}}/{{$v -> md5}}{{substr($v->cur_catalog_name,strrpos($v->cur_catalog_name,'.'))}}'   style='padding-bottom: 5px;'>
 											{{ $v->cur_catalog_name }}
 										</a> @else
 										@if($type=='text')
