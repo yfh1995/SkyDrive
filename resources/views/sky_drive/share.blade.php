@@ -138,9 +138,9 @@ td {
 			</ul>
 			<div  class="col-md-offset-2"  style="width:70%;margin-bottom: 0px;padding-bottom:0px;position:absolute;bottom:20px;">
 				<div class="progress progress-striped active" >
-					<div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="60"
-					aria-valuemin="0" aria-valuemax="100" style="width:80%"></div>
-				</div><strong>{{$data['user_info']->used_space}}/{{$data['user_info']->total_space}}</strong>
+					<div id="progress-bar" class="progress-bar progress-bar-success "  role="progressbar" aria-valuenow="60"
+					aria-valuemin="0" aria-valuemax="100" ></div>
+				</div><strong id='progress_data'>{{$data['user_info']->used_space}}/{{$data['user_info']->total_space}}</strong>
 			</div>
 		</div>
 		<div class=" twoInTwoDiv col-md-10 col-sm-10 col-lg-10" style="height:100%; margin:0px;padding:0px;">
@@ -230,6 +230,24 @@ td {
 </div><!-- /.modal -->
 <script src="{{asset('/js/clipboard.min.js')}}"></script>
 <script>$(document).ready(function() {
+	var data=$("#progress_data").text();
+	var Prodatatype=0;
+	data=data.split("/")[0];
+	var num1;
+	if(data.indexOf("KB")>=0){
+		num1=parseFloat(data)/1000;
+	}else if(data.indexOf("MB")>=0){
+		num1=parseFloat(data);
+	}else if(data.indexOf("GB")>=0){
+		num1=parseFloat(data)*1000;
+	}
+	var num2=parseFloat(10*1024);
+	var proPercent=num1/num2*100;
+	console.log(proPercent)
+	$(".progress-bar").css({
+		"width":proPercent+"%"
+	})
+	console.log(num1);
 	/*
 	 * 动画效果
 	 */
