@@ -63,7 +63,7 @@ class SD_Home_Controller extends Controller{
             if(isset($params['last_id'])) $last_info = DB::table('catalogs')->where('id',$params['last_id'])->first();
             if($params['type']==1 || $last_info->address){
                 $table = DB::table('catalogs')->where($where)->where('size','<>','-1');
-
+                if(isset($params['key_word'])) $table->where('cur_catalog_name','like','%'.$params['key_word'].'%');
                 if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
 
                 $catalogs_info = $table->orderBy('id','desc')->take($size)->get();
@@ -83,6 +83,7 @@ class SD_Home_Controller extends Controller{
         //取文件夹数据
         $table = DB::table('catalogs');
         $table = $table->where($where)->where('size','-1');
+        if(isset($params['key_word'])) $table->where('cur_catalog_name','like','%'.$params['key_word'].'%');
         if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
         $catalogs_info = $table->orderBy('id','desc')->take($size)->get();
 
@@ -93,12 +94,10 @@ class SD_Home_Controller extends Controller{
 
         //如果文件夹数据不足一页数据量，则取文件
         if($size-count($catalogs_info)){
-            $file_info = DB::table('catalogs')
-                ->where($where)
-                ->where('size','<>','-1')
-                ->orderBy('id','desc')
-                ->take($size-count($catalogs_info))
-                ->get();
+            $table = DB::table('catalogs')->where($where)->where('size','<>','-1');
+            if(isset($params['key_word'])) $table->where('cur_catalog_name','like','%'.$params['key_word'].'%');
+            if(isset($params['last_id'])) $table->where('id','<',$params['last_id']);
+            $file_info = $table->orderBy('id','desc')->take($size-count($catalogs_info))->get();
             foreach($file_info as &$v){
                 $v->size = $v->size=='-1'?$v->size:$this->getShowSize($v->size);
                 $catalogs_info[] = $v;
