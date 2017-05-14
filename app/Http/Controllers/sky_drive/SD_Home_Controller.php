@@ -593,8 +593,37 @@ class SD_Home_Controller extends Controller{
 
         if(!isset($params['ids'])) return '操作对象数组不存在';
 
-        $rs = DB::table('catalogs')->whereIn('id',$params['ids'])->delete();
-        if(!$rs) return '删除失败！';
-        else return 1;
+        DB::beginTransaction();
+
+        //更新用户信息
+        $user = DB::table('users')->find(Auth::user()->id);
+        $user->used_space -= $this->getSpaceByIds($params['ids']);
+        $rs_us = $user->save();
+
+        //删除目录信息
+        $rs_ca = DB::table('catalogs')->whereIn('id',$params['ids'])->delete();
+
+        if(!$rs_us || !$rs_ca){
+            DB::rollback();
+            return '删除失败！';
+        }
+        else{
+            DB::commit();
+            return 1;
+        }
+    }
+
+    //统计某些目录下的文件大小
+    public function getSpaceByIds($ids){
+        $size = 0;
+        foreach($ids as $id){
+            $cur_catalog = DB::table('catalogs')->find($id);
+            if($cur_catalog->size != -1) $size += $cur_catalog->size;
+            else {
+                $son_ids = DB::table('catalogs')->where('father_catalog_name', $cur_catalog->father_catalog_name . '/' . $cur_catalog->cur_catalog_name)->lists('id');
+                $size += $this->getSpaceByIds($son_ids);
+            }
+        }
+        return $size;
     }
 }
