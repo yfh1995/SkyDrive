@@ -598,7 +598,7 @@ class SD_Home_Controller extends Controller{
         //更新用户信息
         $user = DB::table('users')->find(Auth::user()->id);
         $user->used_space -= $this->getSpaceByIds($params['ids']);
-        $rs_us = $user->save();
+        $rs_us = DB::table('users')->where('id',Auth::user()->id)->update(['used_space'=>$user->used_space]);
 
         //删除目录信息
         $rs_ca = DB::table('catalogs')->whereIn('id',$params['ids'])->delete();
