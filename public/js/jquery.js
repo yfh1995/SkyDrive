@@ -1,4 +1,5 @@
 ﻿$(document).ready(function() {
+	
 	/*
 	 * 设置进度条宽度js
 	 */
@@ -137,6 +138,7 @@
 	typeNow = GetQueryString("type");
 	file_typeNow = GetQueryString('file_type');
 	ShareCodeNow=GetQueryString('share_code');
+	searchContent=GetQueryString('key_word')
 	last_idNow = 100000;
 	$(".checkboxInput").each(function() {
 		last_idNow = last_idNow > $(this).attr("id") ? $(this).attr("id") : last_idNow;
@@ -188,32 +190,25 @@
 
 	});
 	$("#SearchSareCodeBtn").on('click', function() {
-		var code = $("#shareCodeInput").val();
+		var code = $("#shareCodeInput").val().trim();
+		if(code.length==""){
+			return;
+		}
 		window.location.href="/sky_drive/getShareData?share_code="+code;
-//		$.ajax({
-//			url: '',
-//			type: 'post',
-//			data: {
-//				"share_code": code
-//			},
-//			headers: {
-//				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-//			},
-//			success: function(data) {
-//				console.log(data);
-//				if(data.result == false) {
-//					alert("该分享码错误，没有数据！");
-//					return;
-//				}
-//				//				$("#xiangangID").append("<div id='catalog'></div>");
-//				console.log(data);
-//				$("#catalog").empty();
-//				show_data(data.data);
-//			},
-//			error: function() {
-//				alert('11数据读取发生错误！');
-//			}
-//		});
+	})
+	$("#SearchContentBtn").on('click', function() {
+		
+		var content = $("#SearchContentInput").val().trim();
+		if(content.length==""){
+			return;
+		}
+		var urlStr=window.location.href;
+		if(window.location.href.indexOf("key_word")>=0){
+			window.location.href=urlStr.substr(0,(urlStr.indexOf("key_word=")+9))+content;
+		}else{
+			window.location.href+="&&key_word="+content;
+		}
+		
 	})
 	$("#shareCodeInput").on("change", function() {
 
@@ -300,6 +295,9 @@
 					"share_code":ShareCodeNow
 				};
 				url="/sky_drive/getShareData"
+			}
+			if(searchContent!==""&&searchContent!==null&&searchContent!==undefined){
+				dataset.key_word=searchContent;
 			}
 //						console.log(dataset);
 			$.ajax({
@@ -899,7 +897,6 @@ function show_data(data) {
 
 		} else {
 			F += "<a id='Filerename' style='display:none;'><input type='text'  value='" + NoQianZhuiName + "'><button  id='renameFileSure'>确定</button><button  id='renameFileFlase'>取消</button></a>";
-
 		}
 
 		F += "<div id='toggletuBiao' class='dropdown' style='float:right;display: none;' > ";

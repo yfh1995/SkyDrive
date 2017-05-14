@@ -60,7 +60,7 @@ var father_catalog_nameNow = "",
 	last_idNow = 0,
 	file_typeNow = "",
 	ShareCodeNow="";
-
+	searchContent=""
 var cntInwhichm = 0; //记录是第几个音乐
 var cntInwhichv = 0; //记录是第几个视频
 /*
@@ -288,7 +288,7 @@ function chuli2(e){
 		<button id="SearchSareCodeBtn" class="btn btn-default" type="button">
 		Go!
 		</button> </span>
-	</div><!-- /input-group -->
+	</div>
 </div>
 
 <div class="mdui-dialog" 	>
@@ -418,6 +418,7 @@ function chuli2(e){
 							彻底删除
 							</button>
 						</div>
+						
 					</div>
 
 				</div>
@@ -434,6 +435,15 @@ function chuli2(e){
 				</a>
 				</div>
 				</div>-->
+				<div id="searchContentInput">
+					<div id="shareCode "  class="input-group">
+						<input id="SearchContentInput" type="text" class="form-control " placeholder="搜索内容">
+						<span class="input-group-btn">
+						<button id="SearchContentBtn" class="btn btn-default" type="button">
+						Go!
+						</button> </span>
+					</div>
+				</div>
 			</div>
 			<div style="height:5%;">
 				<div id="MeuOfHeader" style="float:left; margin-left:20px;" ></div>

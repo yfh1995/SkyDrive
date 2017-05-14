@@ -161,7 +161,7 @@
         		if(Atext==""){
         			return ;
         		}
-        		if(Atext.indexOf("图片")>=0){
+        		if(Atext.indexOf("图片")>=0&&$(this).attr("name")==""){
         			GetFileList("picture");
         		}else if(Atext.indexOf("种子")>=0){
         			GetFileList("bt");
