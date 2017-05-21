@@ -310,7 +310,15 @@ function chuli2(e){
 		</button>
 	</div>
 </div>
-
+<div id="searchContentInput">
+	<div id="shareCode "  class="input-group">
+		<input id="SearchContentInput" type="text" class="form-control " placeholder="搜索内容">
+		<span class="input-group-btn">
+		<button id="SearchContentBtn" class="btn btn-default" type="button">
+		Go!
+		</button> </span>
+	</div>
+</div>
 <div class="TwoDivInYunpan"  >
 	<div class="row" style="height:100%;">
 		<div class="oneInTwoDiv col-md-2 col-lg-2 col-sm-2" style="padding:0;" >
@@ -435,15 +443,7 @@ function chuli2(e){
 				</a>
 				</div>
 				</div>-->
-				<div id="searchContentInput">
-					<div id="shareCode "  class="input-group">
-						<input id="SearchContentInput" type="text" class="form-control " placeholder="搜索内容">
-						<span class="input-group-btn">
-						<button id="SearchContentBtn" class="btn btn-default" type="button">
-						Go!
-						</button> </span>
-					</div>
-				</div>
+				
 			</div>
 			<div style="height:5%;">
 				<div id="MeuOfHeader" style="float:left; margin-left:20px;" ></div>

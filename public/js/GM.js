@@ -14,9 +14,9 @@ function addGM_peoplev1() //加载用户按钮
 	$("#GM_people").append(str1);
 	//debug
 	
-	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(4)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;角色</a></li>";
-	$("#GM_people").append(str1);
-	//	debug
+//	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(4)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;角色</a></li>";
+//	$("#GM_people").append(str1);
+//	//	debug
 	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(1)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;用户</a></li>";
 	$("#GM_people").append(str1);
 }
@@ -69,16 +69,16 @@ function addGM_suffix() //加载后缀按钮
 
 function addGM_delete() //加载删除按钮
 {
-	var GM_ul1 = document.getElementById("GM_onlineDisk");
-	var newnode = document.createElement("li");
-	newnode.innerHTML = "<a  href='#GM_delete' class='nav-header collapsed' data-toggle='collapse'><span class='glyphicon glyphicon-remove-circle'></span>&nbsp;&nbsp;删除<b class='caret'></b></a>" +
-		"<ul id='GM_delete' style='width:90%;float:right;'class='nav nav-list collapse secondmenu nav-pills nav-stacked'>" +
-		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-picture'></span>&nbsp;&nbsp;图片</a></li>" +
-//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-film'></span>&nbsp;&nbsp;视频</a></li>" +
-//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-list-alt'></span>&nbsp;&nbsp;文本</a></li>" +
-//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-leaf'></span>&nbsp;&nbsp;种子</a></li>" +
-		"</ul> ";
-	GM_ul1.appendChild(newnode);
+//	var GM_ul1 = document.getElementById("GM_onlineDisk");
+//	var newnode = document.createElement("li");
+//	newnode.innerHTML = "<a  href='#GM_delete' class='nav-header collapsed' data-toggle='collapse'><span class='glyphicon glyphicon-remove-circle'></span>&nbsp;&nbsp;删除<b class='caret'></b></a>" +
+//		"<ul id='GM_delete' style='width:90%;float:right;'class='nav nav-list collapse secondmenu nav-pills nav-stacked'>" +
+//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-picture'></span>&nbsp;&nbsp;图片</a></li>" +
+////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-film'></span>&nbsp;&nbsp;视频</a></li>" +
+////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-list-alt'></span>&nbsp;&nbsp;文本</a></li>" +
+////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-leaf'></span>&nbsp;&nbsp;种子</a></li>" +
+//		"</ul> ";
+//	GM_ul1.appendChild(newnode);
 }
 
 function ShowAllBtn() //选择复选框后判断是显示多选按钮
