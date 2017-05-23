@@ -93,7 +93,7 @@ return [
 	|business@ieyuan.com  Qpwoei2010  smtp.mxhichina.com
 	*/
 
-	'password' => env('MAIL_PASSWORD','xirtjaqbdqbebfbe'),
+	'password' => env('MAIL_PASSWORD','xhezyvghuguybbbd'),
 //	'password' => '690828339',
 	/*
 	|--------------------------------------------------------------------------

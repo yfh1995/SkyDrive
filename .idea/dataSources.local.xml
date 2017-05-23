@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - skydrive@localhost" uuid="64083c41-e223-4342-bee4-ccd376c92cea">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>skydrive.*</schema-pattern>
+      <default-schemas>skydrive.*</default-schemas>
+    </data-source>
+    <data-source name="MySQL - skydrive@18227687927.oicp.net" uuid="889479af-3fa2-4c60-bdfd-5605c7552e80">
+      <secret-storage>master_key</secret-storage>
+      <user-name>homestead</user-name>
+      <schema-pattern>skydrive.*</schema-pattern>
+      <default-schemas>skydrive.*</default-schemas>
+    </data-source>
+  </component>
+</project>

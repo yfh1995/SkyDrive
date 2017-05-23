@@ -119,11 +119,11 @@
 								</a><span></span>
 							</div>
 							
-							<div class='myOperatorList_item'>
-								<a data-href="{{ url('Help') }}">
-									网盘帮助
-								</a><span></span>
-							</div>
+							{{--<div class='myOperatorList_item'>--}}
+								{{--<a data-href="{{ url('Help') }}">--}}
+									{{--网盘帮助--}}
+								{{--</a><span></span>--}}
+							{{--</div>--}}
 							@if(Auth::user()->admin != config('system_config.roles.user.name'))
 							<div class='myOperatorList_item'>
 								<a data-href="{{ url('admin/sky_drive') }}">

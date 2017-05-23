@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('test','auth\LoginController@test');
+Route::get('test','sky_drive\SD_Home_Controller@tt');
 Route::get("Help","sky_drive\SD_Home_Controller@Help");
 Route::get('/login','auth\LoginController@getlogin');								                                    //登陆页面1
 Route::post('/login','auth\LoginController@postlogin');								                                    //登陆验证1
@@ -67,6 +67,7 @@ Route::group(['middleware'=>'auth'],function()
         Route::post('/admin/sky_drive/get_garbage_user','admin\SD_Controller@get_garbage_user');                        //获取被删除用户
         Route::get('/admin/sky_drive/get_different_files','admin\SD_Controller@get_different_files');                   //获取分类文件
         Route::post('/admin/sky_drive/delete_files','admin\SD_Controller@delete_files');                                //删除文件
+        Route::get('/admin/sky_drive/delete_user','admin\SD_Controller@delete_user');                                   //彻底删除用户
 
         Route::get('/admin/forum','admin\Forum_Controller@index');                                                      //论坛后台控制0
     });

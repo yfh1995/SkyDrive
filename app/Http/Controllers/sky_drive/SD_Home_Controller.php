@@ -600,10 +600,23 @@ class SD_Home_Controller extends Controller{
         $user->used_space -= $this->getSpaceByIds($params['ids']);
         $rs_us = DB::table('users')->where('id',Auth::user()->id)->update(['used_space'=>$user->used_space]);
 
+        $md5s = DB::table('catalogs')->whereIn('id',$params['ids'])->lists('md5');
+        $rs_fi = DB::table('files')->whereIn('md5',$md5s)->decrement('owner_num');
+
+        //删除无人拥有的文件及数据
+        $files = DB::table('files')->where('owner_num',0)->get();
+        $rs_fi_de = DB::table('files')->where('owner_num',0)->delete();
+        if($rs_fi_de) {
+            foreach ($files as $v) {
+                unlink(substr($v->address,1).'/'.$v->md5.'.'.$v->type);
+            }
+        }
+
+
         //删除目录信息
         $rs_ca = DB::table('catalogs')->whereIn('id',$params['ids'])->delete();
 
-        if(!$rs_us || !$rs_ca){
+        if(!$rs_us || !$rs_fi || !$rs_ca){
             DB::rollback();
             return '删除失败！';
         }
@@ -625,5 +638,14 @@ class SD_Home_Controller extends Controller{
             }
         }
         return $size;
+    }
+
+    public function delete_user(Request $request){
+        $params = $request->all();
+        if(!isset($params['id'])) return '没有操作对象id！';
+
+        $rs = DB::table('users')->where('id',$params['id'])->delete();
+        if(!$rs) return '删除失败！';
+        else return 1;
     }
 }
