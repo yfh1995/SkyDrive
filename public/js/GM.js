@@ -1,6 +1,7 @@
 var GM_single_or_All = 1;
 var GM_user_or_GM = 1;
-var nameNow = "",IDNow=-1;
+var nameNow = "",
+	IDNow = -1;
 
 function addGM_Recycle() //加载回收站按钮
 {
@@ -13,10 +14,10 @@ function addGM_peoplev1() //加载用户按钮
 	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(5)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;管理员</a></li>";
 	$("#GM_people").append(str1);
 	//debug
-	
-//	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(4)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;角色</a></li>";
-//	$("#GM_people").append(str1);
-//	//	debug
+
+	//	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(4)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;角色</a></li>";
+	//	$("#GM_people").append(str1);
+	//	//	debug
 	var str1 = "<li><a data-toggle='tab' onclick='GM_clickBtnShow(1)'><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;用户</a></li>";
 	$("#GM_people").append(str1);
 }
@@ -69,16 +70,16 @@ function addGM_suffix() //加载后缀按钮
 
 function addGM_delete() //加载删除按钮
 {
-//	var GM_ul1 = document.getElementById("GM_onlineDisk");
-//	var newnode = document.createElement("li");
-//	newnode.innerHTML = "<a  href='#GM_delete' class='nav-header collapsed' data-toggle='collapse'><span class='glyphicon glyphicon-remove-circle'></span>&nbsp;&nbsp;删除<b class='caret'></b></a>" +
-//		"<ul id='GM_delete' style='width:90%;float:right;'class='nav nav-list collapse secondmenu nav-pills nav-stacked'>" +
-//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-picture'></span>&nbsp;&nbsp;图片</a></li>" +
-////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-film'></span>&nbsp;&nbsp;视频</a></li>" +
-////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-list-alt'></span>&nbsp;&nbsp;文本</a></li>" +
-////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-leaf'></span>&nbsp;&nbsp;种子</a></li>" +
-//		"</ul> ";
-//	GM_ul1.appendChild(newnode);
+	//	var GM_ul1 = document.getElementById("GM_onlineDisk");
+	//	var newnode = document.createElement("li");
+	//	newnode.innerHTML = "<a  href='#GM_delete' class='nav-header collapsed' data-toggle='collapse'><span class='glyphicon glyphicon-remove-circle'></span>&nbsp;&nbsp;删除<b class='caret'></b></a>" +
+	//		"<ul id='GM_delete' style='width:90%;float:right;'class='nav nav-list collapse secondmenu nav-pills nav-stacked'>" +
+	//		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-picture'></span>&nbsp;&nbsp;图片</a></li>" +
+	////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-film'></span>&nbsp;&nbsp;视频</a></li>" +
+	////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-list-alt'></span>&nbsp;&nbsp;文本</a></li>" +
+	////		"<li><a href='#' data-toggle='tab'><span class='glyphicon glyphicon-leaf'></span>&nbsp;&nbsp;种子</a></li>" +
+	//		"</ul> ";
+	//	GM_ul1.appendChild(newnode);
 }
 
 function ShowAllBtn() //选择复选框后判断是显示多选按钮
@@ -223,7 +224,9 @@ function GM_ShowRecycleBinTable(GM_data1) //加载回收站表单
 {
 	var str1 = "";
 	for(var i = 0; i < GM_data1.length - 1; i++) {
-		str1 = str1 + "<tr><td class='GM_userInput'><div style='text-align:center' ><input onclick=' ShowAllBtn()' type='checkbox' name='GM_user'  value='" + GM_data1[i]['id'] + "'></div></td><td><div>" + GM_data1[i]['id'] + "</div></td><td><div>" + GM_data1[i]['email'] + "</div></td><td><div>" + GM_data1[i]['name'] + "</div></td><td><div>" + GM_data1[i]['created_at'] + "</div></td><td><div>" + GM_data1[i]['delete_at'] + "</div></td><td><div style='padding:0;' > <a  id='GM_GMLookAdmin" + GM_data1[i]['id'] + "' tabindex='0' type='button' class='btn btn-warning btn-xs' title='该管理员权限' data-container='body' data-toggle='popover' data-trigger='focus' data-placement='left' whatever='" + GM_data1[i]['admin'] + "'>" + GM_data1[i]['admin'] + "</a></div></td><td><div style='text-align: center'><div style='display:inline;padding:0;margin:20px;'><a class='btn btn-info btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal2' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' > <i class='glyphicon glyphicon-thumbs-up'></i>恢复身份 </a></div></div></td></tr>";
+		str1 = str1 + "<tr><td class='GM_userInput'><div style='text-align:center' ><input onclick=' ShowAllBtn()' type='checkbox' name='GM_user'  value='" + GM_data1[i]['id'] + "'></div></td><td><div>" + GM_data1[i]['id'] + "</div></td><td><div>" + GM_data1[i]['email'] + "</div></td><td><div>" + GM_data1[i]['name'] + "</div></td><td><div>" + GM_data1[i]['created_at'] + "</div></td><td><div>" + GM_data1[i]['delete_at'] + "</div></td><td><div style='padding:0;' > <a  id='GM_GMLookAdmin" + GM_data1[i]['id'] + "' tabindex='0' type='button' class='btn btn-warning btn-xs' title='该管理员权限' data-container='body' data-toggle='popover' data-trigger='focus' data-placement='left' whatever='" + GM_data1[i]['admin'] + "'>" + GM_data1[i]['admin'] + "</a></div></td><td><div style='text-align: center'><div style='display:inline;padding:0;margin:20px;'>";
+		str1 += "<a class='btn btn-info btn-xs GM_userInput' data-toggle='modal' data-target='#GM_usersModal2' data-whatever='" + GM_data1[i]['id'] + ' ' + GM_data1[i]['name'] + "' > <i class='glyphicon glyphicon-thumbs-up'></i>恢复 </a>";
+		str1 += "<a class='btn btn-info btn-xs GM_deleteInput'  data-whatever='" + GM_data1[i]['id'] + "' > <i class='glyphicon glyphicon-trash icon-white'></i>删除 </a></div></div></td></tr>"
 	}
 	var GM_div1 = document.getElementById("GM_usersTbody");
 	GM_div1.innerHTML = str1;
@@ -362,17 +365,16 @@ function GM_Addition(GM_flag1, GM_flag2, GM_flag3) //加载增加的模块
 						$(".GM_userInput").attr("style", "pointer-events: none;background:#000;opacity:0.1;");
 						var strOfGM_div1 = "<div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >角色管理</h4></div> ";
 						strOfGM_div1 += "<div class='col-md-12 GM_Boder'>";
-						for(var i = 0; i < data.length; i++) {
+						for(var i = 1; i < data.length; i++) {
 							strOfGM_div1 += '<div class="col-md-12" style="margin-top: 15px;padding: 0;">';
 							strOfGM_div1 += ' <div class="col-md-10" style="margin: 0;padding: 0;">' + data[i].cn_name + '</div>';
 							strOfGM_div1 += ' <div class="col-md-2" style="margin: 0;padding: 0">';
-							var women = data[i].cn_name+"_"+data[i].group_name;
+							var women = data[i].cn_name + "_" + data[i].group_name;
 							strOfGM_div1 += "<input type='radio' name='GM_userSetSelect2' value=" + women + " /></div> </div>";
 						}
 						strOfGM_div1 += "</div>";
 						strOfGM_div1 += '<div class="col-md-12" style="text-align:center;margin:20px 0px 400px 0px;"><div class="col-md-10" style="margin: 0;padding: 0;">通知管理员</div> <div class="col-md-2" style="margin: 0;padding: 0"><input type="checkbox" name="GM_ToUser" value="12"></div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-info btn-xs" onclick="GM_clearAddition()"> <i class="glyphicon glyphicon-edit icon-white"></i>取消 </a> </div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#GM_isSurePower2"> <i class="glyphicon glyphicon-trash icon-white"></i>确定 </a> </div> </div>';
 						GM_div1.innerHTML = strOfGM_div1;
-
 
 					},
 					error: function() {
@@ -394,12 +396,15 @@ function GM_Addition(GM_flag1, GM_flag2, GM_flag3) //加载增加的模块
 						var strOfGM_div1 = "<div  class='col-md-12 btn-danger' style='text-align:center;'><h4 >设置权限</h4></div> ";
 						strOfGM_div1 += "<div class='col-md-12 GM_Boder'>";
 						for(var i = 0; i < data.length; i++) {
-							strOfGM_div1 += '<div class="col-md-12" style="margin-top: 15px;padding: 0;">';
+							if(data[i].chinese_name=="用户"||data[i].chinese_name=="管理员"){
+								strOfGM_div1 += '<div class="col-md-12" style="margin-top: 15px;padding: 0;">';
 							strOfGM_div1 += ' <div class="col-md-10" style="margin: 0;padding: 0;">' + data[i].chinese_name + '</div>';
 							strOfGM_div1 += ' <div class="col-md-2" style="margin: 0;padding: 0">';
 							var women = data[i].permission_name;
 							women += "_" + data[i].chinese_name;
 							strOfGM_div1 += "<input type='checkbox' name='GM_userSetSelect' value=" + women + " /></div> </div>";
+							}
+							
 						}
 						strOfGM_div1 += "</div>";
 						strOfGM_div1 += '<div class="col-md-12" style="text-align:center;margin:20px 0px 400px 0px;"><div class="col-md-10" style="margin: 0;padding: 0;">通知管理员</div> <div class="col-md-2" style="margin: 0;padding: 0"><input type="checkbox" name="GM_ToUser" value="12"></div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-info btn-xs" onclick="GM_clearAddition()"> <i class="glyphicon glyphicon-edit icon-white"></i>取消 </a> </div> <div style="float:left;padding: 0;margin-top: 20px" class="col-md-6"> <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#GM_isSurePower"> <i class="glyphicon glyphicon-trash icon-white"></i>确定 </a> </div> </div>';
@@ -425,9 +430,35 @@ function GM_Addition(GM_flag1, GM_flag2, GM_flag3) //加载增加的模块
 		}
 	}
 }
-$(document).on("click",".GM_userInput",function(){
-		IDNow=$(this).attr("data-id")
-})	
+$(document).on("click", ".GM_userInput", function() {
+	IDNow = $(this).attr("data-id");
+});
+$(document).on("click", ".GM_deleteInput", function() {
+	IDNow = $(this).attr("data-whatever");
+	$.ajax({
+		url: "/admin/sky_drive/delete_user",
+		type: 'get',
+		data: {
+			id: IDNow
+		},
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+		},
+		success: function(data) {
+			if(data==1){
+				myAlert("删除成功");
+				$(".errorBtnSure").attr("Isreload","true");
+			}else{
+				myAlert(data);
+			}
+
+		},
+		error: function() {
+			alert('调用失败');
+		}
+	});
+})
+
 function GM_showUsersFrame() //加载用户页面框架
 {
 
@@ -459,8 +490,7 @@ function GM_showUsersFrame() //加载用户页面框架
 		modal.find('.modal-title').text('编辑 ' + GM_SS[1] + ' 的选项');
 		nameNow = GM_SS[1];
 
-		
-//		console.log("我在这里呀！！！"+$(this).parent().parent().parent());
+		//		console.log("我在这里呀！！！"+$(this).parent().parent().parent());
 		GM_single_or_All = 1;
 	})
 	$('#GM_usersModal2').on('show.bs.modal', function(event) {
@@ -579,20 +609,21 @@ function GM_showJuesesFrame() //加载用户页面框架
 	})
 	$('#GM_isSurePower2').on('show.bs.modal', function(event) {
 		var GM_data1 = document.getElementsByName("GM_userSetSelect2");
-		var data1 = "",data2="";
+		var data1 = "",
+			data2 = "";
 		for(var i = 0; i < GM_data1.length; i++) {
 			if(GM_data1[i].checked) {
 				data1 = GM_data1[i].value.split("_")[0];
-				data2=GM_data1[i].value.split("_")[1];
+				data2 = GM_data1[i].value.split("_")[1];
 				break;
 			}
 		}
 		var modal = $(this);
-		
-		if(data1.length==0){
+
+		if(data1.length == 0) {
 			modal.find('.modal-title').text('错误提示:');
 			modal.find('.modal-body').text("请选择一个正确的用户角色类型！！");
-			return ;
+			return;
 		}
 		var modal = $(this);
 		modal.find('.modal-title').text('是否将该用户的角色类型变成:');
@@ -1088,6 +1119,7 @@ function GM_getJuseslist(page, size, flag) //用户ajax
 		}
 	});
 }
+
 function GM_getAdminslist(page, size, flag) //用户ajax
 {
 	$.ajax({
@@ -1118,6 +1150,7 @@ function GM_getAdminslist(page, size, flag) //用户ajax
 		}
 	});
 }
+
 function GM_sureDeleteUser(GM_flag) //删除用户
 {
 	var data1 = [];
@@ -1283,6 +1316,7 @@ function GM_SetPower() //设置用户权限
 		}
 	});
 }
+
 function GM_SetPower2(data2) //设置哟农户类型
 {
 	$.ajax({
@@ -1299,36 +1333,36 @@ function GM_SetPower2(data2) //设置哟农户类型
 		success: function(data) {
 			console.log(data);
 			GM_clearAddition();
-//			if(data == -1) {
-//				$('#GM_information').find('.modal-body').text('未找到对应权限组');
-//				document.getElementById('GM_informationBtn').click();
-//			} else {
-//				GM_clickBtnShow(GM_user_or_GM);
-//				$('#GM_information').find('.modal-body').text('设置权限成功');
-//				document.getElementById('GM_informationBtn').click();
-//				if(data3 == true) {
-//					$.ajax({
-//						url: '/email/change_user_permission',
-//						type: 'post',
-//						async: false,
-//						data: {
-//							'id': data1,
-//							'permission': data2
-//						},
-//						headers: {
-//							'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-//						},
-//						success: function(data) {
-//							$('#GM_information').find('.modal-body').text('发送邮件成功');
-//							document.getElementById('GM_informationBtn').click();
-//						},
-//						error: function() {
-//							$('#GM_information').find('.modal-body').text('发送邮件失败');
-//							document.getElementById('GM_informationBtn').click();
-//						}
-//					});
-//				}
-//			}
+			//			if(data == -1) {
+			//				$('#GM_information').find('.modal-body').text('未找到对应权限组');
+			//				document.getElementById('GM_informationBtn').click();
+			//			} else {
+			//				GM_clickBtnShow(GM_user_or_GM);
+			//				$('#GM_information').find('.modal-body').text('设置权限成功');
+			//				document.getElementById('GM_informationBtn').click();
+			//				if(data3 == true) {
+			//					$.ajax({
+			//						url: '/email/change_user_permission',
+			//						type: 'post',
+			//						async: false,
+			//						data: {
+			//							'id': data1,
+			//							'permission': data2
+			//						},
+			//						headers: {
+			//							'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			//						},
+			//						success: function(data) {
+			//							$('#GM_information').find('.modal-body').text('发送邮件成功');
+			//							document.getElementById('GM_informationBtn').click();
+			//						},
+			//						error: function() {
+			//							$('#GM_information').find('.modal-body').text('发送邮件失败');
+			//							document.getElementById('GM_informationBtn').click();
+			//						}
+			//					});
+			//				}
+			//			}
 		},
 		error: function() {
 			$('#GM_information').find('.modal-body').text('数据读入出错');
@@ -1336,17 +1370,21 @@ function GM_SetPower2(data2) //设置哟农户类型
 		}
 	});
 }
+var data1 = [];
+var data2 = [];
+$(document).on("click", ".GM_userInput", function() {
+	var GM_dwwata1 = $(this).attr('data-whatever').split(' ');
+	data1 = GM_dwwata1[0];
+	//	data2=GM_dwwata1[1];w	
+})
 
 function GM_ChangePass() //修改用户密码
 {
-	var data1 = [];
-	var data2 = [];
+
 	var data3 = 0;
 	var GM_str1 = document.getElementById("GM_warning");
 	GM_str1.innerHTML = "123";
 	if(GM_single_or_All == 1) {
-		var GM_data1 = $('#GM_usersModal11').attr('whatever').split(' ');
-		data1.push(GM_data1[0]);
 
 		var GM_data2_pa = $("#GM_passWord").val();
 		var GM_data2_repa = $("#GM_RepassWord").val();
@@ -1815,7 +1853,7 @@ function GM_DisksSuffixShow(GM_str) //加载网盘后缀表
 	if(GM_str == 'video') {
 		GM_seIndexActive(1);
 		var GM_div1 = document.getElementById("GM_title");
-//		GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>网盘</li><li>后缀</li> <li style='color: #080808'>视频</li> </ol> </div>";
+		//		GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>网盘</li><li>后缀</li> <li style='color: #080808'>视频</li> </ol> </div>";
 		GM_div1.innerHTML = "<div> <ol class='breadcrumb GM_breadcrumb'> <li>控制台</li> <li>网盘</li><li>后缀</li> <li style='color: #080808'>视频</li> </ol> </div>";
 		var GM_div2 = document.getElementById("GM_exhibition");
 		GM_div2.innerHTML = "";
