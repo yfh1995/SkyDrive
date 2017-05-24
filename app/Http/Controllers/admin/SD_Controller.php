@@ -452,4 +452,13 @@ class SD_Controller extends Controller{
         }
         return 1;
     }
+
+    public function delete_user(Request $request){
+        $params = $request->all();
+        if(!isset($params['id'])) return '没有操作对象id！';
+
+        $rs = DB::table('users')->where('id',$params['id'])->delete();
+        if(!$rs) return '删除失败！';
+        else return 1;
+    }
 }
