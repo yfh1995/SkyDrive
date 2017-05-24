@@ -28,18 +28,18 @@ class ResetController extends Controller{
         $repeatnewpassword=Input::get('repeatpassword');
 
         if($newpassword!=$repeatnewpassword){
-            return Redirect::route('/reset')->withInput()->withErrors('Á½´ÎÊäÈëµÄÃÜÂë²»Ò»Ñù£¬ÇëÖØÊÔ£¡');
+            return Redirect::route('/reset')->withInput()->withErrors('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½');
         }
         else if(Auth::attempt(['password'=>$oldpassword])){
             if(DB::table('users')->where('id',$id)->update(array('password'=>hash::make($newpassword)))){
                 return Redirect::route('/');
             }
             else{
-                return Redirect::route('/reset')->withInput()->withErrors('¾ÉÃÜÂëÊäÈë´íÎó£¡ÇëÖØÊÔ£¡');
+                return Redirect::route('/reset')->withInput()->withErrors('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½');
             }
         }
         else{
-            return Redirect::route('/reset')->withInput()->withErrors('¸üĞÂÊ§°Ü£¡');
+            return Redirect::route('/reset')->withInput()->withErrors('ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½');
         }
     }
 
@@ -51,10 +51,12 @@ class ResetController extends Controller{
         $password=$request->get('password');
 
         if(DB::table('users')->where('id',$id)->update(array('password'=>Hash::make($password)))){
-            return 'ÃÜÂëĞŞ¸Ä³É¹¦';
+//          return 'ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸Ä³É¹ï¿½';
+			return 1;
         }
         else{
-            return 'Î´ÖªÔ­ÒòÃÜÂëĞŞ¸ÄÊ§°Ü';
+//          return 'Î´ÖªÔ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½Ê§ï¿½ï¿½';
+			return 0;
         }
     }
 

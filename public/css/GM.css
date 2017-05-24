@@ -105,7 +105,9 @@ html,body{
   animation: csshub-opacitychange 1s ease-in-out 0.66s infinite;
   -webkit-animation: csshub-opacitychange 1s ease-in-out 0.66s infinite;
 }
-
+.GM_Boder .col-md-12:nth-child(1){
+	display: none!important;
+}
 @keyframes csshub-opacitychange{
   0%, 100%{
     opacity: 0;
